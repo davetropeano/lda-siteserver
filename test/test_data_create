@@ -1,4 +1,0 @@
-#!/bin/bash
-export PYTHONPATH=.:../src:../libs/LogicLibrary 
-source ~/python-2.6/virtenv/bin/activate
-python create_test_data.py
