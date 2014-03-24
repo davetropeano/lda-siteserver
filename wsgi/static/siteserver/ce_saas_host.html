@@ -1,0 +1,125 @@
+<style scoped>
+    @import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
+    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
+    @import url('/siteserver/ce_saas_host.css');
+</style>
+
+<div class="strapline alert alert-info fade in out">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    Welcome. We're not in alpha, beta, or any other letter in the Greek alphabet. Poke around, marvel at what we've done, and don't expect too much :)
+</div>
+
+<header id="site-header" data-bind="template: 'header-template'"></header>
+
+<div class="container" style="min-height: 800px;">
+    <div style="display: none;" data-bind="visible: jwt.disp === undefined">
+        <h1>Locked Out!</h1>
+        <p>You have to be logged in to get to the control panel. Have a nice day.</p>
+
+        <p>In the meantime please enjoy this rickroll :)</p>
+        <iframe width="480" height="360" src="//www.youtube.com/embed/oHg5SJYRHA0" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div style="display: none;" data-bind="visible: jwt.disp !== undefined">
+        <div data-bind="if: last_error">
+            <span data-bind="text: last_error"></span>
+        </div>
+
+        <div class="host" data-bind="with: host_controller">
+            <h2>Sites: </h2>
+            <div class="sites" data-bind="foreach: sites_members">
+                <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title"></a>
+            </div>
+            <hr>
+            <button class="btn btn-success" data-bind="click: new_site">Add a new site</button>
+        </div>
+
+        <div class="site" data-bind="with: site_controller">
+            <h2><span data-bind="text: 'Site: ' + site.ce_site_id"></span> <small><i class="glyphicon glyphicon-pencil click" data-bind="click: $parent.enter_edit_mode"></i></small></h2>
+            <div>
+                <label>Title: </label>
+                <span data-bind="text: site.dc_title"></span>
+            </div>
+
+            <h3>Improvements: </h3>
+            <div data-bind="foreach: improvements">
+                <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title ? dc_title : 'untitled ' + rdf_type.toString().split('#')[1]"></a>
+            </div>
+            <hr>
+            <button class="btn btn-success" data-bind="click: $parent.enter_create_improvement_mode">Add Improvement</button>
+        </div>
+
+        <div class="edit-site" data-bind="with: edit_site_controller">
+            <h2 data-bind="text: 'Site: ' + site.ce_site_id"></h2>
+            <div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="edit_title">Title: </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="edit_title" type="text" data-bind="value: site.dc_title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button class="btn btn-success" data-bind="click: submit_edit">Update</button>
+                            <button class="btn btn-default"    data-bind="click: cancel_site_mode">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="new-site" data-bind="with: create_site_controller">
+            <h2 >New Site</h2>
+            <div>
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="new_id">Id: </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="new_id" data-bind="value: site.ce_site_id" placeholder="single word (required) autofocus">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="new_title">Title: </label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="new_title" data-bind="value: site.dc_title" placeholder="multiple words (optional)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-6">
+                            <button class="btn btn-success" data-bind="click: create_site">Create</button>
+                            <button class="btn btn-default" data-bind="click: cancel_create_site">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="new-improvement" data-bind="with: create_improvement_controller">
+            <h3>Available Capabilities: </h3>
+            <div data-bind="foreach: capabilities">
+                <button class="btn btn-large btn-primary" data-bind="click: $parent.create_improvement, text: 'Add new ' + dc_title"></button>
+            </div>
+            <hr>
+            <button class="btn btn-default" data-bind="click: cancel_site_mode">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<footer id="site-footer" data-bind="template: 'footer-template' "></footer>
+
+<!-- HTML templates -->
+<script type="text/html" id="header-template" load-src="/sitedesign/header.htm"></script>
+<script type="text/html" id="footer-template" load-src="/sitedesign/footer.htm"></script>
+
+
+<!-- javascript libraries -->
+<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
+<script type="text/javascript" src="/siteserver/ce_saas_host.js"></script>
+
+<!-- initialization -->
+<script type="text/javascript">
+    $(".alert").alert()
+</script>

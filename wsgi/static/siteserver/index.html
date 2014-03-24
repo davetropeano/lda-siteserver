@@ -1,0 +1,107 @@
+<style scoped>
+    @import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
+    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
+    @import url('/siteserver/ce_saas_host.css');
+</style>
+
+<div class="strapline alert alert-info fade in out">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    Welcome. We're not in alpha, beta, or any other letter in the Greek alphabet. Poke around, marvel at what we've done, and don't expect too much :)
+</div>
+
+<header id="site-header" data-bind="template: 'header-template'"></header>
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="splash col-md-6 col-md-offset-6">
+                <h2>Cloud Apps4.me</h2>
+                <p>Opinionated cloud application hosting supporing linked data, ROCA, SPA, and a bunch of other acronyms that are sure to impress you and make you want to give us lots of money and love.</p>
+                <p><a class="btn btn-success btn-large">Learn more <i class="pad-left-10 glyphicon glyphicon-circle-arrow-right"></i></a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <p class="disclaimer text-right">By using our service you agree to the <a href="/siteserver/tos.html">Terms of Service</a> and <a href="/siteserver/privacy.html">Privacy Policy</a></p>
+</div>
+
+<div class="container">
+    <div class="presell row">
+        <div class="col-md-3 col-md-offset-1">
+            <img src='/siteserver/cloud-computing-kitchen-sink.jpg'>
+        </div>
+        <div class="col-md-6 col-md-offset-1">
+            <h3>Getting Started</h3>
+            <p>We're not quite at the <em>Getting Started</em> step yet. You could say we aren't ready to get started :)</p>
+            <p>The best thing to do is to register for an account (click here) and then read our paper on building robust cloud based applications. There's even a github repository with a tutorial app</p>
+            <p>Most likely you aren't familiar with building applications like we do. We have a very opinionated architecture based on linked data and single page applications. Read more about it below...
+        </div>
+    </div>
+
+    <div class="presell row">
+        <div class="col-md-6 col-md-offset-1">
+            <h3>Resource-Oriented Computing (ROCA)</h3>
+            <p>A Web application's architecture is heavily influenced by the design decisions, both implicit and explicit, that have been made by framework developers. Sometimes these decisions are consciously accepted as being in line with the intended overall system architecture. More often, though, they are accepted simply because developers assume they embody the state of the art of development practices.</p>
+            <p><a href="http://roca-style.org">ROCA</a> is an attempt to define a set of recommendations — independent of any particular framework, programming language, or tooling — that embodies the principles of what we consider to be good web application architecture. Its purpose is to serve as a reference, one that can be implemented as-is or be compared to other approaches to highlight diverging design decisions.</p>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <img style="margin-top: 40px;" src='/siteserver/rest.jpg'>
+        </div>
+    </div>
+
+    <div class="presell row">
+        <div class="col-md-3 col-md-offset-1">
+            <br><br>
+            <img src='/siteserver/spa-elements.jpg'>
+        </div>
+        <div class="col-md-6 col-md-offset-1">
+            <h3>Single Page Applications (SPA)</h3>
+            <p>The goal of a single page application is to provide a more fluid user experience akin to a desktop application.</p>
+            <p>In an SPA, either all necessary code – HTML, JavaScript, and CSS – is retrieved with a single page load, or the appropriate resources are dynamically loaded and added to the page as necessary, usually in response to user actions. The page does not reload at any point in the process, nor does control transfer to another page, although modern web technologies (such as those included in HTML5) can provide the perception and navigability of separate logical pages in the application.</p>
+            <p>The term single-page application was coined by Steve Yen in 2005, though the concept was discussed at least as early as 2003 and Stuart (stunix) Morris wrote the Self-Contained website at http://slashdotslash.com with the same goals and functions in 2002.</p>
+        </div>
+    </div>
+
+    <div class="presell row">
+        <div class="col-md-6 col-md-offset-1">
+            <h3>Global Scalability</h3>
+            <p>A Web application's architecture is heavily influenced by the design decisions, both implicit and explicit, that have been made by framework developers. Sometimes these decisions are consciously accepted as being in line with the intended overall system architecture. More often, though, they are accepted simply because developers assume they embody the state of the art of development practices.</p>
+            <p>ROCA is an attempt to define a set of recommendations — independent of any particular framework, programming language, or tooling — that embodies the principles of what we consider to be good web application architecture. Its purpose is to serve as a reference, one that can be implemented as-is or be compared to other approaches to highlight diverging design decisions.</p>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <img style="margin-top: 40px;" src='/siteserver/facebook-datacenter-electrical-large.jpg'>
+        </div>
+    </div>
+
+
+    <div class="presell row">
+        <div class="col-md-3 col-md-offset-1">
+            <img src='/siteserver/managed-cloud-hosting.jpg'>
+        </div>
+        <div class="col-md-6 col-md-offset-1">
+            <h3>aaS Done Right</h3>
+            <p>Backend as a service (BaaS), also known as "mobile backend as a service" (MBaaS), is a model for providing web and mobile app developers with a way to link their applications to backend cloud storage while also providing features such as user management, push notifications, and integration with social networking services.</p>
+            <p>These services are provided via the use of custom software development kits (SDKs) and application programming interfaces (APIs). BaaS is a relatively recent development in cloud computing, with most BaaS startups dating from 2011 or later.</p>
+            </p>This information isn't very helpful, is it? Like we said -- we aren't even in alpha testing and really just needed some words on the page (thank you Wikipedia)</p>
+        </div>
+    </div>
+</div>
+
+<footer id="site-footer" data-bind="template: 'footer-template' "></footer>
+
+<!-- HTML templates -->
+<script type="text/html" id="header-template" load-src="/sitedesign/header.htm"></script>
+<script type="text/html" id="footer-template" load-src="/sitedesign/footer.htm"></script>
+
+
+<!-- javascript libraries -->
+<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
+<script type="text/javascript" src="/siteserver/index.js"></script>
+
+<!-- initialization -->
+<script type="text/javascript">
+    $(".alert").alert()
+</script>

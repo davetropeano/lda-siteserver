@@ -1,0 +1,83 @@
+<style scoped>
+    @import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
+    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
+    @import url('/siteserver/site.css');
+    @import url('/siteserver/ce_saas_host.css');
+</style>
+
+<header id="site-header" data-bind="template: 'header-template' "></header>
+
+<div class="container" style="padding-top: 0" data-bind="if: display">
+    <h3>Account Information</h3>
+    <div class="value-with-label" data-bind="with: account">
+        <span class="span-for-label">Account ID:</span> <span class="span-for-value" data-bind="text: ce_account_id"></span><br/>
+        <span class="span-for-label">Password:</span> <span class="span-for-value" data-bind="text: ce_password"></span><br/>
+        <span class="span-for-label">Email:</span> <span class="span-for-value" data-bind="text: vcard_email"></span><br/>
+        <span class="span-for-label">User URL:</span> <span class="span-for-value" data-bind="text: ce_user._subject"></span><br/>
+        <span class="span-for-label">Given name:</span> <span class="span-for-value" data-bind="text: ce_user.foaf_givenName"></span><br/>
+        <span class="span-for-label">Family name:</span> <span class="span-for-value" data-bind="text: ce_user.foaf_familyName"></span><br/>
+        <span class="span-for-label">Nickname:</span> <span class="span-for-value" data-bind="text: ce_user.foaf_nick"></span><br/>
+        <span class="span-for-label">Street:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_street__address"></span><br/>
+        <span class="span-for-label">City:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_locality"></span><br/>
+        <span class="span-for-label">State:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_region"></span><br/>
+        <span class="span-for-label">Zip:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_postal__code"></span><br/>
+        <span class="span-for-label">Country:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_country__name"></span><br/>
+    </div>
+</div>
+
+<div class="container" data-bind="if: register">
+    <form id="registration-form" class="standard-form" onsubmit="validate_and_send(); return false">
+        <h2>Register</h2>
+        <div class="response-message" id="response-message">&nbsp;</div>
+        <div class="input-with-label">
+            <label for="accountId">* Account ID:</label> <input type="text" id="accountId" autofocus><br>
+        </div>
+        <div class="input-with-label">
+            <label for="password">* Password:</label> <input type="password" id="password">
+        </div>
+        <div class="input-with-label">
+            <label for="email">* email:</label> <input type="text" id="email">
+        </div>
+        <div class="input-with-label">
+            <label for="userURL">(User URL:)</label> <input type="text" id="userURL">
+        </div>
+        <div class="input-with-label">
+            <label for="givenName">given name:</label> <input type="text" id="givenName">
+        </div>
+        <div class="input-with-label">
+            <label for="familyName">family name:</label> <input type="text" id="familyName">
+        </div>
+        <div class="input-with-label">
+            <label for="nickName">nickname:</label> <input type="text" id="nick">
+        </div>
+        <div class="input-with-label">
+            <label for="street">street:</label> <input type="text" id="street">
+        </div>
+        <div class="input-with-label">
+            <label for="city">city:</label> <input type="text" id="city">
+        </div>
+        <div class="input-with-label">
+            <label for="state">state:</label> <input type="text" id="state">
+        </div>
+        <div class="input-with-label">
+            <label for="zip">zip:</label> <input type="text" id="zip">
+        </div>
+        <div class="input-with-label">
+            <label for="country">country:</label> <input type="text" id="country">
+        </div>
+
+        <div class="submit">
+            <br>
+            <button type="submit" class="btn btn-success" value="Register">Register New Account</button>
+        </div>
+        <div class="spacer"></div>
+    </form>
+</div>
+
+<footer id="site-footer" data-bind="template: 'footer-template' "></footer>
+
+<script type="text/html" id="header-template" load-src="/sitedesign/header.htm"></script>
+<script type="text/html" id="footer-template" load-src="/sitedesign/footer.htm"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
+<script type="text/javascript" src="/siteserver/ce_Account.js"></script>
