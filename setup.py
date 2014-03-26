@@ -14,5 +14,6 @@ setup(name='YourAppName',
                         'isodate>=0.4.9', 
                         'python-dateutil>=2.1',
                         'rdflib>=3.2.2',
-                        'PyJWT>=0.1.6'],
+                        'PyJWT>=0.1.6',
+                        'werkzeug>=0.9.4']
      )
