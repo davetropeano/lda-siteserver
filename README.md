@@ -14,18 +14,23 @@ See [Getting Started](http://davetropeano.github.io/lda/getting-started/index.ht
 
 Once you've started the MongoDB and Nginx servers, you can run siteserver as follows:
 
+1. cd into the siteserver project root directory:
+```sh
+cd lda-siteserver
+```
+
 1. Get the required python libraries (only needs to be run once):
 ```sh
 python setup.py install
 ```
 
-2. Run the siteserver application:
+1. Run the siteserver application:
 ```sh
 ./run.sh (or equivalent for your OS)
 ```
 You should see the message "test site server initiated on host: localhost port: 3005".
 
-3. Create test data (optional):
+1. Create test data (optional):
 ```sh
 cd test
 ./test_data_create.sh
