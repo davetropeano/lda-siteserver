@@ -49,6 +49,6 @@ you plan to give your site(s). For example:
 127.0.0.1 cloudsupplements.localhost
 ```
 
-*Note: 'cloudsupplements' is the name of the site used in **setupshop** sample in the [lda-examples](https://github.com/ld4apps/lda-example)
+*Note: 'cloudsupplements' is the name of the site used in **setupshop sample** in the [lda-examples](https://github.com/ld4apps/lda-examples)
  repository.*
  
