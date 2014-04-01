@@ -42,7 +42,8 @@ a user, "admin" (with corresponding password "admin"), that you can use to login
 The multi-tenant hosting support in lda-siteserver is designed to run behind a properly configured DNS server.
 Because we are currently just running on 'localhost', before you can create new sites, you'll need to add some lines
 in your /etc/hosts (C:\Windows\System32\Drivers\etc\hosts on Windows) file [on your host machine] corresponding to the name(s)
-you plan to give your site(s). For example:
+you plan to give your site(s). 
+For example:
 
 ```sh
 127.0.0.1 testsite.localhost
