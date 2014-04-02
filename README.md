@@ -10,7 +10,7 @@ Note: if you don't have python 2.7, you need to install it before proceeding.
 
 The siteserver application requires a running MongoDB database server and Nginx reverse proxy server to function. 
 The easiest way to start properly configured servers is using the Vagrantfile provided in the **lda-examples** project.
-See [Getting Started](http://ld4apps.github.io/getting-started/index.html).
+See [Downloading the Software](http://ld4apps.github.io/downloading-the-software/index.html).
 
 Once you've started the MongoDB and Nginx servers, you can run siteserver as follows:
 
