@@ -15,7 +15,7 @@ To run the siteserver application, proceed as follows:
 
 1. Start a mongodb and nginx server, if you haven't already done so:
 
-        cd lda-examples (we're assuming you've also downloaded the lda-examples repository from github)
+        cd lda-examples # we're assuming you've also downloaded the lda-examples repository from github
         vagrant up
         
 2. cd into the siteserver project root directory:
