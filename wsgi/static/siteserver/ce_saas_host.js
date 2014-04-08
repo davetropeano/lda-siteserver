@@ -118,7 +118,7 @@ app = new function () { // make a global called app. It's useful for debugging
             ld_util.get(self.site.ce_site_capabilities, function(request){
                 if (request.status==200) {
                     var capabilities_jso = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    result(capabilities_jso.ce_contains)
+                    result(capabilities_jso.ldp_contains)
                     }
                 else {
                     console.log( request.status )
@@ -262,7 +262,7 @@ app = new function () { // make a global called app. It's useful for debugging
             self.sites_members.push(sites_json.ldp_contains);
         }
         else
-            self.sites_members(sites_json.ce_contains);
+            self.sites_members(sites_json.ldp_contains);
 
 /*
         get_sites(model.ce_sites)
@@ -270,7 +270,7 @@ app = new function () { // make a global called app. It's useful for debugging
             ld_util.get(sites_url, function(request){
                 if (request.status==200) {
                     var sites_json = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    self.sites_members(sites_json.ce_contains)
+                    self.sites_members(sites_json.ldp_contains)
                     self.sites_container(sites_json)
                     }
                 else {
