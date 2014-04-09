@@ -1,7 +1,6 @@
-import base64, requests, sys
-import json
+import requests, sys, json
 from rdf_json import URI, BNode, RDF_JSON_Encoder
-from base_constants import ADMIN_USER
+from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
 from cryptography import encode_jwt
 
 encoded_signature = encode_jwt({'user':ADMIN_USER})
@@ -11,21 +10,45 @@ CONTENT_RDF_JSON_HEADER = {
     'ce-post-reason' : 'ce-create' 
     }
 
-#DATASERVER_HOSTNAME = 'cloudapps4.me'
-DATASERVER_HOSTNAME = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'localhost:3001'
+#DATASERVER_HOST = 'cloudapps4.me'
+DATASERVER_HOST = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'localhost:3001'
+if DATASERVER_HOST.startswith('localhost'):
+    HOSTINGSITE_HOST = DATASERVER_HOST
+else:
+    HOSTINGSITE_HOST = 'hostingsite.' + DATASERVER_HOST
 
-XSD = 'http://www.w3.org/2001/XMLSchema#'
-RDFS = 'http://www.w3.org/2000/01/rdf-schema#'
-RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-DC = 'http://purl.org/dc/terms/'
-CE = 'http://ibm.com/ce/ns#'
-VCARD = 'http://www.w3.org/2006/vcard/ns#'
-FOAF = 'http://xmlns.com/foaf/0.1/'
-
-account_container_url = 'http://%s/account' % DATASERVER_HOSTNAME
+ac_container_url = 'http://%s/ac' % HOSTINGSITE_HOST
+account_container_url = 'http://%s/account' % HOSTINGSITE_HOST
 
 def run():
+    requests.delete(ac_container_url, headers=CONTENT_RDF_JSON_HEADER)
     requests.delete(account_container_url, headers=CONTENT_RDF_JSON_HEADER)
+
+    body = {
+        '' : {
+            RDF+'type': URI(AC+'UserGroup'),
+            AC+'who' : [
+                URI(ANY_USER)
+                ],
+            AC+'may' : [
+                URI('#permission_1'),
+                URI('#permission_2')
+                ]
+            },
+        '#permission_1' : {
+            AC+'do' : AC_R,
+            AC+'to' : [ URI('/') ]
+            },
+        '#permission_2' : {
+            AC+'do' : AC_C,
+            AC+'to' : [ URI('/account'), URI('/mt/sites') ]
+            }
+        }
+    r = requests.post(ac_container_url, headers=CONTENT_RDF_JSON_HEADER, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    if r.status_code != 201:
+        print '######## FAILED TO CREATE user group! ' + r.text
+        return
+    print '######## POSTed resource: %s, status: %d' % (r.headers['location'], r.status_code)
 
     body = { \
         '' : { 
