@@ -17,7 +17,6 @@ DATASERVER_HOSTNAME = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'loc
 XSD = 'http://www.w3.org/2001/XMLSchema#'
 RDFS = 'http://www.w3.org/2000/01/rdf-schema#'
 RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-BP = 'http://open-services.net/ns/basicProfile#'
 DC = 'http://purl.org/dc/terms/'
 CE = 'http://ibm.com/ce/ns#'
 VCARD = 'http://www.w3.org/2006/vcard/ns#'

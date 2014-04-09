@@ -37,7 +37,7 @@ app = new function () { // make a global called app. It's useful for debugging
                 We are strict about URLs - we do not support the technique where you navigate to a 'fake' URL that does not exist on the server. 'Friends don't let friends fake URLs'
             */
         //if (model.rdf_type == CE+'Saas_host') {
-        if (model.rdf_type == BP+'Container') {
+        if (model.rdf_type == LDP+'DirectContainer') {
             self.host_controller(new host_controller(model, self))
             self.site_controller(null)
             self.edit_site_controller(null)
@@ -51,14 +51,14 @@ app = new function () { // make a global called app. It's useful for debugging
             self.create_site_controller(null)
             self.create_improvement_controller(null)
             }
-        else if (model.rdf_type == BP+'NewMemberInstructions' &&  model.bp_newMemberContainer.bp_membershipPredicate == CE+'sites') {
+        else if (model.rdf_type == CE+'NewMemberInstructions' &&  model.ce_newMemberContainer.ldp_hasMemberRelation == CE+'sites') {
             self.site_controller(null)
             self.host_controller(null)
             self.edit_site_controller(null)
             self.create_site_controller(new create_site_controller(model, self))
             self.create_improvement_controller(null)
             }
-        else if (model.rdf_type == BP+'NewMemberInstructions' &&  model.bp_newMemberContainer.bp_membershipPredicate == CE+'has_improvement') {
+        else if (model.rdf_type == CE+'NewMemberInstructions' &&  model.ce_newMemberContainer.ldp_hasMemberRelation == CE+'has_improvement') {
             self.site_controller(null)
             self.host_controller(null)
             self.edit_site_controller(null)
@@ -118,7 +118,7 @@ app = new function () { // make a global called app. It's useful for debugging
             ld_util.get(self.site.ce_site_capabilities, function(request){
                 if (request.status==200) {
                     var capabilities_jso = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    result(capabilities_jso.bp_members)
+                    result(capabilities_jso.ldp_contains)
                     }
                 else {
                     console.log( request.status )
@@ -258,11 +258,11 @@ app = new function () { // make a global called app. It's useful for debugging
 
         var sites_json = APPLICATION_ENVIRON.initial_simple_jso;
         self.sites_container(sites_json);
-        if (sites_json.bp_members.length === undefined) {
-            self.sites_members.push(sites_json.bp_members);
+        if (sites_json.ldp_contains.length === undefined) {
+            self.sites_members.push(sites_json.ldp_contains);
         }
         else
-            self.sites_members(sites_json.bp_members);
+            self.sites_members(sites_json.ldp_contains);
 
 /*
         get_sites(model.ce_sites)
@@ -270,7 +270,7 @@ app = new function () { // make a global called app. It's useful for debugging
             ld_util.get(sites_url, function(request){
                 if (request.status==200) {
                     var sites_json = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    self.sites_members(sites_json.bp_members)
+                    self.sites_members(sites_json.ldp_contains)
                     self.sites_container(sites_json)
                     }
                 else {
@@ -282,8 +282,8 @@ app = new function () { // make a global called app. It's useful for debugging
 
         self.new_site = function () {
             console.log('DEBUG THIS');
-            window.location = self.sites_container().bp_newMemberInstructions._subject;
-            // dispatcher.go_to(self.sites_container().bp_newMemberInstructions._subject, false)
+            window.location = self.sites_container().ce_newMemberInstructions._subject;
+            // dispatcher.go_to(self.sites_container().ce_newMemberInstructions._subject, false)
             }
         }
 
