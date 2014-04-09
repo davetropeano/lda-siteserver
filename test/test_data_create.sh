@@ -1,3 +1,3 @@
 #!/bin/bash
 export PYTHONPATH=.:../../lda-serverlib/logiclibrary
-python create_test_data.py
+python create_test_data.py "$1"

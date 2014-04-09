@@ -1,4 +1,4 @@
-import base64, requests
+import base64, requests, sys
 import json
 from rdf_json import URI, BNode, RDF_JSON_Encoder
 from base_constants import ADMIN_USER
@@ -12,7 +12,7 @@ CONTENT_RDF_JSON_HEADER = {
     }
 
 #DATASERVER_HOSTNAME = 'cloudapps4.me'
-DATASERVER_HOSTNAME = 'localhost:3001'
+DATASERVER_HOSTNAME = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'localhost:3001'
 
 XSD = 'http://www.w3.org/2001/XMLSchema#'
 RDFS = 'http://www.w3.org/2000/01/rdf-schema#'
