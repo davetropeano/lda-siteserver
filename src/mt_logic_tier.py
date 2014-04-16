@@ -6,6 +6,7 @@ import logging
 import utils
 import os, urlparse
 from base_constants import CE, AC, RDF, AC_ALL, ADMIN_USER
+from base_constants import URL_POLICY as url_policy
 logging.basicConfig(level=logging.DEBUG)
 
 MEMBER_IS_OBJECT                =   True
@@ -39,11 +40,11 @@ class Domain_Logic(base.Domain_Logic):
 
     def get_document(self):
         if self.tenant == 'hostingsite' and self.path == '/' : #home page
-            resource_url = utils.construct_url(self.request_hostname, self.tenant)
+            resource_url = url_policy.construct_url(self.request_hostname, self.tenant)
             rdf_json_doc = rdf_json.RDF_JSON_Document({
                 resource_url: {
                     RDF+'type': URI(CE+'Saas_host'),
-                    CE+'sites': URI(utils.construct_url(None, 'hostingsite', 'mt', 'sites'))
+                    CE+'sites': URI(url_policy.construct_url(None, 'hostingsite', 'mt', 'sites'))
                     }
                 }, resource_url)
             return (200, [], rdf_json_doc)   
@@ -60,13 +61,13 @@ class Domain_Logic(base.Domain_Logic):
             if self.user is None and self.extra_path_segments and len(self.extra_path_segments) == 1 and self.extra_path_segments[0] == 'new':
                 return (401, [], None)
             member_resource = 'http://%s/' % self.request_hostname
-            template = utils.construct_url(self.request_hostname, self.tenant, 'mt', 'sites{0}')
+            template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites{0}')
             document = self.create_container(template, member_resource, CE+'sites', MEMBER_IS_OBJECT)
             status, document = self.complete_result_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
             member_resource = 'http://%s/' % self.request_hostname
-            template = utils.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities{0}')
+            template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities{0}')
             document = self.create_container(template, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
             self.tenant = 'hostingsite' 
                 #tricky code - change tenant to cause the query to look for data in the hostingsite's collections, not the requestor's (tenant's)

@@ -1,14 +1,7 @@
 import requests, sys, json
 from rdf_json import URI, BNode, RDF_JSON_Encoder
 from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
-from cryptography import encode_jwt
-
-encoded_signature = encode_jwt({'user':ADMIN_USER})
-CONTENT_RDF_JSON_HEADER = {
-    'Content-type' : 'application/rdf+json+ce', 
-    'Cookie' : 'SSSESSIONID=%s' % encoded_signature, 
-    'ce-post-reason' : 'ce-create' 
-    }
+from test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
 
 #DATASERVER_HOST = 'cloudapps4.me'
 DATASERVER_HOST = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'localhost:3001'

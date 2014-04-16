@@ -3,6 +3,7 @@ import urllib
 import operation_primitives
 from rdf_json import URI
 from base_constants import AC, AC_R, ANY_USER
+from base_constants import URL_POLICY as url_policy
 
 NAMESPACE_MAPPINGS = {AC : 'ac'}
 NAMESPACE_MAPPINGS.update(base.NAMESPACE_MAPPINGS)
