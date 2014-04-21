@@ -141,7 +141,7 @@ class Domain_Logic(base.Domain_Logic):
                             AC+'to' : [ URI('/') ]
                             }
                         }
-                    ac_url = 'http://%s.%s/ac' % (site_id, self.request_hostname)
+                    ac_url = url_policy.construct_url(self.request_hostname, site_id, 'ac')
                     r = utils.intra_system_post(ac_url, data)
                     if r.status_code == 201:
                         return (201, headers, body)

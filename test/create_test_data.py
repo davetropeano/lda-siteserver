@@ -3,15 +3,18 @@ from rdf_json import URI, BNode, RDF_JSON_Encoder
 from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
 from test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
 
-#DATASERVER_HOST = 'cloudapps4.me'
-DATASERVER_HOST = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else 'localhost:3001'
-if DATASERVER_HOST.startswith('localhost'):
-    HOSTINGSITE_HOST = DATASERVER_HOST
+#DATASERVER_HOSTNAME = 'cloudapps4.me'
+DATASERVER_HOSTNAME = 'localhost:3001'
+if len(sys.argv) > 1:
+    DATASERVER_HOSTNAME = sys.argv[1]
+    
+if DATASERVER_HOSTNAME.startswith('localhost'):
+    HS_HOSTNAME = DATASERVER_HOSTNAME
 else:
-    HOSTINGSITE_HOST = 'hostingsite.' + DATASERVER_HOST
+    HS_HOSTNAME = 'hostingsite.' + DATASERVER_HOSTNAME
 
-ac_container_url = 'http://%s/ac' % HOSTINGSITE_HOST
-account_container_url = 'http://%s/account' % HOSTINGSITE_HOST
+ac_container_url = 'http://%s/ac' % HS_HOSTNAME
+account_container_url = 'http://%s/account' % HS_HOSTNAME
 
 def run():
     requests.delete(ac_container_url, headers=CONTENT_RDF_JSON_HEADER)
@@ -44,7 +47,7 @@ def run():
     print '######## POSTed resource: %s, status: %d' % (r.headers['location'], r.status_code)
 
     body = { \
-        '' : { 
+        '' : {
             RDF+'type': URI(CE+'Account'),
             CE+'account_id' : 'explorer',
             CE+'password': 'cloud',
@@ -74,7 +77,7 @@ def run():
     print '######## POSTed resource: %s, status: %d' % (r.headers['location'], r.status_code)
 
     body = { \
-        '' : { 
+        '' : {
             RDF+'type': URI(CE+'Account'),
             CE+'account_id' : 'admin',
             CE+'password': 'admin',
