@@ -61,14 +61,18 @@ class Domain_Logic(base.Domain_Logic):
             if self.user is None and self.extra_path_segments and len(self.extra_path_segments) == 1 and self.extra_path_segments[0] == 'new':
                 return (401, [], None)
             member_resource = 'http://%s/' % self.request_hostname
-            template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites{0}')
-            document = self.create_container(template, member_resource, CE+'sites', MEMBER_IS_OBJECT)
+            #FB template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites{0}')
+            #FB document = self.create_container(template, member_resource, CE+'sites', MEMBER_IS_OBJECT)
+            container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
+            document = self.create_container(container_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
             status, document = self.complete_result_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
             member_resource = 'http://%s/' % self.request_hostname
-            template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities{0}')
-            document = self.create_container(template, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
+            #FB template = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities{0}')
+            #FB document = self.create_container(template, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
+            container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities')
+            document = self.create_container(container_url, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
             self.tenant = 'hostingsite' 
                 #tricky code - change tenant to cause the query to look for data in the hostingsite's collections, not the requestor's (tenant's)
                 #since all stored data is relative to an implicit host (domain), this will find the same data for each tenant domain. 
