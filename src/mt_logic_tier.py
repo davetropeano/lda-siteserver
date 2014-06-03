@@ -26,7 +26,7 @@ class Domain_Logic(base.Domain_Logic):
                 return self.create_site(document)
             elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id == 'capabilities':
                 rdf_doc = rdf_json.RDF_JSON_Document(document, '')
-                if str(rdf_doc.getValue(RDF+'type')) == CE+'Capability':
+                if str(rdf_doc.get_value(RDF+'type')) == CE+'Capability':
                     return self.create_capability(document)
             elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id != 'none' and self.extra_path_segments and self.extra_path_segments[0] == 'properties':
                 return super(Domain_Logic, self).create_document(document)
@@ -54,7 +54,7 @@ class Domain_Logic(base.Domain_Logic):
             else:
                 status, document = operation_primitives.get_document(self.user, self.request_hostname, 'hostingsite', 'mt', self.tenant)
                 if status == 200:
-                    site_home = document.getValue(CE+'site_home').uri_string
+                    site_home = document.get_value(CE+'site_home').uri_string
                     return [301, [('Location', str(site_home))], None]
                 return [status, [], document]
         elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id == 'sites': #bpc container of all sites visible to the user
@@ -81,14 +81,14 @@ class Domain_Logic(base.Domain_Logic):
     def complete_result_document(self, document):
         # in this section we add any calculated triples
         document_url = document.graph_url    
-        types = document.getValues(RDF+'type')
+        types = document.get_values(RDF+'type')
         if URI(CE+'Site') in types:
             default_site_domain = self.document_id + '.' + os.environ['HOSTINGSITE_HOST']
             document.add_triples(document_url, CE+'default_site_domain', default_site_domain)
             # To facilitate server rename, improvements are stored using relative URLs, even though they are on a different host.
-            improvements = document.getValues(CE+'improvements')
+            improvements = document.get_values(CE+'improvements')
             if len(improvements) > 0: # turn these relative URLs to absolute
-                document.setValue(CE+'improvements', [URI('//%s%s' % (default_site_domain, property_url_str)) for property_url_str in improvements])
+                document.set_value(CE+'improvements', [URI('//%s%s' % (default_site_domain, property_url_str)) for property_url_str in improvements])
             document.add_triples(document_url, CE+'site_capabilities', URI('//%s%s' % (default_site_domain, '/mt/capabilities')))
         return super(Domain_Logic, self).complete_result_document(document)
 
@@ -106,19 +106,19 @@ class Domain_Logic(base.Domain_Logic):
             parsed_url[0] = '' 
             parsed_url[1] = ''
             return urlparse.urlunparse(parsed_url)
-        improvements = rdf_json.getValues(CE+'improvements')
+        improvements = rdf_json.get_values(CE+'improvements')
         if len(improvements) > 0: # turn these absolute URLs to relative
-            rdf_json.setValue(CE+'improvements', [make_relative(improvement_url) for improvement_url in improvements])
+            rdf_json.set_value(CE+'improvements', [make_relative(improvement_url) for improvement_url in improvements])
             
     def create_site(self, document):
         if self.user is None:
             return (401, [], None)
         field_errors = []
         site = rdf_json.RDF_JSON_Document(document, '')
-        site_types = site.getValues(RDF+'type')
+        site_types = site.get_values(RDF+'type')
         if URI(CE+'Site') not in site_types: 
             field_errors.append(['', 'site must have a type of CE Site'])
-        site_id = site.getValue(CE+'site_id')
+        site_id = site.get_value(CE+'site_id')
         if not (site_id):
             field_errors.append(['', 'must set CE+"site_id" for site'])
         if len(field_errors) == 0:
@@ -126,7 +126,7 @@ class Domain_Logic(base.Domain_Logic):
             if status == 200 or site_id == 'sites': #oops - site already exists
                 field_errors.append([CE+'id', 'site already exists'])
             else:
-                site.setValue(AC+'resource-group', URI('')) #group for a site is itself
+                site.set_value(AC+'resource-group', URI('')) #group for a site is itself
                 status, headers, body = super(Domain_Logic, self).create_document(site, site_id)
                 if status == 201:
                     # create a UserGroup that gives the current user AC_ALL permissions for the new site
@@ -155,13 +155,13 @@ class Domain_Logic(base.Domain_Logic):
             return (401, [], None)
         field_errors = []
         capability = rdf_json.RDF_JSON_Document(document, '')
-        types = capability.getValues(RDF+'type')
+        types = capability.get_values(RDF+'type')
         if URI(CE+'Capability') not in types: 
             field_errors.append(['', 'capability must have a type of CE Capability'])
-        container = capability.getValue(CE+'improvement_container')
+        container = capability.get_value(CE+'improvement_container')
         if not container:
             field_errors.append([CE+'improvement_container', 'must be set'])
-        improvement_type = capability.getValue(CE+'improvement_type')
+        improvement_type = capability.get_value(CE+'improvement_type')
         if not improvement_type:
             field_errors.append([CE+'improvement_type', 'must be set'])
         if len(field_errors) == 0:

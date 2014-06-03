@@ -59,8 +59,8 @@ class Domain_Logic(base.Domain_Logic):
         self.tenant = 'hostingsite' #all accounts are in the hostingsite space, regardless of tenant in request
         document = rdf_json.RDF_JSON_Document(json_document, json_document.iterkeys().next())
         try:
-            accountId = document.getValue(CE+'account_id')
-            password = document.getValue(CE+'password')
+            accountId = document.get_value(CE+'account_id')
+            password = document.get_value(CE+'password')
         except (KeyError):
             return (400, [], [('','could not extract accountId and password')])        
         field_errors = []
@@ -71,9 +71,9 @@ class Domain_Logic(base.Domain_Logic):
         if len(field_errors) == 0:
             status, account = operation_primitives.get_document(self.user, os.environ['HOSTINGSITE_HOST'], self.tenant, 'account', accountId) # ugly exception where we make up URLs
             if status == 200:
-                userURL = account.getValue(CE+'user')
-                salt = account.getValue(CE+'salt')
-                stored_hash = cryptography.durable_decrypt(str(account.getValue(CE+'password')))
+                userURL = account.get_value(CE+'user')
+                salt = account.get_value(CE+'salt')
+                stored_hash = cryptography.durable_decrypt(str(account.get_value(CE+'password')))
                 password_hash = cryptography.hex_hash(salt + password)
                 if password_hash == stored_hash:
                     return (200, self.append_session_headers(account, []), account)
@@ -91,28 +91,28 @@ class Domain_Logic(base.Domain_Logic):
         field_errors = []
         document = rdf_json.RDF_JSON_Document(json_document, '')
         try: 
-            account_id = document.getValue(CE+'account_id')
+            account_id = document.get_value(CE+'account_id')
             if not account_id: 
                 field_errors.append([CE+'account_id', 'must provide account_id'])
-            password = document.getValue(CE+'password')
+            password = document.get_value(CE+'password')
             if password:
                 if len(field_errors) == 0:
                     salt = binascii.b2a_hex(os.urandom(16))
-                    document.setValue(CE+'salt', salt)
+                    document.set_value(CE+'salt', salt)
                     encrypted_hash = cryptography.durable_encrypt(cryptography.hex_hash(salt + password))
-                    document.setValue(CE+'password',  encrypted_hash)
+                    document.set_value(CE+'password', encrypted_hash)
             else: 
                 field_errors.append([CE+'password', 'must not be null'])
-            email = document.getValue(VCARD+'email')
+            email = document.get_value(VCARD+'email')
             if email:
-                document.setValue(VCARD+'email', cryptography.durable_encrypt(email)) # better not store email addresses in clear text
+                document.set_value(VCARD+'email', cryptography.durable_encrypt(email)) # better not store email addresses in clear text
             else:
                 field_errors.append([VCARD+'email', 'must not be null'])
-            userURL = document.getValue(CE+'user')
+            userURL = document.get_value(CE+'user')
             if userURL:
                 if account_id:
                     userURL = normalize_url(str(userURL), 'http://%s%s/%s' % (self.request_hostname, self.path, account_id))
-                    document.setValue(CE+'user', URI(userURL))
+                    document.set_value(CE+'user', URI(userURL))
             else:
                 field_errors.append([CE+'user', 'must not be null'])
         except KeyError as e :
@@ -140,12 +140,12 @@ class Domain_Logic(base.Domain_Logic):
 
     def append_session_headers(self, account, headers):
         if account:
-            userURL = str(account.getValue(CE+'user'))
-            displayName = account.getValue(FOAF+'nick', "", userURL)
+            userURL = str(account.get_value(CE+'user'))
+            displayName = account.get_value(FOAF+'nick', userURL, "")
             if not displayName or displayName == "":
-                displayName = account.getValue(FOAF+'givenName', "", userURL)
+                displayName = account.get_value(FOAF+'givenName', userURL, "")
                 if not displayName or displayName == "":
-                    displayName = account.getValue(CE+'account_id')
+                    displayName = account.get_value(CE+'account_id')
             fkaURL = utils.get_claims(self.environ)['user']
             claims = { # normal RDF_JSON turns out to be too voluminous. Make something small
                 'exp': time.time() + 3600,

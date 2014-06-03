@@ -26,11 +26,11 @@ class Domain_Logic(base.Domain_Logic):
             answer = 0
             if status == 200:
                 for rdf_json_document in result:
-                    permissions = rdf_json_document.getValues(AC+'may')
+                    permissions = rdf_json_document.get_values(AC+'may')
                     for permission in permissions:
-                        permission_to = rdf_json_document.getValues(AC+'to', None, str(permission))
+                        permission_to = rdf_json_document.get_values(AC+'to', str(permission))
                         if resource_group in permission_to:
-                            answer = answer | rdf_json_document.getValue(AC+'do', None, str(permission))
+                            answer = answer | rdf_json_document.get_value(AC+'do', str(permission))
             return (status, [], answer)
         elif self.document_id == None and self.namespace == 'ac-resource-groups':
             relevant_user = URI(urllib.unquote(self.query_string) if len(self.query_string) > 0 else user)
@@ -40,10 +40,10 @@ class Domain_Logic(base.Domain_Logic):
             answer = set()
             if status == 200:            
                 for rdf_json_document in result:
-                    permissions = rdf_json_document.getValues(AC+'may')
+                    permissions = rdf_json_document.get_values(AC+'may')
                     for permission in permissions:
-                        permission_to = rdf_json_document.getValues(AC+'to', None, str(permission))
-                        permission_do = rdf_json_document.getValue(AC+'do', None, str(permission))
+                        permission_to = rdf_json_document.get_values(AC+'to', str(permission))
+                        permission_do = rdf_json_document.get_value(AC+'do', str(permission))
                         if permission_do | AC_R: #gives permission to read
                             answer.update(permission_to)
             return (status, [], list(answer))
