@@ -118,7 +118,8 @@ app = new function () { // make a global called app. It's useful for debugging
             ld_util.get(self.site.ce_site_capabilities, function(request){
                 if (request.status==200) {
                     var capabilities_jso = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    result(capabilities_jso.ldp_contains)
+                    if (capabilities_jso.ldp_contains)
+                        result(capabilities_jso.ldp_contains)
                     }
                 else {
                     console.log( request.status )
@@ -258,10 +259,11 @@ app = new function () { // make a global called app. It's useful for debugging
 
         var sites_json = APPLICATION_ENVIRON.initial_simple_jso;
         self.sites_container(sites_json);
-        if (sites_json.ldp_contains.length === undefined) {
-            self.sites_members.push(sites_json.ldp_contains);
-        }
-        else
+        //FB if (sites_json.ldp_contains.length === undefined) {
+        //FB     self.sites_members.push(sites_json.ldp_contains);
+        //FB }
+        //FB else
+        if (sites_json.ldp_contains) //FB Replace above with this line. What's the above trying to do?
             self.sites_members(sites_json.ldp_contains);
 
 /*
