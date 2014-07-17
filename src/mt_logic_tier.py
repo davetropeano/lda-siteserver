@@ -147,7 +147,7 @@ class Domain_Logic(base.Domain_Logic):
                         return (201, headers, body)
                     field_errors.append(['', "failed to create UserGroup: %s %s" % (str(r.status_code), r.text)])
                 else:
-                    field_errors.append(['', "unexpected error: %s %s" % (str(status), str(body))])
+                    field_errors.append(['', "unexpected error creating site: %s %s" % (str(status), str(body))])
         return (400, [], field_errors)
 
     def create_capability(self, document):
@@ -169,5 +169,5 @@ class Domain_Logic(base.Domain_Logic):
             if status_code == 201:
                 return (201, headers, json_document)
             else:
-                field_errors.append(['', "unexpected error: %s %s" % (str(status_code), str(json_document))])
+                field_errors.append(['', "unexpected error creating capability: %s %s" % (str(status_code), str(json_document))])
         return (400, [], field_errors)
