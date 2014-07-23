@@ -22,7 +22,9 @@ def run():
     #test_utils.delete(mt_sites_container_url)
     requests.delete(ac_container_url, headers=CONTENT_RDF_JSON_HEADER)
     requests.delete(account_container_url, headers=CONTENT_RDF_JSON_HEADER)
-
+    
+    # give everyone access to read from '/'
+    # give everyone access to create accounts and sites
     body = {
         '' : {
             RDF+'type': URI(AC+'UserGroup'),

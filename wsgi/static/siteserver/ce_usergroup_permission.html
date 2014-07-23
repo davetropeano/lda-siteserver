@@ -1,0 +1,22 @@
+
+
+<a data-bind="text: jso._subject, attr : {href: jso._subject}"></a><br />
+<div style="margin-left:20px">
+	do: <a data-bind="text: get_ac_do()"></a><br />
+	<table>
+		<tr><td>T</td> <td>R</td> <td>C</td> <td>D</td> <td>W</td> <td>X</td></tr>
+		<tr>
+			<td><input type="checkbox" data-bind="checked: T" /></td> 
+			<td><input type="checkbox" data-bind="checked: R"/></td> 
+			<td><input type="checkbox" data-bind="checked: C"/></td> 
+			<td><input type="checkbox" data-bind="checked: D"/></td> 
+			<td><input type="checkbox" data-bind="checked: W"/></td> 
+			<td><input type="checkbox" data-bind="checked: X"/></td>
+		</tr>
+	</table>
+	to: 
+	<div data-bind="foreach: jso.ac_to" style="margin-left:20px">
+		<a data-bind="text: $data, attr : {href: $data}"></a><br />
+	</div>
+</div>
+
