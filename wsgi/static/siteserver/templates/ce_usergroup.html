@@ -1,0 +1,15 @@
+
+<a data-bind="text: jso._subject, attr: {href: jso._subject}"></a><br />
+<div style="margin-left:20px">
+	who:
+	<div data-bind="foreach: jso.ac_who" style="margin-left:20px">
+		<a data-bind="text: $data, attr : {href: $data}"></a><br />
+	</div>
+	may:
+	<div data-bind="foreach: permissions" style="margin-left:20px">
+    	<div data-bind="template: {name: '/siteserver/templates/ce_usergroup_permission', data: $data}"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/siteserver/templates/ce_usergroup.js"></script>
+
