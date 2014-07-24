@@ -1,0 +1,77 @@
+body { padding-top: 120px; }
+
+a, a:hover, a:focus {
+    color: #2c3e50;
+    cursor: hand; cursor: pointer;
+}
+
+textarea {
+    font-family: "DroidSans", "CourierNew", "Courier";
+}
+
+.main-container {
+}
+
+.navbar-default {
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-text {
+  color: white;
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.alert {
+  border-radius: 0;
+  padding: 8px 15px 8px 15px;
+}
+
+.alert-dismissable .close {
+  right: 0;
+}
+
+.status-line {
+  padding: 8px 15px;
+  margin-bottom: 21px;
+  list-style: none;
+  /* background-color: #ecf0f1; */
+  border-radius: 0;
+}
+.status-line > li {
+  display: inline-block;
+  padding-right: 15px;
+}
+
+.bg-danger {
+  /* background-color: #f2dede; */
+  color: #333;
+  font-weight: bold;
+}
+
+.linkpointer {
+    cursor: pointer;
+}
+
+.mar-left-10 {
+    margin-left: 10px;
+}
+
+.pad-left-5 {
+    padding-left: 5px;
+}
+
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.green { color: #006400;}
+.yellow {color: #ffd700;}
+.red {color: #800000;}
+.grey {color: #66a266;}
+.blue {color: #2c3e50;}
+.white {color: white;}
+.outline {color: #b0c4de;}

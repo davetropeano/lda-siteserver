@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/siteserver/css/bootstrap.min.css">
+<link rel="stylesheet" href="/siteserver/css/custom.css"></link>
+
+<div data-bind="template: 'header' " id="page-header"></div>
+
+<div class="container main-container" id="wrapper">
+  <div data-bind="template: {name: 'ce_account', if: visible}" id="page-account"></div>
+
+  <div data-bind="template: {name: 'ce_login', if: visible}" id="page-login"></div>
+
+  <div data-bind="template: {name: 'ce_saas_host', if: visible}" id="page-saas_host"></div>
+  
+  <div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/siteserver/vendor/bootbox.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+<script type="text/javascript" src="/siteserver/vendor/ko-external-templates.js"></script>
+
+<script type="text/javascript">
+infuser.defaults.templateUrl = '/siteserver/templates';
+</script>
+
+<!-- viewmodels -->
+<script typr="text/javascript" src="/siteserver/js/header.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_account.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_login.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_saas_host.js"></script>
+<script type="text/javascript" src="/siteserver/js/site.js"></script>
+
+<!-- viewmanager plumbing and main app -->
+<script type="text/javascript" src="/siteserver/viewmanager.js"></script>
+<script type="text/javascript" src="/siteserver/spa.js"></script>
+

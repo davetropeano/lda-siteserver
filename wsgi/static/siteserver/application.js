@@ -9,6 +9,22 @@ AC = 'http://ibm.com/ce/ac/ns#'
 VCARD = 'http://www.w3.org/2006/vcard/ns#'
 FOAF = 'http://xmlns.com/foaf/0.1/'
 
+
+var onload_function = function() {
+    var head  = document.getElementsByTagName('head')[0]
+    var util_script = document.createElement('script')
+    util_script.type= 'text/javascript'
+    util_script.src = '/sitedesign/utils.js'
+
+    util_script.onload = function() {
+        ld_util.onload({}, '/siteserver/spa.html');
+    }
+    head.appendChild(util_script)
+}
+
+window.addEventListener('DOMContentLoaded', onload_function, false)
+
+/*
 var onload_function = function() {
 
     var prefixes = {}
@@ -43,3 +59,4 @@ var onload_function = function() {
     }
 
 window.addEventListener('DOMContentLoaded', onload_function, false)
+*/

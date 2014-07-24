@@ -20,7 +20,7 @@ section {
 }
 
 .jumbotron {
-    background: transparent url('/siteserver/bg_clouds.png') no-repeat scroll center top;
+    background: transparent url('/siteserver/css/images/bg_clouds.png') no-repeat scroll center top;
     margin-bottom: 0;
 }
 

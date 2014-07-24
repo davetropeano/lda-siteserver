@@ -6,9 +6,9 @@ ALREADY_IN_HISTORY = true
 
 app = new function () { // make a global called app. It's useful for debugging
     var self = this
-    self.jwt = misc_util.get_jwt_claims()
+    //self.jwt = misc_util.get_jwt_claims()
 
-    self.cpanel = APPLICATION_ENVIRON.initial_simple_jso.ce_sites.uri_string;
+    //self.cpanel = APPLICATION_ENVIRON.initial_simple_jso.ce_sites.uri_string;
 
 }()
 
