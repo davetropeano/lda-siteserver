@@ -1,6 +1,10 @@
-window.siteserver = window.xdo || {};
+window.siteserver = window.siteserver || {};
 
-siteserver.Saas_HostViewModel = function() {
+siteserver.Saas_hostViewModel = function() {
     var self = this;
+    self.visible = ko.observable(false);
     
+    self.init = function(jso){
+        console.log(jso);
+    }
 }

@@ -1,4 +1,4 @@
-window.siteserver = window.xdo || {};
+window.siteserver = window.siteserver || {};
 
 siteserver.HeaderViewModel = function() {
     var self = this;
@@ -8,6 +8,10 @@ siteserver.HeaderViewModel = function() {
     self.is_set = ko.observable(false);
     self.home = ko.observable(siteserver.SERVER_ROOT + '/xdo/region/systems');
     self.message = ko.observable();
+    
+    self.init = function(jso){
+        console.log(jso);
+    }
 
     self.clearMessage = function() {
         self.message('');

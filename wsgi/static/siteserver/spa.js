@@ -34,8 +34,8 @@
     
     var mapper = {
         containers: [
-            {name: 'sites', type: CE+'sites'},
-            {name: 'services', type: CE+'has_service'}
+            //{name: 'sites', type: CE+'sites'}
+            //,{name: 'saas_host', type: CE+'has_service'}
         ],
         types: [
             {name: 'site', type: CE+'Site'},
@@ -50,7 +50,7 @@
     // The header VM is special - it doesn't have a container/type associated with it
     // consider modifying viewmodel code to handle this condition
     //
-    siteserver.headerVM = new xdo.HeaderViewModel();
+    siteserver.headerVM = new siteserver.HeaderViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('page-header'));
 
     var jso = APPLICATION_ENVIRON.initial_simple_jso;

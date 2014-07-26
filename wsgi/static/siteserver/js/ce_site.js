@@ -1,87 +1,99 @@
-RDF = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
-DC = 'http://purl.org/dc/terms/'
-CE = 'http://ibm.com/ce/ns#'
-SUS = 'http://setupshop.me/ns#'
-ALREADY_IN_HISTORY = true
+window.siteserver = window.siteserver || {};
+//ALREADY_IN_HISTORY = true
 
-app = new function () { // make a global called app. It's useful for debugging
-    var self = this
-    self.jwt = misc_util.get_jwt_claims()
+siteserver.SitesViewModel = function(){
+    var self = this;
+    self.visible = ko.observable(false);
+    
+    self.init = function(jso){
+        console.log(jso);
+    }
+}
+
+
+siteserver.SiteViewModel = function(){
+    var self = this;
+    self.jwt = misc_util.get_jwt_claims();
     self.cpanel = APPLICATION_ENVIRON.initial_simple_jso._subject;
 
-    self.last_message = ko.observable()
-    self.last_error = ko.observable()
-    self.host_controller = ko.observable()
-    self.site_controller = ko.observable()
-    self.edit_site_controller = ko.observable()
-    self.create_site_controller = ko.observable()
-    self.create_improvement_controller = ko.observable()
+    self.visible = ko.observable(false);
+    self.last_message = ko.observable();
+    self.last_error = ko.observable();
+    self.host_controller = ko.observable();
+    self.site_controller = ko.observable();
+    self.edit_site_controller = ko.observable();
+    self.create_site_controller = ko.observable();
+    self.create_improvement_controller = ko.observable();
+    
+    self.init = function(jso){
+        console.log(jso);
+    }
 
     var dispatcher = new misc_util.Dispatcher(
         function(element) { // function is called to decide if this single-page-app claims a click on an element
             var segments = element.pathname.split('/')
             return element.host == window.location.host && segments.length > 1 && segments[1] == 'mt'
             },
-        get_resource_and_show_view) // function is called a) if a user click is claimed (already_in_history will be false) b) if a history event happens (already_in_history will be true)
-    dispatcher.hook_history_and_links()
-
-    function show_view(model) {
-            /* This is the central dispatcher for the application. It is called every time we change URL within the app. This can happen when:
-                1) The user types a URL of one of our resources into the address bar and we enter the app
-                2) The user hits a back or forward button or selects from history
-                3) The code of our application chooses to navigate to a new URL
-                4) The user clicks on an anchor element that referenced the URL. This also has two cases:
-                    a) The anchor element was created by another application. In that case we are entering this app
-                    b) The anchor element was create by this app. In that case we will stay within the app and navigate to the right place
-                In all cases, by the time we get here, we have already done a GET to fetch the resource from the server and converted the response to a simple Javascript object.
-                We are strict about URLs - we do not support the technique where you navigate to a 'fake' URL that does not exist on the server. 'Friends don't let friends fake URLs'
-            */
+        self.get_resource_and_show_view); // function is called a) if a user click is claimed (already_in_history will be false) b) if a history event happens (already_in_history will be true)
+    dispatcher.hook_history_and_links();
+    
+    self.show_view = function (model) {
+        /* This is the central dispatcher for the application. It is called every time we change URL within the app. This can happen when:
+            1) The user types a URL of one of our resources into the address bar and we enter the app
+            2) The user hits a back or forward button or selects from history
+            3) The code of our application chooses to navigate to a new URL
+            4) The user clicks on an anchor element that referenced the URL. This also has two cases:
+                a) The anchor element was created by another application. In that case we are entering this app
+                b) The anchor element was create by this app. In that case we will stay within the app and navigate to the right place
+            In all cases, by the time we get here, we have already done a GET to fetch the resource from the server and converted the response to a simple Javascript object.
+            We are strict about URLs - we do not support the technique where you navigate to a 'fake' URL that does not exist on the server. 'Friends don't let friends fake URLs'
+        */
         //if (model.rdf_type == CE+'Saas_host') {
         if (model.rdf_type == LDP+'DirectContainer') {
-            self.host_controller(new host_controller(model, self))
-            self.site_controller(null)
-            self.edit_site_controller(null)
-            self.create_site_controller(null)
-            self.create_improvement_controller(null)
+            self.host_controller(new host_controller(model, self));
+            self.site_controller(null);
+            self.edit_site_controller(null);
+            self.create_site_controller(null);
+            self.create_improvement_controller(null);
             }
         else if (model.rdf_type == CE+'Site') {
-            self.site_controller(new site_controller(model, self))
-            self.host_controller(null)
-            self.edit_site_controller(null)
-            self.create_site_controller(null)
-            self.create_improvement_controller(null)
+            self.site_controller(new site_controller(model, self));
+            self.host_controller(null);
+            self.edit_site_controller(null);
+            self.create_site_controller(null);
+            self.create_improvement_controller(null);
             }
         else if (model.rdf_type == CE+'NewMemberInstructions' &&  model.ce_newMemberContainer.ldp_hasMemberRelation == CE+'sites') {
-            self.site_controller(null)
-            self.host_controller(null)
-            self.edit_site_controller(null)
-            self.create_site_controller(new create_site_controller(model, self))
-            self.create_improvement_controller(null)
+            self.site_controller(null);
+            self.host_controller(null);
+            self.edit_site_controller(null);
+            self.create_site_controller(new create_site_controller(model, self));
+            self.create_improvement_controller(null);
             }
         else if (model.rdf_type == CE+'NewMemberInstructions' &&  model.ce_newMemberContainer.ldp_hasMemberRelation == CE+'has_improvement') {
-            self.site_controller(null)
-            self.host_controller(null)
-            self.edit_site_controller(null)
-            self.create_site_controller(null)
-            self.create_improvement_controller(new create_improvement_controller(model, self))
+            self.site_controller(null);
+            self.host_controller(null);
+            self.edit_site_controller(null);
+            self.create_site_controller(null);
+            self.create_improvement_controller(new create_improvement_controller(model, self));
             }
         else {
-            return false
+            return false;
             }
-        return true
-        }
+        return true;
+    }
 
     self.enter_edit_mode = function (arg) {
         self.edit_site_controller(self.site_controller())
         self.site_controller(null)
         }
-
+    
     self.enter_create_improvement_mode = function (arg) {
         self.create_improvement_controller(self.site_controller())
         self.site_controller(null)
         }
 
-    function get_resource_and_show_view(resource_url, history_tracker) {
+    self.get_resource_and_show_view = function(resource_url, history_tracker) {
         ld_util.get(resource_url, function(request){
             if (request.status==200) {
                 var resource_json = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
@@ -101,11 +113,9 @@ app = new function () { // make a global called app. It's useful for debugging
                 console.log( request.status )
                 }
             })
-        }
+        }    
 
-    show_view(APPLICATION_ENVIRON.initial_simple_jso)
-
-    function site_controller (model, parent) {
+    self.site_controller = function(model, parent) {
         var self = this
         self.parent = parent
         self.site = model
@@ -289,7 +299,5 @@ app = new function () { // make a global called app. It's useful for debugging
             }
         }
 
-    } ()
-
-ko.applyBindings(app)
+    }
 
