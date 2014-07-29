@@ -11,6 +11,7 @@ window.siteserver.LoginViewModel = function(){
     
     self.handle_result = function(http) { // specific to this page 
         if (http.status==200) {
+            siteserver.headerVM = misc_util.get_jwt_claims();
             original_url = window.name;
             if (! original_url) {
                 original_url = '/';
@@ -44,7 +45,7 @@ window.siteserver.LoginViewModel = function(){
                 '_subject': '_:bnode1'
                 };
             var rdf_jso = APPLICATION_ENVIRON.rdf_converter.convert_to_rdf_jso(login);
-            ld_util.send_transform(APPLICATION_ENVIRON.initial_rdf_jso.graph_url, rdf_jso, handle_result);
+            ld_util.send_transform(APPLICATION_ENVIRON.initial_rdf_jso.graph_url, rdf_jso, self.handle_result);
         }
         return false;
     };

@@ -1,7 +1,7 @@
 ;(function(window) {
     "use strict";
     window.siteserver = window.siteserver || {}; // xdo is our top level module context
-
+    
     // TODO: SERVER_ROOT needs to be a config option for mobile but read for desktop browsers
     siteserver.SERVER_ROOT = document.location.origin;
     
@@ -47,12 +47,16 @@
     ViewManager.init(mapper, 'siteserver', ['siteserver']);
 
     //
-    // The header VM is special - it doesn't have a container/type associated with it
+    // The header and footer VM is special - it doesn't have a container/type associated with it
     // consider modifying viewmodel code to handle this condition
     //
     siteserver.headerVM = new siteserver.HeaderViewModel();
-    ko.applyBindings(siteserver.headerVM, document.getElementById('page-header'));
+    ko.applyBindings(siteserver.headerVM, document.getElementById('site-header'));
+    
+    siteserver.footerVM = new siteserver.FooterViewModel();
+    ko.applyBindings(siteserver.headerVM, document.getElementById('site-footer'));
 
     var jso = APPLICATION_ENVIRON.initial_simple_jso;
-    ViewManager.switchView(jso);
+    ViewManager.switchView(jso);    
+    
 }(window));

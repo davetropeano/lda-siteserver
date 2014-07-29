@@ -9,7 +9,7 @@ siteserver.AccountViewModel = function(){
     self.visible = ko.observable(false);
      
     self.init = function(jso){
-        self.showView(model);
+        self.showView(jso);
     };
     
     self.showView = function(model) {
