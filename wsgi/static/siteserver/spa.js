@@ -38,7 +38,7 @@
             //,{name: 'saas_host', type: CE+'has_service'}
         ],
         types: [
-            //{name: 'site', type: CE+'Site'},
+            {name: 'site', type: CE+'Site'},
             {name: 'saas_host', type: CE+'Saas_host'},
             {name: 'login', type: CE+'Login'},
             {name: 'account', type: CE+'Account'}
@@ -52,10 +52,14 @@
     //
     siteserver.headerVM = new siteserver.HeaderViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-header'));
+    ko.applyBindings(siteserver.headerVM, document.getElementById('site-notifications'));
     
     siteserver.footerVM = new siteserver.FooterViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-footer'));
-
+    
+    siteserver.footerVM = new siteserver.FooterViewModel();
+    
+    
     var jso = APPLICATION_ENVIRON.initial_simple_jso;
     ViewManager.switchView(jso);    
     

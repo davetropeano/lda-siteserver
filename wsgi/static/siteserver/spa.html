@@ -1,18 +1,3 @@
-<!-- 
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-<link rel="stylesheet" href="/siteserver/css/bootstrap.min.css">
-<link rel="stylesheet" href="/siteserver/css/custom.css"></link>
--->
-
-<!--
-<style scoped>
-    @import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
-    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
-    @import url('/siteserver/site.css');
-    @import url('/siteserver/ce_saas_host.css');
-</style>
--->
-
 <style scoped>
     @import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
     @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
@@ -20,6 +5,22 @@
     @import url('/siteserver/css/ce_saas_host.css');
 </style>
 
+<div id="site-notifications" style="display:none;" data-bind="visible: error || message">
+	<div data-bind="if: message" >
+		<div class="strapline alert alert-info alert-dismissable">
+	    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: clear_message">&times;</button>
+	    	<span data-bind="html: message"></span>
+	  	</div>
+	</div>
+	
+	<div data-bind="if: error" >
+		<div class="strapline alert alert-danger alert-dismissable">
+	    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: clear_error">&times;</button>
+	    	<span data-bind="html: error"></span>
+	  	</div>
+	</div>
+	
+</div>
 
 <header id="site-header" data-bind="template: 'header-template'"></header>
 
@@ -44,7 +45,7 @@
 <script type="text/javascript" src="/siteserver/vendor/bootbox.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
 <script type="text/javascript" src="/siteserver/vendor/ko-external-templates.js"></script>
-<script type="text/javascript" src="/siteserver/vendor/knockout-es5.min.js"></script>
+<script type="text/javascript" src="/siteserver/vendor/knockout-es5.js"></script>
 
 <script type="text/javascript">
 infuser.defaults.templateUrl = '/siteserver/templates';
