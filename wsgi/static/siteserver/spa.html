@@ -24,13 +24,16 @@
 <header id="site-header" data-bind="template: 'header-template'"></header>
 
 <div data-bind="template: {name: 'ce_saas_host', if: visible}" id="page-saas_host"></div>
-  
-<div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
 
 <div class="container main-container" id="wrapper">
-  <div data-bind="template: {name: 'ce_account', if: visible}" id="page-account"></div>
 
-  <div data-bind="template: {name: 'ce_login', if: visible}" id="page-login"></div>
+	<div data-bind="template: {name: 'ce_sites', if: visible}" id="page-sites"></div>
+	
+	<div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
+	
+	<div data-bind="template: {name: 'ce_account', if: visible}" id="page-account"></div>
+
+	<div data-bind="template: {name: 'ce_login', if: visible}" id="page-login"></div>
   
 </div>
 
@@ -59,6 +62,7 @@ infuser.defaults.templateUrl = '/siteserver/templates';
 <script type="text/javascript" src="/siteserver/js/ce_login.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_saas_host.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_site.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_sites.js"></script>
 
 <!-- viewmanager plumbing and main app -->
 <script type="text/javascript" src="/siteserver/viewmanager.js"></script>

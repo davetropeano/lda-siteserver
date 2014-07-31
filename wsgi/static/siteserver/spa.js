@@ -34,11 +34,11 @@
     
     var mapper = {
         containers: [
-            //{name: 'sites', type: CE+'sites'}
+            {name: 'sites', type: CE+'sites'}
             //,{name: 'saas_host', type: CE+'has_service'}
         ],
         types: [
-            {name: 'site', type: CE+'Site'},
+            //{name: 'site', type: CE+'Site'},
             {name: 'saas_host', type: CE+'Saas_host'},
             {name: 'login', type: CE+'Login'},
             {name: 'account', type: CE+'Account'}

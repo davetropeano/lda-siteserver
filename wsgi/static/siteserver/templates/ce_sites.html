@@ -1,0 +1,12 @@
+<div class="container" style="min-height: 800px;">
+    
+	<div class="host" data-bind="with: jso">
+	    <h2>Sites: </h2>
+	    <div class="sites" data-bind="foreach: sites_members">
+	        <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title"></a>
+	    </div>
+	    <hr>
+	    <button class="btn btn-success" data-bind="click: new_site">Add a new site</button>
+	</div>
+
+</div>

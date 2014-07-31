@@ -1,33 +1,7 @@
 window.siteserver = window.siteserver || {};
-//ALREADY_IN_HISTORY = true
-
-siteserver.SitesViewModel = function(){
-    var self = this;
-    self.visible = ko.observable(false);
-    
-    self.init = function(jso){
-        console.log(jso);
-    }
-}
 
 
-siteserver.SiteViewModel = function(){
-    var self = this;
-    self.jwt = misc_util.get_jwt_claims();
-    self.cpanel = APPLICATION_ENVIRON.initial_simple_jso._subject;
-
-    self.visible = ko.observable(false);
-    self.last_message = ko.observable();
-    self.last_error = ko.observable();
-    self.host_controller = ko.observable();
-    self.site_controller = ko.observable();
-    self.edit_site_controller = ko.observable();
-    self.create_site_controller = ko.observable();
-    self.create_improvement_controller = ko.observable();
-    
-    self.init = function(jso){
-        console.log(jso);
-    }
+function test(){
 
     var dispatcher = new misc_util.Dispatcher(
         function(element) { // function is called to decide if this single-page-app claims a click on an element
@@ -115,7 +89,7 @@ siteserver.SiteViewModel = function(){
             })
         }    
 
-    self.site_controller = function(model, parent) {
+    function site_controller(model, parent) {
         var self = this
         self.parent = parent
         self.site = model
@@ -269,28 +243,8 @@ siteserver.SiteViewModel = function(){
 
         var sites_json = APPLICATION_ENVIRON.initial_simple_jso;
         self.sites_container(sites_json);
-        //FB if (sites_json.ldp_contains.length === undefined) {
-        //FB     self.sites_members.push(sites_json.ldp_contains);
-        //FB }
-        //FB else
-        if (sites_json.ldp_contains) //FB Replace above with this line. What's the above trying to do?
+        if (sites_json.ldp_contains)
             self.sites_members(sites_json.ldp_contains);
-
-/*
-        get_sites(model.ce_sites)
-        function get_sites(sites_url) {
-            ld_util.get(sites_url, function(request){
-                if (request.status==200) {
-                    var sites_json = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
-                    self.sites_members(sites_json.ldp_contains)
-                    self.sites_container(sites_json)
-                    }
-                else {
-                    console.log( request.status )
-                    }
-                })
-            }
-*/
 
         self.new_site = function () {
             console.log('DEBUG THIS');
