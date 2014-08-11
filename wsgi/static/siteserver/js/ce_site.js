@@ -5,23 +5,60 @@ siteserver.SiteViewModel = function () {
     var self = this;
     self.model = null;
     self.new_improvement_model = null;
-    self.error = null;
-    
-    ko.track(self);
-    
+    self.capabilities = [];
+    self.improvements = [];
+    self.error = null;    
+    ko.track(self);    
     self.visible = ko.observable(false);
 
     self.init = function (jso) {
         self.model = jso;
         if(!self.model.improvements){
             self.model.improvements = [];
-        }
-        
-        console.log(jso);        
+        }        
+        self.get_capabilities();
+        self.get_improvements();
     }
     
     self.clearError = function () {
         self.error = null;
+    }
+    
+    self.get_capabilities = function () {
+        var ss_session_id = misc_util.getSSSessionId()
+        ld_util.get(self.model.ce_site_capabilities, function(request){
+            if (request.status==200) {
+                var capabilities_jso = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request);
+                if (capabilities_jso.ldp_contains) {
+                    self.capabilities = capabilities_jso.ldp_contains;
+                }
+            }
+            else {
+                console.log( request.status )
+            }
+        }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge        
+    }
+    
+    self.get_improvements = function () {
+        var improvement_urls = self.model.ce_improvements;
+        if (improvement_urls) {
+            var ss_session_id = misc_util.getSSSessionId()
+            for (var i = 0; i<improvement_urls.length; i++) {
+                var improvement_url = improvement_urls[i] //calculate the tenant's domain
+                ld_util.get(improvement_url, function(request) {
+                    if (request.status==200) {
+                        var improvement = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
+                        self.improvements.push(improvement)
+                        self.improvements.sort(function(a,b){
+                            return (b.dc_created > a.dc_created) ? -1 : (b.dc_created < a.dc_created) ? 1 : 0
+                        })
+                    }
+                    else {
+                        console.log( request.status )
+                    }
+                }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge
+            }
+        }        
     }
 
     self.create_new_improvement = function () {
@@ -42,8 +79,6 @@ siteserver.SiteViewModel = function () {
                 self.new_improvement_model = null;
             }
             else {
-                console.log("TODO: Handle error");
-                //var errors = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request);
                 var errors = rdf_util.parse_rdf_json(request);
                 self.error = errors[0][1];
                 console.log(errors);
