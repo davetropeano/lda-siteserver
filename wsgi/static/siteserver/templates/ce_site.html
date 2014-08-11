@@ -1,8 +1,8 @@
 <div class="container" style="min-height: 800px;">
 
-	<!-- ko if: !new_improvement_model -->
+	<!-- ko if: !new_improvement_model && !editing_site -->
 	<div class="site" data-bind="with: model">
-	    <h2><span data-bind="text: 'Site: ' + ce_site_id"></span> <small><i class="glyphicon glyphicon-pencil click" data-bind="click: $parent.enter_edit_mode"></i></small></h2>
+	    <h2><span data-bind="text: 'Site: ' + ce_site_id"></span> <small><i class="glyphicon glyphicon-pencil click" data-bind="click: $parent.enter_site_edit"></i></small></h2>
 	    <div>
 	        <label>Title: </label>
 	        <span data-bind="text: dc_title"></span>
@@ -14,6 +14,28 @@
 	    </div>		
 	    <hr>
 	    <button class="btn btn-success" data-bind="click: $parent.create_new_improvement">Add Improvement</button>
+	</div>
+	<!-- /ko -->
+	
+	<!-- ko if: editing_site -->
+	<div class="site" data-bind="with: model">
+	    <h2 data-bind="text: 'Site: ' + ce_site_id"></h2>
+		<div>
+		    <form class="form-horizontal" role="form">
+		        <div class="form-group">
+		            <label class="col-sm-2 control-label" for="edit_title">Title: </label>
+		            <div class="col-sm-6">
+		                <input class="form-control" id="edit_title" type="text" data-bind="value: dc_title">
+		            </div>
+		        </div>
+		        <div class="form-group">
+		            <div class="col-sm-offset-2 col-sm-6">
+		                <button class="btn btn-success" data-bind="click: $parent.submit_site_edit">Update</button>
+		                <button class="btn btn-default"    data-bind="click: $parent.leave_site_edit">Cancel</button>
+		            </div>
+		        </div>
+		    </form>
+		</div>
 	</div>
 	<!-- /ko -->
 	

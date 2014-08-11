@@ -8,6 +8,7 @@ siteserver.SiteViewModel = function () {
     self.capabilities = [];
     self.improvements = [];
     self.error = null;    
+    self.editing_site = false;
     ko.track(self);    
     self.visible = ko.observable(false);
 
@@ -90,5 +91,30 @@ siteserver.SiteViewModel = function () {
     
     self.cancel_new_improvement = function () {
         self.new_improvement_model = null;
+    }
+    
+    self.enter_site_edit = function(){
+        self.editing_site = true;
+    }
+    
+    self.leave_site_edit = function(){
+        self.editing_site = false;
+    }
+    
+    self.submit_site_edit = function() {
+        var patch = {
+                _subject: self.model._subject,
+                dc_title: self.model.dc_title
+        };
+        var rdf_jso = APPLICATION_ENVIRON.rdf_converter.convert_to_rdf_jso(patch)
+        ld_util.send_patch(self.model._subject, self.model.ce_modificationCount, rdf_jso, function(http) {
+            if (http.status==200) {
+                self.model.ce_modificationCount += 1; //TODO: this could break, should do a get to get the new modification count
+            }
+            else{
+                self.error(http.responseText) //todo - parse this out nicely
+            }
+            self.leave_site_edit();
+        });
     }
 }
