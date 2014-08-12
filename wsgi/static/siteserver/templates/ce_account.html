@@ -17,7 +17,7 @@
 </div>
 
 <div class="container" data-bind="if: register">
-    <form id="registration-form" class="standard-form" onsubmit="validate_and_send(); return false">
+    <form id="registration-form" class="standard-form">
         <h2>Register</h2>
         <div class="response-message" id="response-message">&nbsp;</div>
         <div class="input-with-label">
@@ -59,7 +59,7 @@
 
         <div class="submit">
             <br>
-            <button type="submit" class="btn btn-success" value="Register">Register New Account</button>
+            <button class="btn btn-success" value="Register" data-bind="click: validate_and_send">Register New Account</button>
         </div>
         <div class="spacer"></div>
     </form>

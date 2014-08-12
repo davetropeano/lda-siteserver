@@ -57,9 +57,6 @@
     siteserver.footerVM = new siteserver.FooterViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-footer'));
     
-    siteserver.footerVM = new siteserver.FooterViewModel();
-    
-    
     var jso = APPLICATION_ENVIRON.initial_simple_jso;
     ViewManager.switchView(jso);    
     

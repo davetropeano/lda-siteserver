@@ -6,7 +6,8 @@ siteserver.AccountViewModel = function(){
     self.jwt = misc_util.get_jwt_claims();
     self.register = false;
     self.display = false;
-    self.visible = ko.observable(false);
+    ko.track(self);
+    self.visible = ko.observable(false);    
      
     self.init = function(jso){
         self.showView(jso);
@@ -26,7 +27,7 @@ siteserver.AccountViewModel = function(){
     self.handle_result = function (http) { // specific to this page 
         if (http.status==201) {
             original_url = window.name;
-            if (! original_url) {
+            if (!original_url) {
                 original_url = '/';
             }
             else {
@@ -84,7 +85,7 @@ siteserver.AccountViewModel = function(){
             var rdf_util_doc = APPLICATION_ENVIRON.rdf_converter.convert_to_rdf_jso(account);
             // normally new resources are created via POST, and the server controls the URL of the newly-created resource
             // In the case of accounts, we want to control the URL, so we make up the URL below and use PUT to do the create
-            ld_util.send_create(APPLICATION_ENVIRON.initial_simple_jso.ce_account__container, rdf_util_doc, handle_result);
+            ld_util.send_create(APPLICATION_ENVIRON.initial_simple_jso.ce_account__container, rdf_util_doc, self.handle_result);
         }
     };
 }
