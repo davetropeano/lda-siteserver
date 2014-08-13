@@ -3,11 +3,10 @@ window.siteserver = window.siteserver || {};
 siteserver.AccountViewModel = function(){
     var self = this;
     self.account = null;
-    self.jwt = misc_util.get_jwt_claims();
     self.register = false;
     self.display = false;
     ko.track(self);
-    self.visible = ko.observable(false);    
+    self.visible = ko.observable(false);
      
     self.init = function(jso){
         self.showView(jso);
@@ -89,15 +88,3 @@ siteserver.AccountViewModel = function(){
         }
     };
 }
-
-/*
-
-
-function AccountViewModel() {
-    
-
-    showView(APPLICATION_ENVIRON.initial_simple_jso)
-}
-
-ko.applyBindings(new AccountViewModel());
-*/

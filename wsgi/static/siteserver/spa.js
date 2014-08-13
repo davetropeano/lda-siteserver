@@ -1,11 +1,11 @@
 ;(function(window) {
     "use strict";
-    window.siteserver = window.siteserver || {}; // xdo is our top level module context
+    window.siteserver = window.siteserver || {}; // siteserver is our top level module context
     
     // TODO: SERVER_ROOT needs to be a config option for mobile but read for desktop browsers
     siteserver.SERVER_ROOT = document.location.origin;
     
-    siteserver.displayResponse = function(response) {
+    siteserver.displayResponse = function(response, message_class) {
         var text = '';
         if (response.getResponseHeader('Content-Type') == 'application/json') {
             var json = JSON.parse(response.responseText);
@@ -19,7 +19,10 @@
         else {
             text = response.responseText;
         }
-        siteserver.headerVM.message(text);
+        
+        siteserver.headerVM.message = text;        
+        siteserver.headerVM.message_class = message_class == "error" ? 'alert-danger' : 'alert-info';
+        
         console.log(response);
     }
 
@@ -34,8 +37,7 @@
     
     var mapper = {
         containers: [
-            {name: 'sites', type: CE+'sites'}
-            //,{name: 'saas_host', type: CE+'has_service'}
+            {name: 'sites', type: CE+'sites'}    
         ],
         types: [
             {name: 'site', type: CE+'Site'},
@@ -52,7 +54,6 @@
     //
     siteserver.headerVM = new siteserver.HeaderViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-header'));
-    ko.applyBindings(siteserver.headerVM, document.getElementById('site-notifications'));
     
     siteserver.footerVM = new siteserver.FooterViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-footer'));

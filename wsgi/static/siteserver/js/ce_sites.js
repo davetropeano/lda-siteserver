@@ -40,8 +40,7 @@ siteserver.SitesViewModel = function () {
                 self.new_site_model = null;
             }
             else {
-                var errors = rdf_util.parse_rdf_json(request);
-                self.error = errors[0][1];                
+                siteserver.displayResponse(request, 'error');                                
             }
         });
         

@@ -65,7 +65,7 @@ section {
     margin: 0 auto;
 }
 
-#site-header
+.site-header
 {
     height: 50px;
     background-color: #2d2d2d;

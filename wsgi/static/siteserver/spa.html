@@ -1,28 +1,9 @@
-<link rel="shortcut icon" href="/siteserver/css/images/favicon.ico">
-    
-<style scoped>
-	@import url('//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css');
-    @import url('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css');
-    @import url('/siteserver/css/site.css');
-    @import url('/siteserver/css/ce_saas_host.css');
-</style>
+<link rel="shortcut icon" href="/siteserver/css/images/favicon.ico" type="image/x-icon">
 
-<div id="site-notifications" style="display:none;" data-bind="visible: error || message">
-	<div data-bind="if: message" >
-		<div class="strapline alert alert-info alert-dismissable">
-	    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: clear_message">&times;</button>
-	    	<span data-bind="html: message"></span>
-	  	</div>
-	</div>
-	
-	<div data-bind="if: error" >
-		<div class="strapline alert alert-danger alert-dismissable">
-	    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: clear_error">&times;</button>
-	    	<span data-bind="html: error"></span>
-	  	</div>
-	</div>
-	
-</div>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/siteserver/css/site.css">
+<link rel="stylesheet" href="/siteserver/css/ce_saas_host.css">
 
 <header id="site-header" data-bind="template: 'header-template'"></header>
 
@@ -54,8 +35,8 @@ infuser.defaults.templateUrl = '/siteserver/templates';
 </script>
 
 <!-- Header and footer -->
-<script type="text/html" id="header-template" load-src="/sitedesign/header.htm"></script>
-<script type="text/html" id="footer-template" load-src="/sitedesign/footer.htm"></script>
+<script type="text/html" id="header-template" load-src="/siteserver/templates/header.htm"></script>
+<script type="text/html" id="footer-template" load-src="/siteserver/templates/footer.htm"></script>
 
 <!-- viewmodels -->
 <script typr="text/javascript" src="/siteserver/js/header.js"></script>

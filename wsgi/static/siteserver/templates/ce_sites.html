@@ -11,12 +11,6 @@
 	
 	<div class="new-site" data-bind="visible: new_site_model, with: new_site_model">
 	    <h2 >New Site</h2>		
-	    <div data-bind="if: $parent.error" >
-			<div class="strapline alert alert-danger alert-dismissable">
-		    	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: $parent.clear_error">&times;</button>
-		    	<span data-bind="html: $parent.error"></span>
-		  	</div>
-		</div>
 	    <div>
 	        <form class="form-horizontal" role="form">
 	            <div class="form-group">

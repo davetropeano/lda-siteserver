@@ -1,17 +1,15 @@
 window.siteserver = window.siteserver || {};
 
-window.siteserver.LoginViewModel = function(){
+siteserver.LoginViewModel = function(){
     var self = this;
-    self.jwt = {};
     self.visible = ko.observable(false);
     
     self.init = function(jso){
-        console.log(jso);
+        
     }
     
     self.handle_result = function(http) { // specific to this page 
         if (http.status==200) {
-            siteserver.headerVM = misc_util.get_jwt_claims();
             original_url = window.name;
             if (! original_url) {
                 original_url = '/';
