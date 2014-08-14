@@ -15,6 +15,7 @@ window.siteserver.UserGroupsViewModel = function() {
             for(var i in jso.ldp_member){
                 var ug = new siteserver.UserGroupViewModel();
                 ug.init(jso.ldp_contains[i]);
+                ug.details_toggle();
                 usrgrps.push(ug);
             }
             self.user_groups = usrgrps;

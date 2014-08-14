@@ -5,6 +5,9 @@
     @import url('/siteserver/ce_saas_host.css');
 </style>
 
+<header id="site-header" data-bind="template: 'header-template'"></header>
+<script type="text/html" id="header-template" load-src="/siteserver/templates/header.htm"></script>
+
 <div class="container">
 	<h3>User Group</h3>	
 	<!-- ko if: jso._subject -->

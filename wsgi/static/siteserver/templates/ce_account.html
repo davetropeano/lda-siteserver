@@ -1,6 +1,11 @@
 <div style="padding-top: 0" data-bind="if: display">
 	<div class="container">
-	    <h3>Account Information</h3>
+	    <h3>Account Information
+	    <a class="btn btn-default" href="/ac" title="User Groups">
+		  <span class="glyphicon glyphicon-user"></span>
+		  <span class="glyphicon glyphicon-user"></span>
+		</a>
+	    </h3>
 	    <div class="value-with-label" data-bind="with: account">
 	        <span class="span-for-label">Account ID:</span> <span class="span-for-value" data-bind="text: ce_account_id"></span><br/>
 	        <span class="span-for-label">Password:</span> <span class="span-for-value" data-bind="text: ce_password"></span><br/>
@@ -13,8 +18,8 @@
 	        <span class="span-for-label">City:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_locality"></span><br/>
 	        <span class="span-for-label">State:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_region"></span><br/>
 	        <span class="span-for-label">Zip:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_postal__code"></span><br/>
-	        <span class="span-for-label">Country:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_country__name"></span><br/>
-	    </div>    
+	        <span class="span-for-label">Country:</span> <span class="span-for-value" data-bind="text: vcard_adr.vcard_country__name"></span><br/>	    	
+	    </div>
 	</div>	
 </div>
 

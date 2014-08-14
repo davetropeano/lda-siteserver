@@ -75,6 +75,7 @@ function AccountViewModel() {
     var self = this;
     self.account = null;
     self.jwt = misc_util.get_jwt_claims();
+    self.cpanel = "/mt/sites";
     self.register = false;
     self.display = false;
     
@@ -92,5 +93,5 @@ function AccountViewModel() {
 
     showView(APPLICATION_ENVIRON.initial_simple_jso);
 }
-
-ko.applyBindings(new AccountViewModel());
+var accountVM = new AccountViewModel()
+ko.applyBindings(accountVM);
