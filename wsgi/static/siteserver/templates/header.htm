@@ -1,4 +1,4 @@
-<div data-bind="visible: message">
+<div data-bind="if: message">
 	<div class="strapline alert alert-dismissable" data-bind="css: message_class">
     	<button type="button" class="close" data-dismiss="alert" aria-hidden="true" data-bind="click: clear_message">&times;</button>
     	<span data-bind="html: message"></span>
