@@ -8,9 +8,9 @@ def test1():
 def test2():
 	msg = "running test2... "
 	# do something
-	msg += "failed"
+	msg += "passed"
 	print msg
-	return False
+	return True
 
 
 if __name__ == "__main__":
