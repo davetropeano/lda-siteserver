@@ -7,7 +7,10 @@
     
     siteserver.displayResponse = function(response, message_class) {
         var text = '';
-        if (response.getResponseHeader('Content-Type') == 'application/json') {
+        if (typeof response === 'string' ){
+            text = response;
+        }
+        else if (response.getResponseHeader('Content-Type') == 'application/json') {
             var json = JSON.parse(response.responseText);
             for (var i = 0; i < json.length; i++) {
                 if (json[i][0]) {

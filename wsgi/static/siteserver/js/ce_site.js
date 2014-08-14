@@ -7,7 +7,6 @@ siteserver.SiteViewModel = function () {
     self.new_improvement_model = null;
     self.capabilities = [];
     self.improvements = [];
-    self.error = null;    
     self.editing_site = false;
     ko.track(self);    
     self.visible = ko.observable(false);
@@ -35,7 +34,7 @@ siteserver.SiteViewModel = function () {
                 }
             }
             else {
-                console.log( request.status )
+                siteserver.displayResponse(request, 'error');
             }
         }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge        
     }
@@ -55,7 +54,7 @@ siteserver.SiteViewModel = function () {
                         })
                     }
                     else {
-                        console.log( request.status )
+                        siteserver.displayResponse(request,'error');
                     }
                 }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge
             }
@@ -80,10 +79,7 @@ siteserver.SiteViewModel = function () {
                 self.new_improvement_model = null;
             }
             else {
-                var errors = rdf_util.parse_rdf_json(request);
-                self.error = errors[0][1];
-                console.log(errors);
-                console.log(request); 
+                siteserver.displayResponse(request,'error');
             }
         });
         
@@ -107,14 +103,14 @@ siteserver.SiteViewModel = function () {
                 dc_title: self.model.dc_title
         };
         var rdf_jso = APPLICATION_ENVIRON.rdf_converter.convert_to_rdf_jso(patch)
-        ld_util.send_patch(self.model._subject, self.model.ce_modificationCount, rdf_jso, function(http) {
-            if (http.status==200) {
+        ld_util.send_patch(self.model._subject, self.model.ce_modificationCount, rdf_jso, function(response) {
+            if (response.status==200) {
                 self.model.ce_modificationCount += 1; //TODO: this could break, should do a get to get the new modification count
+                self.leave_site_edit();
             }
             else{
-                self.error(http.responseText) //todo - parse this out nicely
+                siteserver.displayResponse(response,'error');                
             }
-            self.leave_site_edit();
         });
     }
 }

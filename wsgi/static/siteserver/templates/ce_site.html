@@ -43,7 +43,7 @@
 	<div class="new-improvement" data-bind="with: new_improvement_model">
         <h3>Available Capabilities: </h3>
         <div data-bind="foreach: $parent.capabilities">
-            <button class="btn btn-large btn-primary" data-bind="click: $parent.save_new_improvement, text: 'Add new ' + dc_title"></button>
+            <button class="btn btn-large btn-primary" data-bind="click: $root.save_new_improvement, text: 'Add new ' + dc_title"></button>
         </div>
         <hr>
         <button class="btn btn-default" data-bind="click: $parent.cancel_new_improvement">Cancel</button>

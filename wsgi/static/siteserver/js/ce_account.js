@@ -23,8 +23,8 @@ siteserver.AccountViewModel = function(){
         return true;
     };
     
-    self.handle_result = function (http) { // specific to this page 
-        if (http.status==201) {
+    self.handle_result = function (response) { // specific to this page 
+        if (response.status==201) {
             original_url = window.name;
             if (!original_url) {
                 original_url = '/';
@@ -34,12 +34,8 @@ siteserver.AccountViewModel = function(){
                 window.location.href = original_url;
             }
         }
-        else if (http.status==400) {
-            document.getElementById('response-message').innerHTML = 'xx' + http.responseText; //todo - parse this out nicely
-        }
         else {
-            alert('Registration failed unexpectedly. HTTP status/text: ' + http.status + '/' + http.responseText);
-            document.getElementById('response-message').innerHTML = 'Registration failed unexpectedly. HTTP status/text: ' + http.status + '/' + http.responseText;
+            siteserver.displayResponse(response, 'error');
         }
     };
         
@@ -52,7 +48,7 @@ siteserver.AccountViewModel = function(){
         if (! password) {errors.push('password is required');}
         if (! email) {errors.push('email is required');}
         if (errors.length > 0) {
-            document.getElementById('response-message').innerHTML = errors.join(", ");
+            siteserver.displayResponse(errors.join(", "), 'error');
         }
         else {
             var userURL = document.getElementById('userURL').value;
