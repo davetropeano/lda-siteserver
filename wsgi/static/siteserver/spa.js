@@ -40,7 +40,8 @@
     
     var mapper = {
         containers: [
-            {name: 'sites', type: CE+'sites'}    
+            {name: 'sites', type: CE+'sites'},
+            {name: 'capabilities', type: CE+'capabilities'}
         ],
         types: [
             {name: 'site', type: CE+'Site'},
