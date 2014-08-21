@@ -72,9 +72,13 @@ var ViewManager = {
             ko.utils.arrayForEach(map, function(elem) {
                 var vm_name = capitalize(elem.name) + 'ViewModel';
 
-                // use javascript reflection to get viewmodel object and create instance
-                var vm = new window[namespace][vm_name]();
-
+                try {
+                    // use javascript reflection to get viewmodel object and create instance
+                    var vm = new window[namespace][vm_name]();
+                }
+                catch(err) {
+                    console.log("Error loading vm " + namespace + '.' + vm_name + ': ' + err.message);                    
+                }
 
                 ko.applyBindings(vm, document.getElementById('page-' + elem.name));
                 self.addView(elem.name, vm);

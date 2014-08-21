@@ -1,6 +1,6 @@
 window.siteserver = window.siteserver || {};
 
-window.siteserver.UserGroupsViewModel = function() {
+siteserver.UserGroupsViewModel = function() {
 	
     var self = this;
 	self.jso = {};
@@ -23,7 +23,5 @@ window.siteserver.UserGroupsViewModel = function() {
         });
     
         // TODO: Load /ac-resource-groups		
-	};	
-	
-	return self;
+	};
 }

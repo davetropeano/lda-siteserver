@@ -1,8 +1,7 @@
 window.siteserver = window.siteserver || {};
 
-window.siteserver.UserGroupViewModel = function() {
-	
-    var self = this;
+siteserver.UserGroupViewModel = function() {
+	var self = this;
 	self.jso = {};
 	self.permissions = [];
 	self.details_visible = true;
@@ -11,7 +10,7 @@ window.siteserver.UserGroupViewModel = function() {
 	self.visible = ko.observable(false);
 	
 	self.init = function(jso){
-		self.jso =jso;
+	    self.jso =jso;
 		var perms = [];
 		for(var i in jso.ac_may){
 		    var perm = new siteserver.UserGroupPermissionViewModel();
@@ -24,7 +23,5 @@ window.siteserver.UserGroupViewModel = function() {
 	self.details_toggle = function(){
 	    self.details_visible = !self.details_visible;
 	    self.toggle_style = self.details_visible ? 'glyphicon-minus' : 'glyphicon-plus';
-	}
-
-	return self;
+	}	
 }
