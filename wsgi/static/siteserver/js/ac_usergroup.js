@@ -8,6 +8,7 @@ window.siteserver.UserGroupViewModel = function() {
 	self.details_visible = true;
 	self.toggle_style = "glyphicon-minus";
 	ko.track(self); 
+	self.visible = ko.observable(false);
 	
 	self.init = function(jso){
 		self.jso =jso;

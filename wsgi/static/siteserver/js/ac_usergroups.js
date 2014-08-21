@@ -6,6 +6,7 @@ window.siteserver.UserGroupsViewModel = function() {
 	self.jso = {};
 	self.user_groups = [];
 	ko.track(self); 
+	self.visible = ko.observable(false);
 	
 	self.init = function(jso){
     	// Load user_groups
@@ -26,7 +27,3 @@ window.siteserver.UserGroupsViewModel = function() {
 	
 	return self;
 }
-
-var model = window.siteserver.UserGroupsViewModel();
-model.init();
-ko.applyBindings(model);

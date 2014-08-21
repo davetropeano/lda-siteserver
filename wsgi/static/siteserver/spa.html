@@ -19,6 +19,10 @@
 	<div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
 	
 	<div data-bind="template: {name: 'ce_capabilities', if: visible}" id="page-capabilities"></div>
+	
+	<div data-bind="template: {name: 'ac_usergroups', if: visible}" id="page-userGroups"></div>
+	
+	<div data-bind="template: {name: 'ac_usergroup', if: visible}" id="page-userGroup"></div>
   
 </div>
 
@@ -49,6 +53,9 @@ infuser.defaults.templateUrl = '/siteserver/templates';
 <script type="text/javascript" src="/siteserver/js/ce_site.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_sites.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_capabilities.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroup.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroups.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroup_permission.js"></script>
 
 <!-- viewmanager plumbing and main app -->
 <script type="text/javascript" src="/siteserver/viewmanager.js"></script>
