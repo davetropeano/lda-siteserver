@@ -9,7 +9,7 @@ siteserver.AccountViewModel = function(){
     self.visible = ko.observable(false);
      
     self.init = function(jso){
-        //some accounts done have this (like admin) and it causes errors in the view
+        //some accounts don't have this (like admin) and it causes errors in the view
         if(!jso.vcard_adr){
             jso.vcard_adr = {
                     vcard_street__address: null,
