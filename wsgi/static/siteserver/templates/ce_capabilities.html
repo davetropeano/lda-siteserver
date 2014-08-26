@@ -1,0 +1,10 @@
+<div class="container" style="min-height: 800px;">
+	<div class="new-improvement">
+        <h3>Available Capabilities: </h3>
+        <div data-bind="foreach: capabilities">
+            <button class="btn btn-large btn-primary" data-bind="click: $root.select_capability, text: 'Add new ' + dc_title"></button>
+        </div>
+        <hr>
+        <button class="btn btn-default" data-bind="click: navigate_back_to_site">Cancel</button>
+    </div>
+</div>
