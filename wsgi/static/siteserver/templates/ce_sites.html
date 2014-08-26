@@ -1,0 +1,38 @@
+<div class="container" style="min-height: 800px;">
+    
+	<div class="host" data-bind="visible: !new_site_model, with: model">
+	    <h2>Sites: </h2>
+	    <div class="sites" data-bind="foreach: ldp_contains">
+	        <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title"></a>
+	    </div>
+	    <hr>
+	    <button class="btn btn-success" data-bind="click: $parent.new_site">Add a new site</button>
+	</div>
+	
+	<div class="new-site" data-bind="visible: new_site_model, with: new_site_model">
+	    <h2 >New Site</h2>		
+	    <div>
+	        <form class="form-horizontal" role="form">
+	            <div class="form-group">
+	                <label class="col-sm-2 control-label" for="new_id">Id: </label>
+	                <div class="col-sm-6">
+	                    <input class="form-control" id="new_id" data-bind="value: ce_site_id" placeholder="single word (required) autofocus">
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-sm-2 control-label" for="new_title">Title: </label>
+	                <div class="col-sm-6">
+	                    <input class="form-control" id="new_title" data-bind="value: dc_title" placeholder="multiple words (optional)">
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <div class="col-sm-offset-2 col-sm-6">
+	                    <button class="btn btn-success" data-bind="click: $parent.create_site">Create</button>
+	                    <button class="btn btn-default" data-bind="click: $parent.cancel_create_site">Cancel</button>
+	                </div>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+
+</div>

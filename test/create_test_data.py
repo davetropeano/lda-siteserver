@@ -2,6 +2,7 @@ import requests, sys, json
 from rdf_json import URI, BNode, RDF_JSON_Encoder
 from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
 from test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
+import test_utils
 
 #DATASERVER_HOSTNAME = 'cloudapps4.me'
 DATASERVER_HOSTNAME = 'localhost:3001'
@@ -15,8 +16,10 @@ else:
 
 ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
+mt_sites_container_url = 'http://%s/mt/sites' % HS_HOSTNAME
 
 def run():
+    #test_utils.delete(mt_sites_container_url)
     requests.delete(ac_container_url, headers=CONTENT_RDF_JSON_HEADER)
     requests.delete(account_container_url, headers=CONTENT_RDF_JSON_HEADER)
 

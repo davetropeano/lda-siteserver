@@ -1,0 +1,55 @@
+<link rel="shortcut icon" href="/siteserver/images/favicon.ico" type="image/x-icon">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+<link rel="stylesheet" href="/siteserver/css/site.css">
+<link rel="stylesheet" href="/siteserver/css/ce_saas_host.css">
+
+<header id="site-header" data-bind="template: 'header-template'"></header>
+
+<div data-bind="template: {name: 'ce_saas_host', if: visible}" id="page-saas_host"></div>
+
+<div class="container main-container" id="wrapper">
+
+	<div data-bind="template: {name: 'ce_login', if: visible}" id="page-login"></div>
+	
+	<div data-bind="template: {name: 'ce_account', if: visible}" id="page-account"></div>
+	
+	<div data-bind="template: {name: 'ce_sites', if: visible}" id="page-sites"></div>
+	
+	<div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
+	
+	<div data-bind="template: {name: 'ce_capabilities', if: visible}" id="page-capabilities"></div>
+  
+</div>
+
+<footer id="site-footer" data-bind="template: 'footer-template' "></footer>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/siteserver/js/vendor/bootbox.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+<script type="text/javascript" src="/siteserver/js/vendor/ko-external-templates.js"></script>
+<script type="text/javascript" src="/siteserver/js/vendor/knockout-es5.js"></script>
+
+<script type="text/javascript">
+infuser.defaults.templateUrl = '/siteserver/templates';
+</script>
+
+<!-- Header and footer -->
+<script type="text/html" id="header-template" load-src="/siteserver/templates/header.htm"></script>
+<script type="text/html" id="footer-template" load-src="/siteserver/templates/footer.htm"></script>
+
+<!-- viewmodels -->
+<script typr="text/javascript" src="/siteserver/js/header.js"></script>
+<script typr="text/javascript" src="/siteserver/js/footer.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_account.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_login.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_saas_host.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_site.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_sites.js"></script>
+<script type="text/javascript" src="/siteserver/js/ce_capabilities.js"></script>
+
+<!-- viewmanager plumbing and main app -->
+<script type="text/javascript" src="/siteserver/viewmanager.js"></script>
+<script type="text/javascript" src="/siteserver/spa.js"></script>

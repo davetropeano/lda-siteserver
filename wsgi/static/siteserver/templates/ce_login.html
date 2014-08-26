@@ -1,0 +1,21 @@
+<div class="container" style="min-height: 800px;">
+    <form id="login-form" class="form-signin form-horizontal" data-bind="submit: validate_and_send" action="thiswontwork">
+        <div class="form-group">
+            <h4 class="form-signin-heading">Please sign in</h4>
+            <input id="accountId" type="text" class="form-control" placeholder="Account ID" autofocus>
+        </div>
+
+        <div class="form-group">
+            <input id="password" type="password" class="form-control" placeholder="Password">
+        </div>
+
+        <div class="form-group">
+            <div id="response-message" style="min-height: 1.5em;"></div>
+            <button class="btn btn-success" type="submit">Sign in</button>
+        </div>
+
+        <div class="form-group">
+            <p>Don't have an account? <a href='#' data-bind="click: get_registration_form">Click here</a> to register.<br>It's free!</p>            
+        </div>
+    </form>
+</div>
