@@ -64,13 +64,6 @@
     siteserver.footerVM = new siteserver.FooterViewModel();
     ko.applyBindings(siteserver.headerVM, document.getElementById('site-footer'));
     
-<<<<<<< HEAD
-=======
-    siteserver.userMenuVM = new siteserver.UserMenuViewModel();
-    ko.applyBindings(siteserver.userMenuVM, document.getElementById('page-user_menu'));
-    
-    
->>>>>>> user menu UI
     var jso = APPLICATION_ENVIRON.initial_simple_jso;
     ViewManager.switchView(jso);    
     
