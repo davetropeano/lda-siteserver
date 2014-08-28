@@ -1,6 +1,8 @@
 lda-siteserver
 ==============
 
+[![Build Status](https://travis-ci.org/FityFity/lda-siteserver.svg?branch=travis_ci)](https://travis-ci.org/FityFity/lda-siteserver)
+
 This project contains the siteserver application which provides standard system functions for LDA applications, specifically
 authentication, access control and multi-tenancy.
 
