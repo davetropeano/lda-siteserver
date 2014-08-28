@@ -18,12 +18,6 @@ install:
 
 # get ready to run tests
 before_script:
-    #- "cd test"
-    #- "nohup python site_server_test.py > site_server_test.log &"
-    # wait for server to come up
-    #- "sleep 10" 
-    #- "cd test_exec"
-
     - "nohup sh run.sh > site_server_test.log &"    
     - "sleep 10" 
     - "cd test/test_exec"
