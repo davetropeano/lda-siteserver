@@ -111,6 +111,5 @@ def test_post_as_user():
 # this is for working with tests while building them 
 if __name__ == "__main__":    
     #test_post_as_anon()
-    test_post_as_admin()
-    
+    #test_post_as_admin()    
     pass
