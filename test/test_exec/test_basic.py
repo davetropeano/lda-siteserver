@@ -23,6 +23,5 @@ def do_get_test(url):
 
 # this is for working with tests while building them 
 if __name__ == "__main__":	
-	#glob = globals()
-	#print 'done'
+	#test_server_running()
 	pass
