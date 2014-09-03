@@ -37,6 +37,7 @@ def make_headers(type = 'GET', user = None,password = None):
         header.update({'Accept': 'application/rdf+json+ce'})
     elif type == 'POST':
         header.update({'Content-type': 'application/rdf+json+ce'})
+        #this is something about POST Action
         header.update({'ce-post-reason': 'ce-create'})
     elif type == 'PATCH':
         header.update({'Content-type': 'application/json'})
@@ -44,11 +45,13 @@ def make_headers(type = 'GET', user = None,password = None):
     return header
 
 def test_get_as_anon():
-	r = requests.get("http://localhost:3005/ac", headers={}, verify=False)
-	print r.text
-	if r.status_code != 200:
-		return False
-	return True
+    headers = make_headers('GET')
+    body = {}
+    r = requests.get(ac_container_url, headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    print r.text
+    if r.status_code != 200:
+        return False
+    return True
 
 def test_post_as_anon():    
     headers = make_headers('POST')
@@ -110,6 +113,5 @@ def test_post_as_user():
     
 # this is for working with tests while building them 
 if __name__ == "__main__":    
-    #test_post_as_anon()
-    #test_post_as_admin()    
+    test_get_as_anon()    
     pass
