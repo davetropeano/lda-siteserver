@@ -10,9 +10,11 @@ window.siteserver.UserGroupPermissionViewModel = function() {
     self.D = false;
     self.W = false;
     self.X = false;
+    self.A = false;
     
     self.get_ac_do = function(){
         var doStr = "";
+        doStr += self.A ? '1' : '0';
         doStr += self.X ? '1' : '0';
         doStr += self.W ? '1' : '0';
         doStr += self.D ? '1' : '0';
@@ -25,12 +27,16 @@ window.siteserver.UserGroupPermissionViewModel = function() {
     
     self.load_perm_bits = function(doNum){
         var doStr = Number(doNum).toString(2);
-        self.T = !!+doStr[0];
-        self.R = !!+doStr[1];
-        self.C = !!+doStr[2];
+        // pad left with zeros
+        while(doStr.length < 7) 
+            doStr = '0' + doStr;
+        self.T = !!+doStr[6];
+        self.R = !!+doStr[5];
+        self.C = !!+doStr[4];
         self.D = !!+doStr[3];
-        self.W = !!+doStr[4];
-        self.X = !!+doStr[5];
+        self.W = !!+doStr[2];
+        self.X = !!+doStr[1];
+        self.A = !!+doStr[0];
     };
     
     ko.track(self);
