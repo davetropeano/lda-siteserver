@@ -23,7 +23,7 @@ class Domain_Logic(base.Domain_Logic):
         subject_uri = str(subject_uri)
         
         # if it's the null uri then return AC_ALL        
-        if subject_uri == '':
+        if subject_uri == '' or self.user == ADMIN_USER:
             return 200, AC_ALL
         
         # check to see if the owner is the relevant_user (TODO: confirm this approach in code review)        
