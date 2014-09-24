@@ -31,7 +31,9 @@ class Domain_Logic(base.Domain_Logic):
             'Accept': 'application/rdf+json+ce',
             'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
         }
-        resource_url = url_policy.construct_url(self.request_hostname, self.tenant, subject_uri)
+        resource_url = subject_uri
+        if not subject_uri.lower().startswith('http'):
+            resource_url = url_policy.construct_url(self.request_hostname, self.tenant, subject_uri)
         r = utils.intra_system_get(resource_url, headers)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
