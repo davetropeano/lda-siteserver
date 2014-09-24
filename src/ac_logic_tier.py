@@ -5,6 +5,8 @@ from rdf_json import URI
 import operation_primitives
 from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER
 from base_constants import URL_POLICY as url_policy
+import logging
+import requests
 
 NAMESPACE_MAPPINGS = {AC : 'ac'}
 NAMESPACE_MAPPINGS.update(base.NAMESPACE_MAPPINGS)
@@ -32,9 +34,11 @@ class Domain_Logic(base.Domain_Logic):
             'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
         }
         resource_url = subject_uri
-        if not subject_uri.lower().startswith('http'):
+        if not resource_url.lower().startswith('http'):
             resource_url = url_policy.construct_url(self.request_hostname, self.tenant, subject_uri)
-        r = utils.intra_system_get(resource_url, headers)
+        
+        #r = utils.intra_system_get(resource_url, headers)
+        r = requests.get(resource_url, headers=headers, verify=False)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
             owner = document.get_value(CE+'owner')
