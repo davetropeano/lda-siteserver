@@ -35,7 +35,9 @@ class Domain_Logic(base.Domain_Logic):
         }
         resource_url = subject_uri
         if not resource_url.lower().startswith('http'):
-            resource_url = url_policy.construct_url(self.request_hostname, self.tenant, subject_uri)
+            if resource_url.startswith('/'):
+                resource_url = resource_url[1:]
+            resource_url = url_policy.construct_url(self.request_hostname, self.tenant, resource_url)
         
         #r = utils.intra_system_get(resource_url, headers)
         r = requests.get(resource_url, headers=headers, verify=False)
@@ -70,8 +72,9 @@ class Domain_Logic(base.Domain_Logic):
                     if not permissions & AC_A:
                         return 403, [], [('', 'not authorized')]
                 else:
-                    return 403, [], [('', 'unable to retrieve permissions. status: %s text: %s' % (status, permissions))]
-        # below this is a copy of example_logi_tier.insert_document 
+                    return status, [], [('', 'unable to retrieve permissions. status: %s text: %s' % (status, permissions))]
+
+        # below this is a copy of example_logi_tier.insert_document
         # should permission check be split out form that so this code doesn't have to be copied? 
         self.complete_document_for_container_insertion(document, container)
         self.complete_document_for_storage_insertion(document)
