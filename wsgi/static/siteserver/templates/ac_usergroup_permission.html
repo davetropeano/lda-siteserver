@@ -4,15 +4,23 @@
 <div style="margin-left:20px">
 	do: <a data-bind="text: get_ac_do()"></a><br />
 	<table>
-		<tr><td>T</td> <td>R</td> <td>C</td> <td>D</td> <td>W</td> <td>X</td> <td>A</td></tr>
 		<tr>
-			<td><input type="checkbox" data-bind="checked: T" /></td> 
-			<td><input type="checkbox" data-bind="checked: R"/></td> 
-			<td><input type="checkbox" data-bind="checked: C"/></td> 
-			<td><input type="checkbox" data-bind="checked: D"/></td> 
-			<td><input type="checkbox" data-bind="checked: W"/></td> 
-			<td><input type="checkbox" data-bind="checked: X"/></td>
-			<td><input type="checkbox" data-bind="checked: A"/></td>
+            <td title="Transform">T</td>
+            <td title="Read">R</td>
+            <td title="Create">C</td>
+            <td title="Delete">D</td>
+            <td title="Write">W</td>
+            <td title="Execute">X</td>
+            <td title="Admin">A</td>
+        </tr>
+		<tr>
+			<td title="Transform"><input type="checkbox" data-bind="checked: T" /></td>
+			<td title="Read"><input type="checkbox" data-bind="checked: R"/></td>
+			<td title="Create"><input type="checkbox" data-bind="checked: C"/></td>
+			<td title="Delete"><input type="checkbox" data-bind="checked: D"/></td>
+			<td title="Write"><input type="checkbox" data-bind="checked: W"/></td>
+			<td title="Execute"><input type="checkbox" data-bind="checked: X"/></td>
+			<td title="Admin"><input type="checkbox" data-bind="checked: A"/></td>
 		</tr>
 	</table>
 	to: 

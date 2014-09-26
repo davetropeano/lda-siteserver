@@ -35,6 +35,16 @@ class Domain_Logic(base.Domain_Logic):
         if self.document_id == 'login':
             # login is a special kind of query on the 'account' collection. It's the only one you can do without having already logged on
             return self.process_login(query)
+        elif self.document_id == 'ids':
+            query = {
+                '_any': {
+                    CE+'account_id': {'$regex': 'm'}
+                }
+            }
+            status, result = operation_primitives.execute_query(self.user, query, self.request_hostname, self.tenant, "account")
+            return status, [], result
+            #return super(Domain_Logic, self).execute_query(query)
+            #return(200, [], [('["http://user.ubo.us/marcher":"marcher"]')])
         else:
             return(400, [], [('', 'unknown query %s' % self.path)])
 
