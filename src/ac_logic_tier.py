@@ -29,18 +29,16 @@ class Domain_Logic(base.Domain_Logic):
             return 200, AC_ALL
         
         # check to see if the owner is the relevant_user (TODO: confirm this approach in code review)        
-        headers = {
-            'Accept': 'application/rdf+json+ce',
-            'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
-        }
         resource_url = subject_uri
         if not resource_url.lower().startswith('http'):
             if resource_url.startswith('/'):
                 resource_url = resource_url[1:]
             resource_url = url_policy.construct_url(self.request_hostname, self.tenant, resource_url)
-        
-        #r = utils.intra_system_get(resource_url, headers)
-        r = requests.get(resource_url, headers=headers, verify=False)
+        headers = {
+            'Accept': 'application/rdf+json+ce',
+            'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
+        }
+        r = utils.intra_system_get(resource_url, headers)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
             owner = document.get_value(CE+'owner')
