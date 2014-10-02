@@ -1,15 +1,14 @@
 import sys
-sys.path.append('../lda')
-sys.path.append('../../lda-serverlib')
-sys.path.append('../../lda-serverlib/logiclibrary')
-sys.path.append('../../lda-serverlib/mongodbstorage')
-sys.path.append('../../lda-clientlib/python')
-sys.path.append('../../lda-clientlib/python/test')
-sys.path.append('../src')
-sys.path.append('../test')
-
+sys.path.append('../../../lda-serverlib')
+sys.path.append('../../../lda-serverlib/logiclibrary')
+sys.path.append('../../../lda-serverlib/mongodbstorage')
+sys.path.append('../../../lda-clientlib/python')
+sys.path.append('../../../lda-clientlib/python/test')
+sys.path.append('../../src')
+sys.path.append('../../ test')
 
 import test_utils
+
 import requests, json, jwt
 from rdf_json import URI, BNode, RDF_JSON_Encoder, RDF_JSON_Document, rdf_json_decoder
 from base_constants import RDF, DC, AC, AC_ALL, ADMIN_USER, CE, VCARD, FOAF, ANY_USER, AC_T, AC_R, AC_C, AC_D, AC_W, AC_X

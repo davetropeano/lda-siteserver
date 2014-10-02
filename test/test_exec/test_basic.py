@@ -1,17 +1,19 @@
-import requests, json, jwt
+import requests, json, jwt, pytest
 #from rdf_json import RDF_JSON_Encoder, RDF_JSON_Document, rdf_json_decoder
 
-def test_server_running():	 
-	return do_get_test("http://localhost:3005/")	
+def test_server_running():
+    test_result = do_get_test("http://localhost:3005/")
+    assert test_result == True
+
 
 def test_account_get():
-	return do_get_test("http://localhost:3005/account")
+	assert do_get_test("http://localhost:3005/account") == True
 
 def test_ac_get():
-	return do_get_test("http://localhost:3005/ac")
+	assert do_get_test("http://localhost:3005/ac") == True
 
 def test_mt_get():
-	return do_get_test("http://localhost:3005/mt")	
+	assert do_get_test("http://localhost:3005/mt") == True
 
 def do_get_test(url):
 	r = requests.get(url, headers={}, verify=False)
