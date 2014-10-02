@@ -109,6 +109,9 @@ def test_post_as_user():
     if r.status_code != 201:        
         return False
     return True
+
+def test_break():
+	assert True == False
     
 # this is for working with tests while building them 
 if __name__ == "__main__":    

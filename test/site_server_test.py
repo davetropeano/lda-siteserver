@@ -1,3 +1,12 @@
+import sys
+sys.path.append('../../lda-serverlib')
+sys.path.append('../../lda-serverlib/logiclibrary')
+sys.path.append('../../lda-serverlib/mongodbstorage')
+sys.path.append('../../lda-clientlib/python')
+sys.path.append('../../lda-clientlib/python/test')
+sys.path.append('../src')
+sys.path.append('../test')
+
 import os, sys, logging
 from wsgiref.simple_server import make_server
 from wsgiref.simple_server import WSGIServer
