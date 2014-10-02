@@ -15,10 +15,13 @@ install:
     - "git clone https://github.com/ld4apps/lda-clientlib.git"
     - "cd lda-siteserver"
     - "python setup.py install"
+    - "sudo apt-get install -y nginx"
 
 # get ready to run tests
 before_script:
-    - "nohup sh run.sh > site_server_test.log &"    
+    - "sudo cp -f dispatcher.conf /etc/nginx/conf.d/dispatcher.conf"
+    - "sudo service nginx restart"
+    - "nohup sh run.sh > site_server_test.log &"
     - "sleep 10" 
     - "cd test/test_exec"
 

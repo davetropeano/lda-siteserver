@@ -110,10 +110,7 @@ def test_post_as_user():
         return False
     return True
 
-def test_break():
-	assert True == False
-    
-# this is for working with tests while building them 
+# this is for working with tests while building them
 if __name__ == "__main__":    
     test_get_as_anon()    
     pass
