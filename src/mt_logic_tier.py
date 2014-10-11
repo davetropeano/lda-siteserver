@@ -63,7 +63,7 @@ class Domain_Logic(base.Domain_Logic):
             member_resource = 'http://%s/' % self.request_hostname
             conatiner_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
             document = self.create_container(conatiner_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
-            status, document = self.complete_result_document(document)
+            status, document = self.complete_request_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
             member_resource = 'http://%s/' % self.request_hostname
@@ -74,7 +74,7 @@ class Domain_Logic(base.Domain_Logic):
                 #since all stored data is relative to an implicit host (domain), this will find the same data for each tenant domain. 
                 #Each resource that is found will be returned in the tenants domain, so capabilities are automatically mirrored in all tenant domains
                 #although they are only really stored in the hostingsite domain's collections
-            status, document = self.complete_result_document(document)
+            status, document = self.complete_request_document(document)
             return (status, [], document)
         return super(Domain_Logic, self).get_document()
     
