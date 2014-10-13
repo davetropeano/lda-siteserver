@@ -66,7 +66,7 @@ class Domain_Logic(base.Domain_Logic):
             status, document = self.complete_request_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
-            member_resource = 'http://%s/' % self.request_hostname
+            member_resource = '//%s/' % self.request_hostname
             container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities')
             document = self.create_container(container_url, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
             self.tenant = 'hostingsite' 
