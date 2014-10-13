@@ -60,7 +60,7 @@ class Domain_Logic(base.Domain_Logic):
         elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id == 'sites': #bpc container of all sites visible to the user
             if self.user is None and self.extra_path_segments and len(self.extra_path_segments) == 1 and self.extra_path_segments[0] == 'new':
                 return (401, [], None)
-            member_resource = 'http://%s/' % self.request_hostname
+            member_resource = '//%s/' % self.request_hostname
             conatiner_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
             document = self.create_container(conatiner_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
             status, document = self.complete_request_document(document)
