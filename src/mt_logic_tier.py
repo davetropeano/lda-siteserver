@@ -60,13 +60,13 @@ class Domain_Logic(base.Domain_Logic):
         elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id == 'sites': #bpc container of all sites visible to the user
             if self.user is None and self.extra_path_segments and len(self.extra_path_segments) == 1 and self.extra_path_segments[0] == 'new':
                 return (401, [], None)
-            member_resource = '//%s/' % self.request_hostname
+            member_resource = url_policy.construct_url(self.request_hostname, self.tenant)
             conatiner_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
             document = self.create_container(conatiner_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
             status, document = self.complete_request_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
-            member_resource = '//%s/' % self.request_hostname
+            member_resource = url_policy.construct_url(self.request_hostname, self.tenant)
             container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities')
             document = self.create_container(container_url, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
             self.tenant = 'hostingsite' 

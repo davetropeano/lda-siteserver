@@ -10,7 +10,7 @@
 	
 	    <h3>Improvements: </h3>
 		<div data-bind="foreach: $parent.improvements">
-	        <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title ? dc_title : 'untitled ' + rdf_type.toString().split('#')[1]"></a>
+	        <a class="btn btn-large btn-primary" data-bind="attr: {href: url}, text: dc_title ? dc_title : 'untitled ' + rdf_type.toString().split('#')[1]"></a>
 	    </div>		
 	    <hr>
 	    <button class="btn btn-success" data-bind="click: $parent.navigate_to_capabilities">Add Improvement</button>

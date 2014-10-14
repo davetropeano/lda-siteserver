@@ -111,7 +111,7 @@ class Domain_Logic(base.Domain_Logic):
             userURL = document.get_value(CE+'user')
             if userURL:
                 if account_id:
-                    userURL = normalize_url(str(userURL), 'http://%s%s/%s' % (self.request_hostname, self.path, account_id))
+                    userURL = normalize_url(str(userURL), '%s/%s' % (self.path, account_id))
                     document.set_value(CE+'user', URI(userURL))
             else:
                 field_errors.append([CE+'user', 'must not be null'])

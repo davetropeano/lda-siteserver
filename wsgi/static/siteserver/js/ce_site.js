@@ -24,6 +24,7 @@ siteserver.SiteViewModel = function () {
                 ld_util.get(improvement_url, function(request) {
                     if (request.status==200) {
                         var improvement = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request)
+                        improvement.url = request.resource_url // can't use _subject because it;s relative to a different domain
                         self.improvements.push(improvement)
                         self.improvements.sort(function(a,b){
                             return (b.dc_created > a.dc_created) ? -1 : (b.dc_created < a.dc_created) ? 1 : 0
