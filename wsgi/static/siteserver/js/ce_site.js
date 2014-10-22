@@ -52,7 +52,10 @@ siteserver.SiteViewModel = function () {
     }
     
     self.add_improvement = function(improvement_model){
-        self.model.ce_improvements.push(improvement_model._subject);
+        if (self.model.ce_improvements) 
+            self.model.ce_improvements.push(improvement_model._subject);
+        else
+            self.model.ce_improvements = [ improvement_model._subject ];
         var patch = {
             "" : {ce_improvements : self.model.ce_improvements}
         }
