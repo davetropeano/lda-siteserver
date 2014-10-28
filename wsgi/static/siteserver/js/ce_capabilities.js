@@ -21,11 +21,12 @@ siteserver.CapabilitiesViewModel = function () {
         var new_improvement_model = {
             _subject: "",
             rdf_type: data.ce_improvement_type,
-            dc_title: data.dc_title,
+            dc_title: 'Test System',
+            rdfs_label: 'testsystem',
             ce_capability: rdf_util.URI(data._subject)
         };
         
-        var post_url = '/cat'; //TODO: is there somewhere we can look this up?
+        var post_url = data.ce_improvement_container;
         var ss_session_id = misc_util.getSSSessionId()
         ld_util.send_create(post_url,new_improvement_model,function(request){
             if(request.status === 201) {
