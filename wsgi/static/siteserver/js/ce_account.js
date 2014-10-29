@@ -35,8 +35,6 @@ siteserver.AccountViewModel = function(){
     
     self.handle_result = function (response) { // specific to this page 
         if (response.status==201) {
-            window.location = '/';
-            return;
             original_url = window.name;
             if (!original_url) {
                 original_url = '/';
@@ -54,11 +52,8 @@ siteserver.AccountViewModel = function(){
     self.validate_and_send = function () { // specific to this page
         var accountId = document.getElementById('accountId').value;
         var password = document.getElementById('password').value;
-        var password2 = document.getElementById('password2').value;
         var email = document.getElementById('email').value;
-        email = 'test@test.com';
         var errors = [];
-        if (!password != password2){errors.push('passwords are not the same');}
         if (! accountId) {errors.push('accountId is required');}
         if (! password) {errors.push('password is required');}
         if (! email) {errors.push('email is required');}
