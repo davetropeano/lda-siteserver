@@ -3,7 +3,7 @@ import urllib, utils, os, jwt, cryptography
 import rdf_json
 from rdf_json import URI
 import operation_primitives
-from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER
+from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER, RDF
 from base_constants import URL_POLICY as url_policy
 import logging
 import requests
@@ -29,7 +29,7 @@ class Domain_Logic(base.Domain_Logic):
         if resource_uri == self.request_url() or self.user == ADMIN_USER: 
             return 200, AC_ALL
 
-        r = utils.intra_system_get(resource_url)
+        r = utils.intra_system_get(resource_uri)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
             owner = document.get_value(CE+'owner')
@@ -46,6 +46,10 @@ class Domain_Logic(base.Domain_Logic):
     
     def permissions(self, document, insert_document=None):
         user_group = insert_document if insert_document else document
+        if type(user_group) is dict:
+            user_group = rdf_json.RDF_JSON_Document(user_group)
+        if user_group.get_value(RDF+'type') != AC+'UserGroup':
+            return super(Domain_Logic, self).permissions(document, insert_document)
         ac_mays = user_group.get_value(AC+'may')
         for may in ac_mays: 
             ac_may_props = user_group.get_properties(may)
