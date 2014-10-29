@@ -54,36 +54,39 @@ siteserver.AccountViewModel = function(){
     self.validate_and_send = function () { // specific to this page
         var accountId = document.getElementById('accountId').value;
         var password = document.getElementById('password').value;
-        //var email = document.getElementById('email').value;
-        var email = 'test@test.com';
+        var password2 = document.getElementById('password2').value;
+        var email = document.getElementById('email').value;
+        email = 'test@test.com';
         var errors = [];
-        //if (!password != password2){errors.push('passwords are not the same');}
+        if (!password != password2){errors.push('passwords are not the same');}
         if (! accountId) {errors.push('accountId is required');}
         if (! password) {errors.push('password is required');}
         if (! email) {errors.push('email is required');}
         if (errors.length > 0) {
-            ubo.headerVM.displayResponse(errors.join(", "), 'error');
+            siteserver.displayResponse(errors.join(", "), 'error');
         }
         else {
-            var userURL = '#owner';
+            var userURL = document.getElementById('userURL').value;
+            if (!userURL) // if user did not provide a userURL, default to #owner
+                userURL = '#owner';
             var account = {
                 'ce_account_id' : accountId,
                 'ce_password': password, 
                 'vcard_email': email,
                 'ce_user': {
                     'rdf_type': new rdf_util.URI(FOAF+'Person'),
-                    'foaf_givenName' : '',
-                    'foaf_familyName' : '',
-                    'foaf_nick' : '',
+                    'foaf_givenName' : document.getElementById('givenName').value,
+                    'foaf_familyName' : document.getElementById('familyName').value,
+                    'foaf_nick' : document.getElementById('nick').value,
                     '_subject': userURL
                     },
                 'vcard_adr': {
                     'rdf_type': new rdf_util.URI(VCARD+'Home'),
-                    'vcard_street__address': '',
-                    'vcard_locality': '',
-                    'vcard_region': '',
-                    'vcard_postal__code': '',
-                    'vcard_country__name': '',
+                    'vcard_street__address': document.getElementById('street').value,
+                    'vcard_locality': document.getElementById('city').value,
+                    'vcard_region': document.getElementById('state').value,
+                    'vcard_postal__code': document.getElementById('zip').value,
+                    'vcard_country__name': document.getElementById('country').value,
                     '_subject': '_:address'
                     },
                 'rdf_type': new rdf_util.URI(CE+'Account'),
