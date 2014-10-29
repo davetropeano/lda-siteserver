@@ -24,45 +24,21 @@
 </div>
 
 <div class="container" data-bind="if: register">
-    <form id="registration-form" class="standard-form">
-        <h2>Register</h2>
-        <div class="input-with-label">
-            <label for="accountId">* Account ID:</label> <input type="text" id="accountId" autofocus><br>
-        </div>
-        <div class="input-with-label">
-            <label for="password">* Password:</label> <input type="password" id="password">
-        </div>
-        <div class="input-with-label">
-            <label for="email">* email:</label> <input type="text" id="email">
-        </div>
-        <div class="input-with-label">
-            <label for="userURL">(User URL:)</label> <input type="text" id="userURL">
-        </div>
-        <div class="input-with-label">
-            <label for="givenName">given name:</label> <input type="text" id="givenName">
-        </div>
-        <div class="input-with-label">
-            <label for="familyName">family name:</label> <input type="text" id="familyName">
-        </div>
-        <div class="input-with-label">
-            <label for="nickName">nickname:</label> <input type="text" id="nick">
-        </div>
-        <div class="input-with-label">
-            <label for="street">street:</label> <input type="text" id="street">
-        </div>
-        <div class="input-with-label">
-            <label for="city">city:</label> <input type="text" id="city">
-        </div>
-        <div class="input-with-label">
-            <label for="state">state:</label> <input type="text" id="state">
-        </div>
-        <div class="input-with-label">
-            <label for="zip">zip:</label> <input type="text" id="zip">
-        </div>
-        <div class="input-with-label">
-            <label for="country">country:</label> <input type="text" id="country">
-        </div>
+    <h2>Register</h2>
+        <form id="login-form" class="form-signin form-horizontal" data-bind="submit: validate_and_send" action="thiswontwork">
+            <div class="form-group">
+                <input id="accountId" type="text" class="form-control" placeholder="Account ID" autofocus>
+            </div>
 
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" placeholder="Password">
+            </div>
+
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" placeholder="Password again">
+            </div>
+
+        </form>
         <div class="submit">
             <br>
             <button class="btn btn-success" value="Register" data-bind="click: validate_and_send">Register New Account</button>
