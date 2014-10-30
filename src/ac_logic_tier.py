@@ -29,7 +29,12 @@ class Domain_Logic(base.Domain_Logic):
         if resource_uri == self.request_url() or self.user == ADMIN_USER: 
             return 200, AC_ALL
 
-        r = utils.intra_system_get(resource_uri)
+        headers = {
+            'Accept': 'application/rdf+json+ce',
+            'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
+        }
+        r = utils.intra_system_get(resource_uri, headers)
+        #r = utils.intra_system_get(resource_uri)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
             owner = document.get_value(CE+'owner')
@@ -60,7 +65,9 @@ class Domain_Logic(base.Domain_Logic):
                             return 403, 0
                     else:
                         return status, 0
-        return super(Domain_Logic, self).permissions(document, insert_document)
+            return 200, AC_ALL
+        else:
+            return super(Domain_Logic, self).permissions(document, insert_document)
 
     def get_document(self):
         # in this section we are checking for URLs of the form <predicate>?<container membershipSubject or Object URL>
