@@ -47,20 +47,20 @@ class Domain_Logic(base.Domain_Logic):
     def permissions(self, document, insert_document=None):
         user_group = insert_document if insert_document else document
         if type(user_group) is dict:
-            user_group = rdf_json.RDF_JSON_Document(user_group)
-        if user_group.get_value(RDF+'type') != AC+'UserGroup':
-            return super(Domain_Logic, self).permissions(document, insert_document)
-        ac_mays = user_group.get_value(AC+'may')
-        for may in ac_mays: 
-            ac_may_props = user_group.get_properties(may)
-            for to in ac_may_props[AC+'to']:
-                # make sure the user has ADMIN permissions on all of them
-                status, permissions = self.permissions_for_resource(to)
-                if status == 200:
-                    if not permissions & AC_A:
-                        return 403, [], [('', 'not authorized')]
-                else:
-                    return status, [], [('', 'unable to retrieve permissions. status: %s text: %s' % (status, permissions))]
+            user_group = rdf_json.RDF_JSON_Document(user_group, '')
+        if str(user_group.get_value(RDF+'type')) == AC+'UserGroup':
+            ac_mays = user_group.get_value(AC+'may')
+            for may in ac_mays:
+                ac_may_props = user_group.get_properties(may)
+                for to in ac_may_props[AC+'to']:
+                    # make sure the user has ADMIN permissions on all of them
+                    status, permissions = self.permissions_for_resource(to)
+                    if status == 200:
+                        if not permissions & AC_A:
+                            return 403, 0
+                    else:
+                        return status, 0
+        return super(Domain_Logic, self).permissions(document, insert_document)
 
     def get_document(self):
         # in this section we are checking for URLs of the form <predicate>?<container membershipSubject or Object URL>
