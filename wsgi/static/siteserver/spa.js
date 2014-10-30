@@ -41,13 +41,15 @@
     var mapper = {
         containers: [
             {name: 'sites', type: CE+'sites'},
-            {name: 'capabilities', type: CE+'capabilities'}
+            {name: 'capabilities', type: CE+'capabilities'},
+            {name: 'userGroups', type: LDP+'member'} //TODO: this shouldn't be using the 'member' name, why is the data being returned like that
         ],
         types: [
             {name: 'site', type: CE+'Site'},
             {name: 'saas_host', type: CE+'Saas_host'},
             {name: 'login', type: CE+'Login'},
-            {name: 'account', type: CE+'Account'}
+            {name: 'account', type: CE+'Account'},
+            {name: 'userGroup',type: AC+'UserGroup'}
         ]
     };
     ViewManager.init(mapper, 'siteserver', ['siteserver']);

@@ -3,6 +3,12 @@ from wsgiref.simple_server import make_server
 from wsgiref.simple_server import WSGIServer
 from SocketServer import ThreadingMixIn
 
+sys.path.append('../../lda-siteserver/src')
+sys.path.append('../../lda-serverlib/logiclibrary')
+sys.path.append('../../lda-serverlib/mongodbstorage')
+sys.path.append('../../lda-clientlib/python')
+sys.path.append('../../lda-clientlib/python/test')
+
 class ThreadedWSGIServer(ThreadingMixIn, WSGIServer):
     """Handle requests in a separate thread."""
 

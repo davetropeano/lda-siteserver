@@ -36,7 +36,7 @@ class Domain_Logic(base.Domain_Logic):
             # login is a special kind of query on the 'account' collection. It's the only one you can do without having already logged on
             return self.process_login(query)
         else:
-            return(400, [], [('', 'unknown query %s' % self.path)])
+            return super(Domain_Logic, self).execute_query(query)
 
     def execute_action(self, document):
         if self.document_id == 'logout':

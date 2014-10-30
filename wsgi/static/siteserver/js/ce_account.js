@@ -9,6 +9,16 @@ siteserver.AccountViewModel = function(){
     self.visible = ko.observable(false);
      
     self.init = function(jso){
+        //some accounts don't have this (like admin) and it causes errors in the view
+        if(!jso.vcard_adr){
+            jso.vcard_adr = {
+                    vcard_street__address: null,
+                    vcard_locality: null,
+                    vcard_region: null,
+                    vcard_postal__code: null,
+                    vcard_country__name: null
+            };
+        }
         self.showView(jso);
     };
     

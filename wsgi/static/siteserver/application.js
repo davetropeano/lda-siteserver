@@ -9,7 +9,6 @@ AC = 'http://ibm.com/ce/ac/ns#'
 VCARD = 'http://www.w3.org/2006/vcard/ns#'
 FOAF = 'http://xmlns.com/foaf/0.1/'
 
-
 var onload_function = function() {
     var head  = document.getElementsByTagName('head')[0]
     var util_script = document.createElement('script')

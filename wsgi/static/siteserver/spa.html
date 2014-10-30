@@ -1,5 +1,4 @@
 <link rel="shortcut icon" href="/siteserver/images/favicon.ico" type="image/x-icon">
-
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 <link rel="stylesheet" href="/siteserver/css/site.css">
@@ -20,8 +19,13 @@
 	<div data-bind="template: {name: 'ce_site', if: visible}" id="page-site"></div>
 	
 	<div data-bind="template: {name: 'ce_capabilities', if: visible}" id="page-capabilities"></div>
+	
+	<div data-bind="template: {name: 'ac_usergroups', if: visible}" id="page-userGroups"></div>
+	
+	<div data-bind="template: {name: 'ac_usergroup', if: visible}" id="page-userGroup"></div>
   
 </div>
+
 
 <footer id="site-footer" data-bind="template: 'footer-template' "></footer>
 
@@ -49,6 +53,9 @@ infuser.defaults.templateUrl = '/siteserver/templates';
 <script type="text/javascript" src="/siteserver/js/ce_site.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_sites.js"></script>
 <script type="text/javascript" src="/siteserver/js/ce_capabilities.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroup.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroups.js"></script>
+<script type="text/javascript" src="/siteserver/js/ac_usergroup_permission.js"></script>
 
 <!-- viewmanager plumbing and main app -->
 <script type="text/javascript" src="/siteserver/viewmanager.js"></script>
