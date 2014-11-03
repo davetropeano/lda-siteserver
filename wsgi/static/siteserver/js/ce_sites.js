@@ -32,6 +32,9 @@ siteserver.SitesViewModel = function () {
     }
     
     self.create_site = function () {
+        if (!self.new_site_model.dc_title) {
+            self.new_site_model.dc_title = self.new_site_model.ce_site_id;
+        }
         ld_util.send_create(self.model._subject,self.new_site_model,function(request){
             if(request.status === 201) {
                 var site_model = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(request);
