@@ -61,8 +61,3 @@ def admin_create_account_usergroup():
 def test_post_as_user():
     pass
     # TODO: post to ac with TEST_USER
-
-# this is for working with tests while building them
-if __name__ == "__main__":    
-    test_get_as_anon()    
-    pass

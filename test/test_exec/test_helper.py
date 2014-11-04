@@ -49,7 +49,7 @@ def container_crud_test(container_url, prop_name, prop_type, post_value, patch_v
 
     # test post
     headers = make_headers('POST', ADMIN_USER)
-    r = requests.post(ac_container_url, headers=headers, data=json.dumps(post_body, cls=RDF_JSON_Encoder), verify=False)
+    r = requests.post(container_url, headers=headers, data=json.dumps(post_body, cls=RDF_JSON_Encoder), verify=False)
     assert r.status_code == 201
     r_doc = RDF_JSON_Document(r)
     assert r_doc[r_doc.default_subject()][prop_name] == post_value

@@ -26,7 +26,7 @@ before_script:
     - "cd test/test_exec"
 
 # execute tests
-script: "py.test" #python driver.py"
+script: "py.test"
 
 # print server log to output
 after_script: 

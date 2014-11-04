@@ -11,7 +11,7 @@ def test_ac_get():
     assert do_get_test("http://localhost:3001/ac")
 
 def test_mt_get():
-    assert do_get_test("http://localhost:3005/mt")
+    assert do_get_test("http://localhost:3001/mt")
 
 def do_get_test(url):
     r = requests.get(url, headers={}, verify=False)
