@@ -22,4 +22,15 @@ account_container_url = 'http://%s/account' % HS_HOSTNAME
 mt_container_url = 'http://%s/mt' % HS_HOSTNAME
 
 def test_basic_crud():
-    test_helper.container_crud_test(mt_container_url, DC+'title', RDF+'test', 'test post', 'test patch')
+    post_body = {
+        '' : {
+            RDF+'type': URI(CE+'Capability'),
+            DC+'title': 'test capability',
+            CE+'improvement_container': URI('/cat/stores'),
+            CE+'improvement_type': URI('http://setupshop.me/ns#OnlineStore')
+            }
+        }
+    patch_prop = DC+'title'
+    patch_val = 'updated test capability'
+    test_helper.container_crud_test(ac_container_url, post_body, patch_prop, patch_val)
+

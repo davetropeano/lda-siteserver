@@ -21,4 +21,15 @@ ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
 
 def test_basic_crud():
-    test_helper.container_crud_test(account_container_url, DC+'title', RDF+'test', 'test post', 'test patch')
+    post_body = {
+        '' : {
+            RDF+'type': URI(CE+'Account'),
+            CE+'account_id' : 'test',
+            CE+'password': 'test',
+            VCARD+'email': 'test@us.ibm.com',
+            DC+'title': 'test account'
+            }
+        }
+    patch_prop = DC+'title'
+    patch_val = 'updated test account'
+    test_helper.container_crud_test(ac_container_url, post_body, patch_prop, patch_val)

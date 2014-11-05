@@ -34,16 +34,10 @@ def make_headers(type='GET', user=None, password=None,modificationCount=None):
 
     return header
 
-def container_crud_test(container_url, prop_name, prop_type, post_value, patch_value):
-    post_body = {
-        '' : {
-            RDF+'type': URI(prop_type),
-            prop_name: post_value
-            }
-        }
+def container_crud_test(container_url, post_body, patch_prop, patch_value):
     patch_body = {
         '' : {
-            prop_name: patch_value
+            patch_prop: patch_value
             }
         }
 
@@ -52,7 +46,8 @@ def container_crud_test(container_url, prop_name, prop_type, post_value, patch_v
     r = requests.post(container_url, headers=headers, data=json.dumps(post_body, cls=RDF_JSON_Encoder), verify=False)
     assert r.status_code == 201
     r_doc = RDF_JSON_Document(r)
-    assert r_doc[r_doc.default_subject()][prop_name] == post_value
+    # verify that the patch property of the posted document equals the resulting document
+    assert r_doc[r_doc.default_subject()][patch_prop] == post_body[''][patch_prop]
 
     # patch
     headers = make_headers('PATCH', ADMIN_USER, modificationCount=0)
@@ -66,7 +61,8 @@ def container_crud_test(container_url, prop_name, prop_type, post_value, patch_v
     r = requests.get(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
     assert r.status_code == 200
     r_doc = RDF_JSON_Document(r)
-    assert r_doc[r_doc.default_subject()][prop_name] == patch_value
+    # verify that the patch property has the new value
+    assert r_doc[r_doc.default_subject()][patch_prop] == patch_value
 
     # delete
     body = {}
@@ -74,6 +70,7 @@ def container_crud_test(container_url, prop_name, prop_type, post_value, patch_v
     r = requests.delete(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
     assert r.status_code == 200
 
+    # verify that the document has been deleted
     body = {}
     headers = make_headers('GET', ADMIN_USER)
     r = requests.get(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
