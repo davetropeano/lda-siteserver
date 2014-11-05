@@ -24,7 +24,7 @@ before_script:
     - "nohup sh run.sh > site_server_test.log &"
     - "sleep 10"
     - "cd test"
-    - "sh testdata_create.sh"
+    - "sh test_data_create.sh"
     - "cd test_exec"
 
 # execute tests
