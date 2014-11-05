@@ -22,8 +22,10 @@ before_script:
     - "sudo cp -f dispatcher.conf /etc/nginx/conf.d/dispatcher.conf"
     - "sudo service nginx restart"
     - "nohup sh run.sh > site_server_test.log &"
-    - "sleep 10" 
-    - "cd test/test_exec"
+    - "sleep 10"
+    - "cd test"
+    - "python create_test_data.py"
+    - "cd test_exec"
 
 # execute tests
 script: "py.test"

@@ -53,7 +53,7 @@ def admin_create_account_usergroup():
             AC+'to' : [URI(account_container_url)]
             }
         }
-    body = {}
+    #body = {}
     headers = test_helper.make_headers('POST',ADMIN_USER)
     r = requests.post(ac_container_url, headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
     return r
