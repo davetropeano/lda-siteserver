@@ -15,22 +15,24 @@ siteserver.SitesViewModel = function () {
         self.model = jso;
         if (!self.model.ldp_contains) {
             self.model.ldp_contains = [];
-        }        
+        }
     }
-    
+
     self.clear_error = function () {
         self.error = null;
     }
-    
+
     self.new_site = function () {
         self.new_site_model = {
             _subject: "",
             rdf_type: new rdf_util.URI(CE+'Site'),
             ce_site_id: "",
-            dc_title: ""                
-        }; 
+            dc_title: ""
+        };
+
+        $("#new_id").focus();
     }
-    
+
     self.create_site = function () {
         if (!self.new_site_model.dc_title) {
             self.new_site_model.dc_title = self.new_site_model.ce_site_id;
@@ -43,12 +45,12 @@ siteserver.SitesViewModel = function () {
                 self.new_site_model = null;
             }
             else {
-                siteserver.displayResponse(request, 'error');                                
+                siteserver.displayResponse(request, 'error');
             }
         });
-        
+
     }
-    
+
     self.cancel_create_site = function () {
         self.error = null;
         self.new_site_model = null;
