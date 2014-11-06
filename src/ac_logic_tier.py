@@ -3,7 +3,7 @@ import urllib, utils, os, jwt, cryptography
 import rdf_json
 from rdf_json import URI
 import operation_primitives
-from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER
+from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER, RDF
 from base_constants import URL_POLICY as url_policy
 import logging
 import requests
@@ -21,72 +21,54 @@ class Domain_Logic(base.Domain_Logic):
             return self.document_url()
         return super(Domain_Logic, self).default_resource_group()
     
-    def permissions_by_subject(self, subject_uri):
-        subject_uri = str(subject_uri)
+    def permissions_for_resource(self, resource_uri):
+        resource_uri = str(resource_uri)
+        resource_uri = self.absolute_url(resource_uri)
         
         # if it's the null uri then return AC_ALL        
-        if subject_uri == '' or self.user == ADMIN_USER:
+        if resource_uri == self.request_url() or self.user == ADMIN_USER: 
             return 200, AC_ALL
-        
-        # check to see if the owner is the relevant_user (TODO: confirm this approach in code review)        
-        resource_url = subject_uri
-        if not resource_url.lower().startswith('http'):
-            if resource_url.startswith('/'):
-                resource_url = resource_url[1:]
-            resource_url = url_policy.construct_url(self.request_hostname, self.tenant, resource_url)
+
         headers = {
             'Accept': 'application/rdf+json+ce',
             'Cookie': 'SSSESSIONID=%s' % cryptography.encode_jwt({'user': self.user})
         }
-        r = utils.intra_system_get(resource_url, headers)
+        r = utils.intra_system_get(resource_uri, headers)
+        #r = utils.intra_system_get(resource_uri)
         if r.status_code == 200:
             document = rdf_json.RDF_JSON_Document(r)
             owner = document.get_value(CE+'owner')
             if str(owner) == self.user:
                 return 200, AC_ALL
         
-        # subject isn't null and user isn't owner so now do actual permission check
-        permissions_url = url_policy.construct_url(self.request_hostname, self.tenant, 'ac-permissions') + ('?%s&%s' % (urllib.quote(subject_uri), urllib.quote(self.user)))
+        # resource_uri isn't null and user isn't owner so now do actual permission check
+        permissions_url = url_policy.construct_url(self.request_hostname, self.tenant, 'ac-permissions') + ('?%s&%s' % (urllib.quote(resource_uri), urllib.quote(self.user)))
         r = utils.intra_system_get(permissions_url)
         if r.status_code == 200:
             return 200, int(r.text)
         else:
             return r.status_code, 'url: %s text: %s' % (permissions_url, r.text)
     
-    def insert_document(self, container, document, document_id=None):
-        document = rdf_json.RDF_JSON_Document(document, '')
-        if CHECK_ACCESS_RIGHTS:
-            # get all the uris that this UserGroup is granting access rights to
-            ac_mays = document.get_value(AC+'may')
-            to_uris = []
-            for may in ac_mays: 
-                ac_may_props = document.get_properties(may)
+    def permissions(self, document, insert_document=None):
+        user_group = insert_document if insert_document else document
+        if type(user_group) is dict:
+            user_group = rdf_json.RDF_JSON_Document(user_group, '')
+        if str(user_group.get_value(RDF+'type')) == AC+'UserGroup':
+            ac_mays = user_group.get_value(AC+'may')
+            for may in ac_mays:
+                ac_may_props = user_group.get_properties(may)
                 for to in ac_may_props[AC+'to']:
-                    to_uris.append(to)
-            # make sure the user has ADMIN permissions on all of them
-            for to_uri in to_uris:
-                status, permissions = self.permissions_by_subject(to_uri)
-                if status == 200:
-                    if not permissions & AC_A:
-                        return 403, [], [('', 'not authorized')]
-                else:
-                    return status, [], [('', 'unable to retrieve permissions. status: %s text: %s' % (status, permissions))]
-
-        # below this is a copy of example_logi_tier.insert_document
-        # should permission check be split out form that so this code doesn't have to be copied? 
-        self.complete_document_for_container_insertion(document, container)
-        self.complete_document_for_storage_insertion(document)
-        self.preprocess_properties_for_storage_insertion(document)
-        status, location, result = operation_primitives.create_document(self.user, document, self.request_hostname, self.tenant, self.namespace, document_id)
-        if status == 201:
-            if self.change_tracking:
-                self.generate_change_event(CREATION_EVENT, location)
-            # Todo: fix up self.document_id, self.path, self.path_parts to match location url of new document
-            self.complete_result_document(result)
-            return status, [('Location', str(location))], result
+                    # make sure the user has ADMIN permissions on all of them
+                    status, permissions = self.permissions_for_resource(to)
+                    if status == 200:
+                        if not permissions & AC_A:
+                            return 403, 0
+                    else:
+                        return status, 0
+            return 200, AC_ALL
         else:
-            return status, [], [('', result)]
-        
+            return super(Domain_Logic, self).permissions(document, insert_document)
+
     def get_document(self):
         # in this section we are checking for URLs of the form <predicate>?<container membershipSubject or Object URL>
         user = self.user
