@@ -1,5 +1,5 @@
 <div class="container" style="min-height: 800px;">
-    
+
 	<div class="host" data-bind="visible: !new_site_model, with: model">
 	    <h2>Sites: </h2>
 	    <div class="sites" data-bind="foreach: ldp_contains">
@@ -8,11 +8,11 @@
 	    <hr>
 	    <button class="btn btn-success" data-bind="click: $parent.new_site">Add a new site</button>
 	</div>
-	
+
 	<div class="new-site" data-bind="visible: new_site_model, with: new_site_model">
-	    <h2 >New Site</h2>		
+	    <h2 >New Site</h2>
 	    <div>
-	        <form class="form-horizontal" role="form">
+	        <form class="form-horizontal" role="form" data-bind="submit:$parent.create_site">
 	            <div class="form-group">
 	                <label class="col-sm-2 control-label" for="new_id">Id: </label>
 	                <div class="col-sm-6">
@@ -27,8 +27,8 @@
 	            </div>
 	            <div class="form-group">
 	                <div class="col-sm-offset-2 col-sm-6">
-	                    <button class="btn btn-success" data-bind="click: $parent.create_site">Create</button>
-	                    <button class="btn btn-default" data-bind="click: $parent.cancel_create_site">Cancel</button>
+	                	<button type="button" class="btn btn-default" data-bind="click: $parent.cancel_create_site">Cancel</button>
+	                    <button type="button submit" class="btn btn-success" data-bind="click: $parent.create_site">Create</button>
 	                </div>
 	            </div>
 	        </form>

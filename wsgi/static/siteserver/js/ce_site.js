@@ -6,14 +6,14 @@ siteserver.SiteViewModel = function () {
     self.model = null;
     self.improvements = [];
     self.editing_site = false;
-    ko.track(self);    
+    ko.track(self);
     self.visible = ko.observable(false);
 
     self.init = function (jso) {
         self.model = jso;
         self.get_improvements();
     }
-    
+
     self.get_improvements = function () {
         self.improvements = [];
         var improvement_urls = self.model.ce_improvements;
@@ -48,11 +48,11 @@ siteserver.SiteViewModel = function () {
             else {
                 siteserver.displayResponse(request, 'error');
             }
-        }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge         
+        }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge
     }
-    
+
     self.add_improvement = function(improvement_model){
-        if (self.model.ce_improvements) 
+        if (self.model.ce_improvements)
             self.model.ce_improvements.push(improvement_model._subject);
         else
             self.model.ce_improvements = [ improvement_model._subject ];
@@ -69,15 +69,16 @@ siteserver.SiteViewModel = function () {
             }
         });
     }
-    
+
     self.enter_site_edit = function(){
         self.editing_site = true;
+        $("#edit_title").focus();
     }
-    
+
     self.leave_site_edit = function(){
         self.editing_site = false;
     }
-    
+
     self.submit_site_edit = function() {
         var patch = {
                 _subject: self.model._subject,
@@ -91,7 +92,7 @@ siteserver.SiteViewModel = function () {
                 self.leave_site_edit();
             }
             else{
-                siteserver.displayResponse(response,'error');                
+                siteserver.displayResponse(response,'error');
             }
         });
     }

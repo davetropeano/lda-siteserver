@@ -7,11 +7,11 @@ siteserver.AccountViewModel = function(){
     self.display = false;
     ko.track(self);
     self.visible = ko.observable(false);
-     
+
     self.init = function(jso){
         self.showView(jso);
     };
-    
+
     self.showView = function(model) {
         self.account = model;
         if (model.ce_account_id) {
@@ -22,8 +22,8 @@ siteserver.AccountViewModel = function(){
         }
         return true;
     };
-    
-    self.handle_result = function (response) { // specific to this page 
+
+    self.handle_result = function (response) { // specific to this page
         if (response.status==201) {
             original_url = window.name;
             if (!original_url) {
@@ -38,7 +38,7 @@ siteserver.AccountViewModel = function(){
             siteserver.displayResponse(response, 'error');
         }
     };
-        
+
     self.validate_and_send = function () { // specific to this page
         var accountId = document.getElementById('accountId').value;
         var password = document.getElementById('password').value;
@@ -56,7 +56,7 @@ siteserver.AccountViewModel = function(){
                 userURL = '#owner';
             var account = {
                 'ce_account_id' : accountId,
-                'ce_password': password, 
+                'ce_password': password,
                 'vcard_email': email,
                 'ce_user': {
                     'rdf_type': new rdf_util.URI(FOAF+'Person'),

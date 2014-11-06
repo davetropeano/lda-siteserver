@@ -17,7 +17,7 @@
 </div>
 
 <div class="container" data-bind="if: register">
-    <form id="registration-form" class="standard-form">
+    <form id="registration-form" class="standard-form" data-bind="submit: validate_and_send">
         <h2>Register</h2>
         <div class="input-with-label">
             <label for="accountId">* Account ID:</label> <input type="text" id="accountId" autofocus><br>
@@ -58,7 +58,7 @@
 
         <div class="submit">
             <br>
-            <button class="btn btn-success" value="Register" data-bind="click: validate_and_send">Register New Account</button>
+            <button type="button submit" class="btn btn-success" value="Register" data-bind="click: validate_and_send">Register New Account</button>
         </div>
         <div class="spacer"></div>
     </form>
