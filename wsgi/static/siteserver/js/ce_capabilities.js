@@ -23,10 +23,12 @@ siteserver.CapabilitiesViewModel = function () {
     }
 
     self.showAddImprovementDialog = function(data){
-        self.improvementLabel('')
-        self.improvementTitle('')
-        self.capability = data
+        self.improvementLabel('');
+        self.improvementTitle('');
+        self.capability = data;
+
         $('#modal-new-improvement').modal('toggle');
+        $('#new-improvement-label').focus();
     }
 
     self.addImprovement = function(){
