@@ -26,37 +26,36 @@ class Domain_Logic(base.Domain_Logic):
 
     def create_document(self, document):
         # we do not authenticate - new user trying to create account
-        if self.namespace == 'account':
+        if self.tenant == 'hostingsite' and self.namespace == 'account':
             return self.create_account(document)
         else:
             return(404, [], [('', 'unknown collection %s' % self.path)])
 
     def execute_query(self, query):
-        if self.document_id == 'login':
+        if self.tenant == 'hostingsite' and self.document_id == 'login':
             # login is a special kind of query on the 'account' collection. It's the only one you can do without having already logged on
             return self.process_login(query)
         else:
             return(400, [], [('', 'unknown query %s' % self.path)])
 
     def execute_action(self, document):
-        if self.document_id == 'logout':
+        if self.tenant == 'hostingsite' and self.document_id == 'logout':
             return (200, self.append_session_headers(None, []), [])
         else:
             super(Domain_Logic, self).execute_action()
 
     def get_document(self):
-        if self.namespace == 'account' and self.document_id == 'login':
+        if self.tenant == 'hostingsite' and self.namespace == 'account' and self.document_id == 'login':
             resource_jso = {RDF+'type': URI(CE+'Login'), CE+'registration-page': URI(urlparse.urljoin(self.request_url(), '/account/new'))}
             rdf_json_doc = rdf_json.RDF_JSON_Document({self.request_url(): resource_jso}, self.request_url())
             return (200, [], rdf_json_doc)
-        elif self.namespace == 'account' and self.document_id == 'new':
+        elif self.tenant == 'hostingsite' and self.namespace == 'account' and self.document_id == 'new':
             resource_jso = {RDF+'type': URI(CE+'Account'), CE+'account-container': URI(urlparse.urljoin(self.request_url(), '/account'))}
             rdf_json_doc = rdf_json.RDF_JSON_Document({self.request_url(): resource_jso}, self.request_url())
             return (200, [], rdf_json_doc)
         return super(Domain_Logic, self).get_document()
             
     def process_login(self, json_document):
-        self.tenant = 'hostingsite' #all accounts are in the hostingsite space, regardless of tenant in request
         document = rdf_json.RDF_JSON_Document(json_document, json_document.iterkeys().next())
         try:
             accountId = document.get_value(CE+'account_id')
@@ -69,7 +68,7 @@ class Domain_Logic(base.Domain_Logic):
         if not password: 
             field_errors.append([CE+'password', 'must not be null'])
         if len(field_errors) == 0:
-            status, account = operation_primitives.get_document(self.user, os.environ['HOSTINGSITE_HOST'], self.tenant, 'account', accountId) # ugly exception where we make up URLs
+            status, account = operation_primitives.get_document(self.user, self.request_hostname, self.tenant, 'account', accountId)
             if status == 200:
                 userURL = account.get_value(CE+'user')
                 salt = account.get_value(CE+'salt')
@@ -86,7 +85,6 @@ class Domain_Logic(base.Domain_Logic):
 
     def create_account(self, json_document):
         # Only PUT will set account_id. If account_id is None, then self.document_id refers to a collection being posted to, not the account.
-        self.tenant = 'hostingsite' #all accounts are in the hostingsite space, regardless of tenant in request
         password_hash = userURL = None
         field_errors = []
         document = rdf_json.RDF_JSON_Document(json_document, '')

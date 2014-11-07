@@ -5,7 +5,7 @@ from rdf_json import URI
 import logging    
 import utils
 import os, urlparse
-from base_constants import CE, AC, RDF, AC_ALL, ADMIN_USER
+from base_constants import CE, AC, RDF, AC_ALL, LDP, ADMIN_USER
 from base_constants import URL_POLICY as url_policy
 logging.basicConfig(level=logging.DEBUG)
 
@@ -60,40 +60,51 @@ class Domain_Logic(base.Domain_Logic):
         elif self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id == 'sites': #bpc container of all sites visible to the user
             if self.user is None and self.extra_path_segments and len(self.extra_path_segments) == 1 and self.extra_path_segments[0] == 'new':
                 return (401, [], None)
-            member_resource = 'http://%s/' % self.request_hostname
-            conatiner_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
-            document = self.create_container(conatiner_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
+            member_resource = url_policy.construct_url(self.request_hostname)
+            container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'sites')
+            document = self.create_container(container_url, member_resource, CE+'sites', MEMBER_IS_OBJECT)
             status, document = self.complete_request_document(document)
             return (status, [], document)
         elif self.namespace == 'mt' and self.document_id == 'capabilities': #bpc container of all capabilities visible to the user
-            member_resource = 'http://%s/' % self.request_hostname
+            member_resource = url_policy.construct_url(self.request_hostname)
             container_url = url_policy.construct_url(self.request_hostname, self.tenant, 'mt', 'capabilities')
             document = self.create_container(container_url, member_resource, CE+'capabilities', MEMBER_IS_OBJECT)
-            self.tenant = 'hostingsite' 
+            status, document = self.complete_request_document(document)
+            return (status, [], document)
+        return super(Domain_Logic, self).get_document()
+
+    def add_bpc_member_properties(self, container, query=None):
+        if str(container.get_value(LDP+'membershipResource')) == url_policy.construct_url(self.request_hostname) and str(container.get_value(LDP+'hasMemberRelation')) == CE+'capabilities':
+            try:
                 #tricky code - change tenant to cause the query to look for data in the hostingsite's collections, not the requestor's (tenant's)
                 #since all stored data is relative to an implicit host (domain), this will find the same data for each tenant domain. 
                 #Each resource that is found will be returned in the tenants domain, so capabilities are automatically mirrored in all tenant domains
                 #although they are only really stored in the hostingsite domain's collections
-            status, document = self.complete_request_document(document)
-            return (status, [], document)
-        return super(Domain_Logic, self).get_document()
-    
+                original_tenant = self.tenant
+                self.tenant = 'hostingsite' 
+                result = super(Domain_Logic, self).add_bpc_member_properties(container, query)
+            finally:
+                self.tenant = original_tenant 
+            return result
+        else:
+            return super(Domain_Logic, self).add_bpc_member_properties(container, query)
+        
     def complete_result_document(self, document):
         # in this section we add any calculated triples
         document_url = document.graph_url    
         types = document.get_values(RDF+'type')
         if URI(CE+'Site') in types:
-            default_site_domain = self.document_id + '.' + os.environ['HOSTINGSITE_HOST']
-            document.add_triples(document_url, CE+'default_site_domain', default_site_domain)
-            # To facilitate server rename, improvements are stored using relative URLs, even though they are on a different host.
             improvements = document.get_values(CE+'improvements')
+            tenant_id = self.document_id
+            tenant_base_url = url_policy.construct_url(self.request_hostname, tenant_id)
             if len(improvements) > 0: # turn these relative URLs to absolute
-                document.set_value(CE+'improvements', [URI('//%s%s' % (default_site_domain, property_url_str)) for property_url_str in improvements])
-            document.add_triples(document_url, CE+'site_capabilities', URI('//%s%s' % (default_site_domain, '/mt/capabilities')))
+                abs_improvement_urls = [urlparse.urljoin(tenant_base_url, rel_improvement_url) for rel_improvement_url in improvements]
+                document.set_value(CE+'improvements', abs_improvement_urls)
+            document.add_triples(document_url, CE+'site_capabilities', url_policy.construct_url(self.request_hostname, tenant_id, 'mt', 'capabilities'))
         return super(Domain_Logic, self).complete_result_document(document)
 
     def patch_document(self, request_body):
-        if self.namespace == 'mt' and self.document_id != None:
+        if self.tenant == 'hostingsite' and self.namespace == 'mt' and self.document_id != None:
             return super(Domain_Logic, self).patch_document(request_body)
         else:
             return (400, [], [('','Patch Not yet implemented')])
