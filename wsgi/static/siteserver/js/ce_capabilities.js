@@ -10,6 +10,14 @@ siteserver.CapabilitiesViewModel = function () {
     ko.track(self);
     self.visible = ko.observable(false);
 
+    self.envVars = ko.observableArray([]);
+    self.addKVPair = function() {
+        self.envVars.push({key: ko.observable(), value: ko.observable()});
+    };
+    self.removeKVPair = function(kv) {
+        self.envVars.remove(kv);
+    }
+
     // temp variables for editing
     self.improvementLabel = ko.observable();
     self.improvementTitle = ko.observable();
@@ -20,6 +28,16 @@ siteserver.CapabilitiesViewModel = function () {
         self.parentVM = jso.parent;
         self.site_model = self.jso.parent.model;
         self.capabilities = self.jso.ldp_contains ? self.jso.ldp_contains : [];
+
+        // populate envVars by looking for all uppercase attributes in the JSO
+        self.envVars = [];
+        for (var key in jso) {
+            if (jso.hasOwnProperty(key)) {
+                var upkey = key.toUpperCase();
+                if (upkey == key)
+                    self.envVars.push({key: key, value: jso[key]});
+            }
+        }
     }
 
     self.showAddImprovementDialog = function(data){
@@ -39,6 +57,14 @@ siteserver.CapabilitiesViewModel = function () {
             rdfs_label: self.improvementLabel(),
             ce_capability: rdf_util.URI(self.capability._subject)
         };
+
+        self.envVars().forEach(function(env) {
+            var key = env.key().toUpperCase().replace(/\s+/g, '');
+            if (key && key != "") {
+                env.key(key);
+                new_improvement_model[key] = env.value();
+            }
+        });
 
         var post_url = self.capability.ce_improvement_container;
         var ss_session_id = misc_util.getSSSessionId()

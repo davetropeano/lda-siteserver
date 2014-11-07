@@ -31,6 +31,30 @@
                 <input type="text" class="form-control" id="new-improvement-title" placeholder="improvement title (optional)" data-bind="value: improvementTitle">
               </div>
             </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <h4>Environment Variables</h4>
+                <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Key</th>
+                          <th>Value</th>
+                          <th />
+                      </tr>
+                  </thead>
+                  <tbody data-bind='foreach: envVars'>
+                      <tr>
+                          <td><input class='required' data-bind='value: key, uniqueName: true' /></td>
+                          <td><input class='required number' data-bind='value: value, uniqueName: false' /></td>
+                          <td><a data-bind='click: $parent.removeKVPair'>Delete</a></td>
+                      </tr>
+                  </tbody>
+                </table>
+                <button class="btn btn-default" data-bind='click: addKVPair'>Add Variable</button>
+              </div>
+            </div>
+
           </fieldset>
         </div>
         <div class="modal-footer">
