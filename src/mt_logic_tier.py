@@ -132,6 +132,12 @@ class Domain_Logic(base.Domain_Logic):
         site_id = site.get_value(CE+'site_id')
         if not (site_id):
             field_errors.append(['', 'must set CE+"site_id" for site'])
+        else:
+            if not site_id.isalpha():
+                field_errors.append(['', 'site id must be alphanumeric'])
+            else:
+                if not site_id.islower():
+                    field_errors.append(['', 'site id must be lowercase'])                
         if len(field_errors) == 0:
             status, body = operation_primitives.get_document(ADMIN_USER, self.request_hostname, 'hostingsite', 'mt', site_id) 
             if status == 200 or site_id == 'sites': #oops - site already exists
