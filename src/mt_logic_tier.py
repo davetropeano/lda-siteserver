@@ -44,7 +44,8 @@ class Domain_Logic(base.Domain_Logic):
             rdf_json_doc = rdf_json.RDF_JSON_Document({
                 resource_url: {
                     RDF+'type': URI(CE+'Saas_host'),
-                    CE+'sites': URI(url_policy.construct_url(None, 'hostingsite', 'mt', 'sites'))
+                    #CE+'sites': URI(url_policy.construct_url(None, 'hostingsite', 'mt', 'sites'))
+                    CE+'sites': URI(url_policy.construct_url(None, None, 'mt', 'sites'))
                     }
                 }, resource_url)
             return (200, [], rdf_json_doc)   
