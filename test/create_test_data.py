@@ -9,10 +9,7 @@ DATASERVER_HOSTNAME = 'localhost:3001'
 if len(sys.argv) > 1:
     DATASERVER_HOSTNAME = sys.argv[1]
     
-if DATASERVER_HOSTNAME.startswith('localhost'):
-    HS_HOSTNAME = DATASERVER_HOSTNAME
-else:
-    HS_HOSTNAME = 'hostingsite.' + DATASERVER_HOSTNAME
+HS_HOSTNAME = 'hostingsite.' + DATASERVER_HOSTNAME
 
 ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
