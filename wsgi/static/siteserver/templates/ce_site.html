@@ -7,36 +7,36 @@
 	        <label>Title: </label>
 	        <span data-bind="text: dc_title"></span>
 	    </div>
-	
+
 	    <h3>Improvements: </h3>
 		<div data-bind="foreach: $parent.improvements">
 	        <a class="btn btn-large btn-primary" data-bind="attr: {href: _subject}, text: dc_title ? dc_title : 'untitled ' + rdf_type.toString().split('#')[1]"></a>
-	    </div>		
+	    </div>
 	    <hr>
-	    <button class="btn btn-success" data-bind="click: $parent.navigate_to_capabilities">Add Improvement</button>
+	    <button class="btn btn-success" data-bind="click: $parent.navigate_to_capabilities" autofocus>Add Improvement</button>
 	</div>
 	<!-- /ko -->
-	
+
 	<!-- ko if: editing_site -->
 	<div class="site" data-bind="with: model">
 	    <h2 data-bind="text: 'Site: ' + ce_site_id"></h2>
 		<div>
-		    <form class="form-horizontal" role="form">
+		    <form class="form-horizontal" role="form" data-bind="submit: $parent.submit_site_edit">
 		        <div class="form-group">
 		            <label class="col-sm-2 control-label" for="edit_title">Title: </label>
 		            <div class="col-sm-6">
-		                <input class="form-control" id="edit_title" type="text" data-bind="value: dc_title">
+		                <input class="form-control" id="edit_title" type="text" data-bind="value: dc_title" autofocus>
 		            </div>
 		        </div>
 		        <div class="form-group">
 		            <div class="col-sm-offset-2 col-sm-6">
-		                <button class="btn btn-success" data-bind="click: $parent.submit_site_edit">Update</button>
-		                <button class="btn btn-default"    data-bind="click: $parent.leave_site_edit">Cancel</button>
+		                <button type="button" class="btn btn-default"    data-bind="click: $parent.leave_site_edit">Cancel</button>
+			            <button type="button submit" class="btn btn-success" data-bind="click: $parent.submit_site_edit">Update</button>
 		            </div>
 		        </div>
 		    </form>
 		</div>
 	</div>
 	<!-- /ko -->
-	
+
 </div>

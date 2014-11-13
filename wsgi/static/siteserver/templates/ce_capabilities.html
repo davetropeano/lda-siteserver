@@ -1,10 +1,67 @@
 <div class="container" style="min-height: 800px;">
 	<div class="new-improvement">
-        <h3>Available Capabilities: </h3>
-        <div data-bind="foreach: capabilities">
-            <button class="btn btn-large btn-primary" data-bind="click: $root.select_capability, text: 'Add new ' + dc_title"></button>
-        </div>
-        <hr>
-        <button class="btn btn-default" data-bind="click: navigate_back_to_site">Cancel</button>
+    <h3>Available Capabilities: </h3>
+    <div data-bind="foreach: capabilities">
+        <button class="btn btn-large btn-primary" data-bind="click: $root.showAddImprovementDialog, text: 'Add new ' + dc_title"></button>
     </div>
+    <hr>
+    <button class="btn btn-default" data-bind="click: navigate_back_to_site">Cancel</button>
+  </div>
 </div>
+
+<div class="modal fade" id="modal-new-improvement">
+  <form class="form-horizontal" data-bind="submit: addImprovement">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">New Improvement</h4>
+        </div>
+        <div class="modal-body">
+          <fieldset>
+            <div class="form-group">
+              <label for="new-improvement-label" class="col-sm-2 control-label">Label</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new-improvement-label" placeholder="improvement label" data-bind="value: improvementLabel" autofocus>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="new-improvement-title" class="col-sm-2 control-label">Title</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new-improvement-title" placeholder="improvement title (optional)" data-bind="value: improvementTitle">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <h4>Environment Variables</h4>
+                <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Key</th>
+                          <th>Value</th>
+                          <th />
+                      </tr>
+                  </thead>
+                  <tbody data-bind='foreach: envVars'>
+                      <tr>
+                          <td><input class='required' data-bind='value: key, uniqueName: true' /></td>
+                          <td><input class='required number' data-bind='value: value, uniqueName: false' /></td>
+                          <td><a data-bind='click: $parent.removeKVPair'>Delete</a></td>
+                      </tr>
+                  </tbody>
+                </table>
+                <button class="btn btn-default" data-bind='click: addKVPair'>Add Variable</button>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button submit" class="btn btn-primary">Add Improvement</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </form>
+</div><!-- /.modal -->
