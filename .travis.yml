@@ -24,11 +24,11 @@ before_script:
     - "nohup sh run.sh > site_server_test.log &"
     - "sleep 10"
     - "cd test"
-    - "sh test_data_create.sh"
-    - "cd test_exec"
+    #- "sh test_data_create.sh"
+    #- "cd test_exec"
 
 # execute tests
-script: "py.test"
+script: "sh test_data_create.sh; cd test_exec; py.test"
 
 # print server log to output
 after_script: 
