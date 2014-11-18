@@ -8,6 +8,10 @@ services: mongodb
 
 #before_install:
 
+addons:
+  hosts:
+    - hostingsite.localhost
+
 # install dependencies/requirements
 install:
     - "cd .."
@@ -24,7 +28,6 @@ before_script:
     - "nohup sh run.sh > site_server_test.log &"
     - "sleep 10"
     - "cd test"
-    - "cat /etc/hosts"
     
 # execute tests
 script: "sh test_data_create.sh; cd test_exec; py.test"
