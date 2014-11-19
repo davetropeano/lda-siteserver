@@ -52,7 +52,10 @@ class Domain_Logic(base.Domain_Logic):
             ac_mays = user_group.get_value(AC+'may')
             ac_mays = ac_mays if ac_mays is list else [ac_mays] # make sure it's a list
             for may in ac_mays:
-                ac_tos = user_group.get_properties(may)[AC+'to']
+                ac_may_props = user_group.get_properties(may)
+                if ac_may_props is None:
+                    continue
+                ac_tos = ac_may_props[AC+'to']
                 ac_tos = ac_tos if ac_tos is list else [ac_tos] # make sure it's a list
                 for to in ac_tos:
                     # make sure the user has ADMIN permissions on all of them
