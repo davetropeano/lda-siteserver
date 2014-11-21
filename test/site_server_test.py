@@ -18,8 +18,8 @@ class ThreadedWSGIServer(ThreadingMixIn, WSGIServer):
 os.environ['APP_NAME'] = 'siteserver'
 os.environ['MONGODB_DB_HOST'] = 'localhost'
 os.environ['MONGODB_DB_PORT'] = '27017'    
-#os.environ['DEBUG_HTML'] = 'True'    
-os.environ['HOSTINGSITE_HOST'] = 'localhost:3001'
+#os.environ['DEBUG_HTML'] = 'True'
+os.environ['HOSTINGSITE_HOST'] = 'hostingsite.localhost:3001'
 os.environ['SYSTEM_HOST'] = '127.0.0.1:3001'
 
 from logic_server import application
