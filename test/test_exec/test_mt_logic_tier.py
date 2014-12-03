@@ -16,21 +16,28 @@ import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
 TEST_USER = 'http://ibm.com/ce/user/test'
-HS_HOSTNAME = 'localhost:3001'
+HS_HOSTNAME = 'hostingsite.localhost:3001'
 ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
 mt_container_url = 'http://%s/mt' % HS_HOSTNAME
+mt_sites_url = 'http://%s/mt/sites' % HS_HOSTNAME
+mt_capabilities_url = 'http://%s/mt/capabilities' % HS_HOSTNAME
+
 
 def test_basic_crud():
     post_body = {
-        '' : {
+        '': {
             RDF+'type': URI(CE+'Capability'),
             DC+'title': 'test capability',
             CE+'improvement_container': URI('/cat/stores'),
             CE+'improvement_type': URI('http://setupshop.me/ns#OnlineStore')
-            }
         }
+    }
     patch_prop = DC+'title'
     patch_val = 'updated test capability'
-    test_helper.container_crud_test(ac_container_url, post_body, patch_prop, patch_val)
+    test_helper.container_crud_test(mt_capabilities_url, post_body, patch_prop, patch_val)
 
+# this is for working with tests while building them
+if __name__ == "__main__":
+    test_basic_crud()
+    pass
