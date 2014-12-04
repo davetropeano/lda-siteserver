@@ -25,6 +25,48 @@ mt_capabilities_url = 'http://%s/mt/capabilities' % HS_HOSTNAME
 
 
 def test_basic_crud():
+    headers_post = test_helper.make_headers('POST', ADMIN_USER)
+    body = {
+        '' : {
+            RDF+'type': URI(AC+'UserGroup'),
+            AC+'who' : [
+                URI(ADMIN_USER)
+                ],
+            AC+'may' : [ URI('#permission_1') ],
+            },
+        '#permission_1' : {
+            AC+'do' : AC_ALL,
+            AC+'to' : [ URI('/'), URI('/mt/cloudsupplements'), URI('/mt/testsite') ]
+            }
+        }
+    r = requests.post(ac_container_url, headers=headers_post, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    assert r.status_code == 201
+
+    '''
+    body = {
+        '' : {
+            RDF+'type': URI(AC+'UserGroup'),
+            AC+'who' : [
+                URI(ANY_USER)
+                ],
+            AC+'may' : [
+                URI('#permission_1'),
+                URI('#permission_2')
+                ]
+            },
+        '#permission_1' : {
+            AC+'do' : AC_R,
+            AC+'to' : [ URI('/') ]
+            },
+        '#permission_2' : {
+            AC+'do' : AC_C,
+            AC+'to' : [ URI('/account'), URI('/mt/sites') ]
+            }
+        }
+    r = requests.post(ac_container_url, headers=headers_post, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    assert r.status_code == 201
+    '''
+
     post_body = {
         '': {
             RDF+'type': URI(CE+'Capability'),
