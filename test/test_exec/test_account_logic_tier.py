@@ -21,55 +21,117 @@ HS_HOSTNAME = 'hostingsite.localhost:3001'
 ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
 
-def test_basic_crud():
-    '''
-    post_body = {
-        '' : {
-            RDF+'type': URI(CE+'Account'),
-            CE+'account_id' : 'test2',
-            CE+'password': 'test2',
-            VCARD+'email': 'test2@us.ibm.com',
-            DC+'title': 'test2 account'
-            }
-        }
-    patch_prop = DC+'title'
-    patch_val = 'updated test2 account'
-    test_helper.container_crud_test(account_container_url, post_body, patch_prop, patch_val)
-    '''
-    create_test_account()
+TEST1_USER = '%s/test1#owner' % account_container_url
+
+def test_basic_crud(account_test1):
+    """
+    :param account_test1: this is automatically passed in by py.test.  It is the result of creating test1 account.
+    """
+
+    # CRUD test on account has to be done a little different since we switch security contexts after create
+    resource_url = account_test1.default_subject()
+
+    # this test both read and update
+    test_helper.update(resource_url, patch_prop=DC+'title', patch_value='my title', username=TEST1_USER)
+
+    # should we be able to delete an account?
+
+
+def test_anon_access(account_test1):
+    """
+    :param account_test1: RDF_Document passed in via py.test
+    verify that anonymous users can't access test1 account
+    """
+
+    resource_url = account_test1.default_subject()
+    test_helper.resource_access_test(
+        resource_url, username=None, patch_prop=DC+'title', patch_value='anon update',
+        assert_code_read=401, assert_code_update=500, assert_code_delete=500)
+    # TODO I think update and delete should be 401
+
+
+def test_admin_access(account_test1):
+    """
+    :param account_test1: RDF_Document passed in via py.test
+    verify that admin user can't access test1 account
+    """
+    pass
+
+
+def test_user2_access(account_test1, account_test2):
+    test1_url = account_test1.default_subject()
+    test2_url = account_test2.default_subject()
+
 
 @pytest.fixture(scope="session")
-def create_test_account():
-    body = { \
+def account_test1():
+    body = {
         '': {
             RDF+'type': URI(CE+'Account'),
-            CE+'account_id': 'test',
-            CE+'password': 'test',
-            VCARD+'email': 'test@us.ibm.com',
+            CE+'account_id': 'test1',
+            CE+'password': 'test1',
+            VCARD+'email': 'test1@us.ibm.com',
             CE+'user': URI('#owner'),
-            VCARD+'adr': BNode('_:address')
-            },
-        '#owner' : {
+            VCARD+'adr': BNode('_:address'),
+            DC+'title': 'test1 account',
+            AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
+        },
+        '#owner': {
             RDF+'type': URI(FOAF+'Person'),
             FOAF+'givenName': 'FName',
             FOAF+'familyName': 'LName',
             FOAF+'nick': 'NName'
-            },
-        '_:address' : {
+        },
+        '_:address': {
             RDF+'type': URI(VCARD+'Work'),
             VCARD+'street-address': 'unknown',
             VCARD+'locality': 'Seville',
             VCARD+'region': 'Andalusia',
             VCARD+'postal-code': '00000',
             VCARD+'country-name': 'Spain'
-            }
         }
-    headers = test_helper.make_headers('POST')
-    r = requests.post(account_container_url, headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
-    assert r.status_code == 201
-    return r
+    }
+    test1 = test_helper.create(container_url=account_container_url, post_body=body)
+
+    return test1
+
+@pytest.fixture(scope="session")
+def account_test2():
+    body = {
+        '': {
+            RDF+'type': URI(CE+'Account'),
+            CE+'account_id': 'test2',
+            CE+'password': 'test2',
+            VCARD+'email': 'test2@us.ibm.com',
+            CE+'user': URI('#owner'),
+            VCARD+'adr': BNode('_:address'),
+            DC+'title': 'test2 account',
+            AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
+        },
+        '#owner': {
+            RDF+'type': URI(FOAF+'Person'),
+            FOAF+'givenName': 'FName',
+            FOAF+'familyName': 'LName',
+            FOAF+'nick': 'NName'
+        },
+        '_:address': {
+            RDF+'type': URI(VCARD+'Work'),
+            VCARD+'street-address': 'unknown',
+            VCARD+'locality': 'Seville',
+            VCARD+'region': 'Andalusia',
+            VCARD+'postal-code': '00000',
+            VCARD+'country-name': 'Spain'
+        }
+    }
+    test2 = test_helper.create(container_url=account_container_url, post_body=body)
+
+    return test2
 
 # this is for working with tests while building them
 if __name__ == "__main__":
-    create_test_account()
+    #r_doc = test_helper.read('http://hostingsite.localhost:3001/account/test1', username='test1')
+
+    r_doc = account_test1()
+    #test_basic_crud(r_doc)
+    test_anon_access(r_doc)
     pass

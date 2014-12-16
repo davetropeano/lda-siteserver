@@ -25,6 +25,8 @@ mt_capabilities_url = 'http://%s/mt/capabilities' % HS_HOSTNAME
 
 
 def test_basic_crud():
+    # create a usergroup that gives the admin user full permissions to the root ('/') resource group
+    #   this is needed because the /mt/sites uses the '/' resource group to check permissions
     headers_post = test_helper.make_headers('POST', ADMIN_USER)
     body = {
         '' : {
@@ -36,7 +38,7 @@ def test_basic_crud():
             },
         '#permission_1' : {
             AC+'do' : AC_ALL,
-            AC+'to' : [ URI('/'), URI('/mt/cloudsupplements'), URI('/mt/testsite') ]
+            AC+'to' : [ URI('/')]
             }
         }
     r = requests.post(ac_container_url, headers=headers_post, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)

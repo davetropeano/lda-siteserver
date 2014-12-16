@@ -10,69 +10,119 @@ HS_HOSTNAME = 'localhost:3001'
 ac_container_url = 'http://%s/ac' % HS_HOSTNAME
 account_container_url = 'http://%s/account' % HS_HOSTNAME
 
-def make_headers(type='GET', user=None, password=None,modificationCount=None):
-    if type not in ('GET', 'POST', 'PATCH', 'DELETE'):
+
+def make_headers(verb='GET', username=None, modification_count=None):
+    if verb not in ('GET', 'POST', 'PATCH', 'DELETE'):
         raise Exception('invalid header type')
 
     header = {}
 
-    if user == ADMIN_USER:
-        pass
-    if user is not None:
-        password = 'our little secret'
-        encoded_signature = jwt.encode({'user': user}, password, 'HS256')
+    if username is not None:
+        user_pwd = 'our little secret'
+        encoded_signature = jwt.encode({'user': username}, user_pwd, 'HS256')
         header.update({'Cookie': 'SSSESSIONID=%s' % encoded_signature})
-
-    if type == 'GET':
+    if verb == 'GET':
         header.update({'Accept': 'application/rdf+json+ce'})
-    elif type == 'POST':
+    elif verb == 'POST':
         header.update({'Content-type': 'application/rdf+json+ce'})
         #this is something about POST Action
         header.update({'ce-post-reason': 'ce-create'})
-    elif type == 'PATCH':
+    elif verb == 'PATCH':
         header.update({'Content-type': 'application/rdf+json+ce'})
-        header.update({'CE-ModificationCount': modificationCount})
+        header.update({'CE-ModificationCount': modification_count})
 
     return header
 
-def container_crud_test(container_url, post_body, patch_prop, patch_value):
-    patch_body = {
-        '' : {
-            patch_prop: patch_value
+
+def container_crud_test(container_url, post_body, patch_prop, patch_value, username=ADMIN_USER):
+
+    # create
+    r_doc = create(container_url, post_body, username=username)
+    resource_url = r_doc.default_subject()
+
+    # read
+    read(resource_url, username=username)
+
+    # update
+    update(resource_url, patch_prop, patch_value, username=username)
+
+    # delete
+    delete(resource_url, username=username)
+    # verify that the document has been deleted
+    read(resource_url, username=username, assert_code=404)
+
+
+def resource_access_test(resource_url, username, patch_prop, patch_value, assert_code_read=200, assert_code_update=200, assert_code_delete=200):
+    # read
+    read(resource_url, username=username, assert_code=assert_code_read)
+
+    # update
+    update(resource_url, patch_prop=patch_prop, patch_value=patch_value, username=username,
+           assert_code_update=assert_code_update, assert_code_read=assert_code_read)
+
+    # delete
+    delete(resource_url, username=username, assert_code=assert_code_delete)
+
+
+def create(container_url, post_body, username=None, assert_code=201):
+    # test post
+    headers = make_headers('POST', username=username)
+    r = requests.post(container_url, headers=headers, data=json.dumps(post_body, cls=RDF_JSON_Encoder), verify=False)
+    assert r.status_code == assert_code
+    r_doc = RDF_JSON_Document(r)
+    return r_doc
+
+
+def read(resource_url, username=None, assert_code=200):
+    body = {}
+    headers = make_headers('GET', username=username)
+    r = requests.get(resource_url, headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    assert r.status_code == assert_code
+    return RDF_JSON_Document(r)
+
+
+def update(resource_url, patch_prop, patch_value, username=None, assert_code_update=200, assert_code_read=200):
+    # to update we need to get the existing document to get the modification count
+    r_doc = read(resource_url, username=username, assert_code=assert_code_read)
+
+    modcount = 0
+
+    # if we expect to be able to read, get modcount and verify we are actually changing something
+    if assert_code_read == 200:
+        # we can only continue this way if we are expecting to be able to successfully update
+        modcount = r_doc[r_doc.default_subject()][CE+'modificationCount']
+
+         # check that the patch property's value isn't already what we're going to change it to
+        assert r_doc[r_doc.default_subject()][patch_prop] != patch_value
+
+    # do update
+    r = update_simple(resource_url, username, modcount, patch_prop, patch_value, assert_code_update)
+
+    # if we expect success, verify that patch property changed
+    if assert_code_update == 200:
+        r_doc = RDF_JSON_Document(r)
+        assert r_doc[r_doc.default_subject()][patch_prop] == patch_value
+
+
+def update_simple(resource_url, username, modcount, patch_prop, patch_value, assert_code=200):
+        # declare patch document
+        patch_body = {
+            '': {
+                patch_prop: patch_value
             }
         }
 
-    # test post
-    headers = make_headers('POST', ADMIN_USER)
-    r = requests.post(container_url, headers=headers, data=json.dumps(post_body, cls=RDF_JSON_Encoder), verify=False)
-    assert r.status_code == 201
-    r_doc = RDF_JSON_Document(r)
-    # verify that the patch property of the posted document equals the resulting document
-    assert r_doc[r_doc.default_subject()][patch_prop] == post_body[''][patch_prop]
+        # do patch
+        headers = make_headers('PATCH', username=username, modification_count=modcount)
+        r = requests.patch(resource_url, headers=headers, data=json.dumps(patch_body, cls=RDF_JSON_Encoder), verify=False)
 
-    # patch
-    headers = make_headers('PATCH', ADMIN_USER, modificationCount=0)
-    r = requests.patch(r_doc.default_subject(), headers=headers, data=json.dumps(patch_body, cls=RDF_JSON_Encoder), verify=False)
-    print r.text
-    assert r.status_code == 200
+        assert r.status_code == assert_code
+        return r
 
-    # test get
-    body = {}
-    headers = make_headers('GET', ADMIN_USER)
-    r = requests.get(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
-    assert r.status_code == 200
-    r_doc = RDF_JSON_Document(r)
-    # verify that the patch property has the new value
-    assert r_doc[r_doc.default_subject()][patch_prop] == patch_value
 
+def delete(resource_url, username=None, assert_code=200):
     # delete
-    body = {}
-    headers = make_headers('DELETE', ADMIN_USER)
-    r = requests.delete(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
-    assert r.status_code == 200
-
-    # verify that the document has been deleted
-    body = {}
-    headers = make_headers('GET', ADMIN_USER)
-    r = requests.get(r_doc.default_subject(), headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
-    assert r.status_code == 404
+    body = {}  # TODO: not sure this is necessary
+    headers = make_headers('DELETE', username=username)
+    r = requests.delete(resource_url, headers=headers, data=json.dumps(body, cls=RDF_JSON_Encoder), verify=False)
+    assert r.status_code == assert_code
