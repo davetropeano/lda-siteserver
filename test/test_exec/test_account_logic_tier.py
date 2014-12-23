@@ -42,12 +42,10 @@ def test_anon_access(account_test1):
     :param account_test1: RDF_Document passed in via py.test
     verify that anonymous users can't access test1 account
     """
-
     resource_url = account_test1.default_subject()
     test_helper.resource_access_test(
         resource_url, username=None, patch_prop=DC+'title', patch_value='anon update',
-        assert_code_read=401, assert_code_update=500, assert_code_delete=500)
-    # TODO I think update and delete should be 401
+        assert_code_read=401, assert_code_update=401, assert_code_delete=401)
 
 
 def test_admin_access(account_test1):
@@ -55,7 +53,10 @@ def test_admin_access(account_test1):
     :param account_test1: RDF_Document passed in via py.test
     verify that admin user can't access test1 account
     """
-    pass
+    resource_url = account_test1.default_subject()
+    test_helper.resource_access_test(
+        resource_url, username=ADMIN_USER, patch_prop=DC+'title', patch_value='admin update',
+        assert_code_read=401, assert_code_update=401, assert_code_delete=401)
 
 
 def test_user2_access(account_test1, account_test2):

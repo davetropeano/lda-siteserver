@@ -18,8 +18,8 @@ def make_headers(verb='GET', username=None, modification_count=None):
     header = {}
 
     if username is not None:
-        user_pwd = 'our little secret'
-        encoded_signature = jwt.encode({'user': username}, user_pwd, 'HS256')
+        encode_salt = 'our little secret'
+        encoded_signature = jwt.encode({'user': username}, encode_salt, 'HS256')
         header.update({'Cookie': 'SSSESSIONID=%s' % encoded_signature})
     if verb == 'GET':
         header.update({'Accept': 'application/rdf+json+ce'})
@@ -48,7 +48,7 @@ def container_crud_test(container_url, post_body, patch_prop, patch_value, usern
 
     # delete
     delete(resource_url, username=username)
-    # verify that the document has been deleted
+    #   verify that the document has been deleted
     read(resource_url, username=username, assert_code=404)
 
 
@@ -89,9 +89,7 @@ def update(resource_url, patch_prop, patch_value, username=None, assert_code_upd
 
     # if we expect to be able to read, get modcount and verify we are actually changing something
     if assert_code_read == 200:
-        # we can only continue this way if we are expecting to be able to successfully update
         modcount = r_doc[r_doc.default_subject()][CE+'modificationCount']
-
          # check that the patch property's value isn't already what we're going to change it to
         assert r_doc[r_doc.default_subject()][patch_prop] != patch_value
 
