@@ -11,14 +11,8 @@ import requests, json, jwt
 from rdf_json import URI, BNode, RDF_JSON_Encoder, RDF_JSON_Document, rdf_json_decoder
 from base_constants import RDF, DC, AC, AC_ALL, ADMIN_USER, CE, VCARD, FOAF, ANY_USER, AC_T, AC_R, AC_C, AC_D, AC_W, AC_X
 import test_helper
+from test_helper import USER1_URL, USER2_URL, HS_HOSTNAME, ac_container_url
 
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
-TEST_USER = 'http://ibm.com/ce/user/test'
-HS_HOSTNAME = 'hostingsite.localhost:3001'
-ac_container_url = 'http://%s/ac' % HS_HOSTNAME
-account_container_url = 'http://%s/account' % HS_HOSTNAME
 mt_container_url = 'http://%s/mt' % HS_HOSTNAME
 mt_sites_url = 'http://%s/mt/sites' % HS_HOSTNAME
 mt_capabilities_url = 'http://%s/mt/capabilities' % HS_HOSTNAME

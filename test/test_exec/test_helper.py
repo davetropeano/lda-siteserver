@@ -5,10 +5,12 @@ from base_constants import RDF, DC, AC, AC_ALL, ADMIN_USER, CE, VCARD, FOAF, ANY
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
-TEST_USER = 'http://ibm.com/ce/user/test'
-HS_HOSTNAME = 'localhost:3001'
-ac_container_url = 'http://%s/ac' % HS_HOSTNAME
+HS_HOSTNAME = 'hostingsite.localhost:3001'
 account_container_url = 'http://%s/account' % HS_HOSTNAME
+ac_container_url = 'http://%s/ac' % HS_HOSTNAME
+
+USER1_URL = '%s/user1#owner' % account_container_url
+USER2_URL = '%s/user2#owner' % account_container_url
 
 
 def make_headers(verb='GET', username=None, modification_count=None):

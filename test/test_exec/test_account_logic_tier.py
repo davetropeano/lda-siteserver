@@ -11,18 +11,8 @@ import requests, json, jwt
 from rdf_json import URI, BNode, RDF_JSON_Encoder, RDF_JSON_Document, rdf_json_decoder
 from base_constants import RDF, DC, AC, AC_ALL, ADMIN_USER, CE, VCARD, FOAF, ANY_USER, AC_T, AC_R, AC_C, AC_D, AC_W, AC_X
 import test_helper
+from test_helper import USER1_URL, USER2_URL, account_container_url
 import pytest
-
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
-TEST_USER = 'http://ibm.com/ce/user/test'
-HS_HOSTNAME = 'hostingsite.localhost:3001'
-ac_container_url = 'http://%s/ac' % HS_HOSTNAME
-account_container_url = 'http://%s/account' % HS_HOSTNAME
-
-USER1_URL = '%s/test1#owner' % account_container_url
-USER2_URL = '%s/test2#owner' % account_container_url
 
 
 def test_basic_crud(account_user1):
@@ -83,12 +73,12 @@ def account_user1():
     body = {
         '': {
             RDF+'type': URI(CE+'Account'),
-            CE+'account_id': 'test1',
-            CE+'password': 'test1',
-            VCARD+'email': 'test1@us.ibm.com',
+            CE+'account_id': 'user1',
+            CE+'password': 'user1',
+            VCARD+'email': 'user1@us.ibm.com',
             CE+'user': URI('#owner'),
             VCARD+'adr': BNode('_:address'),
-            DC+'title': 'test1 account',
+            DC+'title': 'user1 account',
             AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
         },
         '#owner': {
@@ -114,12 +104,12 @@ def account_user2():
     body = {
         '': {
             RDF+'type': URI(CE+'Account'),
-            CE+'account_id': 'test2',
-            CE+'password': 'test2',
-            VCARD+'email': 'test2@us.ibm.com',
+            CE+'account_id': 'user2',
+            CE+'password': 'user2',
+            VCARD+'email': 'user2@us.ibm.com',
             CE+'user': URI('#owner'),
             VCARD+'adr': BNode('_:address'),
-            DC+'title': 'test2 account',
+            DC+'title': 'user2 account',
             AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
         },
         '#owner': {
@@ -142,9 +132,7 @@ def account_user2():
 
 # this is for working with tests while building them
 if __name__ == "__main__":
-    #r_doc = test_helper.read('http://hostingsite.localhost:3001/account/test1', username='test1')
-
-    user1_r_doc = account_user1()
-    user2_r_doc = account_user2()
-    test_anon_access_to_test1_account(user1_r_doc)
+    user1_rdoc = account_user1()
+    user2_rdoc = account_user2()
+    test_user2_access_to_test1_account(user1_rdoc, user2_rdoc)
     pass
