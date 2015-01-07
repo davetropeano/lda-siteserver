@@ -1,4 +1,4 @@
-import operation_primitives
+from storage import operation_primitives
 import example_logic_tier as base
 import Cookie
 import urlparse, urllib
