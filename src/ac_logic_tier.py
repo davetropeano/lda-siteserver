@@ -2,7 +2,7 @@ import example_logic_tier as base
 import urllib, utils, os, jwt, cryptography
 import rdf_json
 from rdf_json import URI
-import operation_primitives
+from storage import operation_primitives
 from base_constants import AC, CE, AC_R, AC_C, AC_A, AC_ALL, ANY_USER, ADMIN_USER, RDF
 from base_constants import URL_POLICY as url_policy
 import logging

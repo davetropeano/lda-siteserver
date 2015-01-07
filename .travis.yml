@@ -19,7 +19,7 @@ install:
     - "git clone https://github.com/ld4apps/lda-clientlib.git"
     - "cd lda-siteserver"
     - "python setup.py install"
-    - "sudo apt-get install -y nginx"
+    - "sudo apt-get install -y --fix-missing nginx"
 
 # get ready to run tests
 before_script:
