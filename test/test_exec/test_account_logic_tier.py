@@ -31,8 +31,8 @@ def test_basic_crud(account_user1):
 
 def test_anon_access_to_test1_account(account_user1):
     """
-    :param account_test1: RDF_Document passed in via py.test
-    verify that anonymous users can't access test1 account
+    :param account_user1: RDF_Document passed in via py.test
+    verify that anonymous users can't access user1 account
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
@@ -43,7 +43,7 @@ def test_anon_access_to_test1_account(account_user1):
 def test_admin_access_to_test1_account(account_user1):
     """
     :param account_user1: RDF_Document passed in via py.test
-    verify that admin user can't access test1 account
+    verify that admin user can't access user1 account
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
@@ -55,7 +55,7 @@ def test_user2_access_to_test1_account(account_user1, account_user2):
     """
     :param account_user1: RDF_Document passed in via py.test
     :param account_user2: RDF_Document passed in via py.test
-    verify that one user can't access another users account
+    verify that one user can't access another user's account
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
@@ -68,71 +68,9 @@ def test_user2_access_to_test1_account(account_user1, account_user2):
         assert_code_read=401, assert_code_update=401, assert_code_delete=401)
 
 
-@pytest.fixture(scope="session")
-def account_user1():
-    body = {
-        '': {
-            RDF+'type': URI(CE+'Account'),
-            CE+'account_id': 'user1',
-            CE+'password': 'user1',
-            VCARD+'email': 'user1@us.ibm.com',
-            CE+'user': URI('#owner'),
-            VCARD+'adr': BNode('_:address'),
-            DC+'title': 'user1 account',
-            AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
-        },
-        '#owner': {
-            RDF+'type': URI(FOAF+'Person'),
-            FOAF+'givenName': 'FName',
-            FOAF+'familyName': 'LName',
-            FOAF+'nick': 'NName'
-        },
-        '_:address': {
-            RDF+'type': URI(VCARD+'Work'),
-            VCARD+'street-address': 'unknown',
-            VCARD+'locality': 'Seville',
-            VCARD+'region': 'Andalusia',
-            VCARD+'postal-code': '00000',
-            VCARD+'country-name': 'Spain'
-        }
-    }
-    user1_r_doc = test_helper.create(container_url=account_container_url, post_body=body)
-    return user1_r_doc
-
-@pytest.fixture(scope="session")
-def account_user2():
-    body = {
-        '': {
-            RDF+'type': URI(CE+'Account'),
-            CE+'account_id': 'user2',
-            CE+'password': 'user2',
-            VCARD+'email': 'user2@us.ibm.com',
-            CE+'user': URI('#owner'),
-            VCARD+'adr': BNode('_:address'),
-            DC+'title': 'user2 account',
-            AC+'resource-group': URI('')  # have this account be it's own resource group (default is /account)
-        },
-        '#owner': {
-            RDF+'type': URI(FOAF+'Person'),
-            FOAF+'givenName': 'FName',
-            FOAF+'familyName': 'LName',
-            FOAF+'nick': 'NName'
-        },
-        '_:address': {
-            RDF+'type': URI(VCARD+'Work'),
-            VCARD+'street-address': 'unknown',
-            VCARD+'locality': 'Seville',
-            VCARD+'region': 'Andalusia',
-            VCARD+'postal-code': '00000',
-            VCARD+'country-name': 'Spain'
-        }
-    }
-    user2_r_doc = test_helper.create(container_url=account_container_url, post_body=body)
-    return user2_r_doc
-
 # this is for working with tests while building them
 if __name__ == "__main__":
-    user1_rdoc = account_user1()
-    user2_rdoc = account_user2()
-    test_user2_access_to_test1_account(user1_rdoc, user2_rdoc)
+    #user1_rdoc = account_user1()
+    #user2_rdoc = account_user2()
+    #test_user2_access_to_test1_account(user1_rdoc, user2_rdoc)
     pass
