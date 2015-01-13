@@ -6,7 +6,8 @@ python:
 
 services: mongodb
 
-#before_install:
+before_install:
+    - sudo apt-get update
 
 addons:
   hosts:
