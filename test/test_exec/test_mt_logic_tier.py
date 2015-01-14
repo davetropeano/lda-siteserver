@@ -50,52 +50,7 @@ def test_basic_crud():
     patch_val = 'updated test capability'
     test_helper.container_crud_test(mt_capabilities_url, post_body, patch_prop, patch_val)
 
-''' TODO: test MultiTenant functionality better
-def test_user_create_site_store(account_user1, store_capability):
-    """
-    :param account_user1: RDF_Document passed in via py.test.  Even though it's not used it's needed to ensure user1 exists
-    :param store_capability: RDF_Document passed in via py.test
-    verify that a user create an enhancement for a site with a capability
-    """
-
-    #test_helper.pp.pprint(account_user1)
-    body = {
-        '' : {
-            CE+'site_id' : TENANT_TEST,
-            CE+'public' : True,
-            RDF+'type': {'type': 'uri', 'value' : CE+'Site'},
-            CE+'site_home' : URI(store_url),
-            DC+'title': 'Cloud Supplements Site',
-            CE+'improvements' : [URI(store_url), URI(blogservice_url)]
-            }
-        }
-
-    store_capability_url = store_capability.default_subject()
-    store_capability_type = store_capability.get_value(CE+'improvement_type')
-    body = {
-        '': {
-            #RDF+'type': URI(SUS+'OnlineStore'),
-            #RDF+'type': URI('/types/OnlineStore'),  # the type must match the improvement_type of the capability
-            RDF+'type': store_capability_type,
-            DC+'title': 'Test Store',
-            CE+'capability': URI(store_capability_url)
-        }
-    }
-    test_helper.create(cs_cat_app_url, body, ADMIN_USER)
-
-@pytest.fixture(scope="session")
-def store_capability():
-    post_body = {
-        '': {
-            RDF+'type': URI(CE+'Capability'),
-            DC+'title': 'Example Capability',
-            CE+'improvement_container': URI('/cat/stores'),
-            CE+'improvement_type': URI('/types/OnlineStore')
-        }
-    }
-    capability_rdoc = test_helper.create(mt_capabilities_url, post_body, username=ADMIN_USER)
-    return capability_rdoc
-'''
+#TODO: test MultiTenant functionality better
 
 # this is for working with tests while building them
 if __name__ == "__main__":
