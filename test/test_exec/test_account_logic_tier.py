@@ -16,8 +16,8 @@ import pytest
 
 
 def test_basic_crud(account_user1):
-    """
-    :param account_user1: this is automatically passed in by py.test.  It is the result of creating test1 account.
+    """test that a user can get and update their own account
+    :param account_user1: RDF_Document result of conftest.account_user1(). It's passed in automatically by py.test.
     """
 
     # CRUD test on account has to be done a little different since we switch security contexts after create
@@ -30,9 +30,8 @@ def test_basic_crud(account_user1):
 
 
 def test_anon_access_to_test1_account(account_user1):
-    """
-    :param account_user1: RDF_Document passed in via py.test
-    verify that anonymous users can't access user1 account
+    """verify that anonymous users can't access a users account
+    :param account_user1: RDF_Document result of conftest.account_user1(). It's passed in automatically by py.test.
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
@@ -41,9 +40,8 @@ def test_anon_access_to_test1_account(account_user1):
 
 
 def test_admin_access_to_test1_account(account_user1):
-    """
-    :param account_user1: RDF_Document passed in via py.test
-    verify that admin user can't access user1 account
+    """verify that admin user can't access a users account
+    :param account_user1: RDF_Document result of conftest.account_user1(). It's passed in automatically by py.test.
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
@@ -52,10 +50,9 @@ def test_admin_access_to_test1_account(account_user1):
 
 
 def test_user2_access_to_test1_account(account_user1, account_user2):
-    """
-    :param account_user1: RDF_Document passed in via py.test
-    :param account_user2: RDF_Document passed in via py.test
-    verify that one user can't access another user's account
+    """verify that one user can't access another user's account
+    :param account_user1: RDF_Document result of conftest.account_user1(). It's passed in automatically by py.test.
+    :param account_user1: RDF_Document result of conftest.account_user2(). It's passed in automatically by py.test.
     """
     resource_url = account_user1.default_subject()
     test_helper.resource_access_test(
