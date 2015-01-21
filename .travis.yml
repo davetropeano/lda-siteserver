@@ -6,12 +6,12 @@ python:
 
 services: mongodb
 
+addons:
+    hosts:
+        - hostingsite.localhost
+
 before_install:
     - sudo apt-get update
-
-addons:
-  hosts:
-    - hostingsite.localhost
 
 # install dependencies/requirements
 install:
@@ -22,18 +22,9 @@ install:
     - "python setup.py install"
     - "sudo apt-get install -y --fix-missing nginx"
 
-# get ready to run tests
 before_script:
-    - "sudo cp -f dispatcher.conf /etc/nginx/conf.d/dispatcher.conf"
-    - "sudo service nginx restart"
-    - "nohup sh run.sh > site_server_test.log &"
-    - "sleep 10"
-    - "cd test"
+    # Copy nginx config and start service
+    - sudo cp -f dispatcher.conf /etc/nginx/conf.d/dispatcher.conf
+    - sudo service nginx restart
 
-# execute tests
-script: "sh test_data_create.sh; cd test_exec; py.test"
-
-# print server log to output
-after_script: 
-    - "cd ../.."
-    - "cat site_server_test.log"
+script: cd test/test_exec && sh run_tests.sh
