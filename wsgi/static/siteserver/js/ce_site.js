@@ -32,7 +32,7 @@ siteserver.SiteViewModel = function () {
                     else {
                         siteserver.displayResponse(request,'error');
                     }
-                }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge
+                }, ss_session_id ? {'Authorization': 'Bearer ' + ss_session_id}: null); // going cross-origin. Pass Authorization header to avoid login challenge
             }
         }
     }
@@ -48,7 +48,7 @@ siteserver.SiteViewModel = function () {
             else {
                 siteserver.displayResponse(request, 'error');
             }
-        }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null) // going cross-origin. Pass SSSESSIONID header to avoid login challenge
+        }, ss_session_id ? {'Authorization': 'Bearer ' + ss_session_id}: null); // going cross-origin. Pass Authorization header to avoid login challenge
     }
 
     self.add_improvement = function(improvement_model){

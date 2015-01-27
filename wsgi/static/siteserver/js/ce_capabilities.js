@@ -77,7 +77,7 @@ siteserver.CapabilitiesViewModel = function () {
                 siteserver.displayResponse(request,'error');
             }
 
-        }, ss_session_id ? {'SSSESSIONID': ss_session_id}: null); // going cross-origin. Pass SSSESSIONID header to avoid login challenge
+        }, ss_session_id ? {'Authorization': 'Bearer ' + ss_session_id}: null); // going cross-origin. Pass Authorization header to avoid login challenge
 
         $('#modal-new-improvement').modal('toggle');
     }
