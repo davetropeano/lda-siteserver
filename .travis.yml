@@ -1,0 +1,30 @@
+
+# Documentation here: http://docs.travis-ci.com/user/build-configuration/
+language: python
+python:
+  - "2.7"
+
+services: mongodb
+
+addons:
+    hosts:
+        - hostingsite.localhost
+
+before_install:
+    - sudo apt-get update
+
+# install dependencies/requirements
+install:
+    - "cd .."
+    - "git clone https://github.com/ld4apps/lda-serverlib.git"
+    - "git clone https://github.com/ld4apps/lda-clientlib.git"
+    - "cd lda-siteserver"
+    - "python setup.py install"
+    - "sudo apt-get install -y --fix-missing nginx"
+
+before_script:
+    # Copy nginx config and start service
+    - sudo cp -f dispatcher.conf /etc/nginx/conf.d/dispatcher.conf
+    - sudo service nginx restart
+
+script: cd test/test_exec && sh run_tests.sh

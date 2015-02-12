@@ -50,9 +50,14 @@ class Domain_Logic(base.Domain_Logic):
             user_group = rdf_json.RDF_JSON_Document(user_group, '')
         if str(user_group.get_value(RDF+'type')) == AC+'UserGroup':
             ac_mays = user_group.get_value(AC+'may')
+            ac_mays = ac_mays if ac_mays is list else [ac_mays] # make sure it's a list
             for may in ac_mays:
                 ac_may_props = user_group.get_properties(may)
-                for to in ac_may_props[AC+'to']:
+                if ac_may_props is None:
+                    continue
+                ac_tos = ac_may_props[AC+'to']
+                ac_tos = ac_tos if ac_tos is list else [ac_tos] # make sure it's a list
+                for to in ac_tos:
                     # make sure the user has ADMIN permissions on all of them
                     status, permissions = self.permissions_for_resource(to)
                     if status == 200:
