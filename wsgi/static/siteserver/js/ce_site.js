@@ -59,7 +59,7 @@ siteserver.SiteViewModel = function () {
         var patch = {
             "" : {ce_improvements : self.model.ce_improvements}
         }
-        ld_util.send_patch(self.model._subject, self.model.ce_modificationCount,patch,function(response){
+        ld_util.send_patch(self.model._subject, self.model.ce_revision,patch,function(response){
             if (response.status==200) {
                 var patched_model = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(response);
                 ViewManager.switchView(patched_model);
@@ -85,7 +85,7 @@ siteserver.SiteViewModel = function () {
                 dc_title: self.model.dc_title
         };
         var rdf_jso = APPLICATION_ENVIRON.rdf_converter.convert_to_rdf_jso(patch)
-        ld_util.send_patch(self.model._subject, self.model.ce_modificationCount, rdf_jso, function(response) {
+        ld_util.send_patch(self.model._subject, self.model.ce_revision, rdf_jso, function(response) {
             if (response.status==200) {
                 var patched_model = APPLICATION_ENVIRON.rdf_converter.make_simple_jso(response);
                 self.model = patched_model;
