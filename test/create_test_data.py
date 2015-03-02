@@ -1,4 +1,12 @@
 import requests, sys, json
+
+sys.path.append('../../lda-siteserver/src')
+sys.path.append('../../lda-serverlib/logiclibrary')
+sys.path.append('../../lda-serverlib/mongodbstorage')
+sys.path.append('../../lda-clientlib/python')
+sys.path.append('../../lda-clientlib/python/test')
+sys.path.append('../src')
+
 from rdf_json import URI, BNode, RDF_JSON_Encoder
 from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
 from test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
