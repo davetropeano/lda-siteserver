@@ -6,10 +6,8 @@ import aggregating_logic_tier as base
 class Domain_Logic(base.Domain_Logic):
 
     def create_logic_tier(self):
-        all_parts = self.environ['PATH_INFO'].split('/')
-        if (self.logic_tier):
-            raise ValueError('cannot use a domain_logic instance twice')
-        else: 
+        if not self.logic_tier:
+            all_parts = self.environ['PATH_INFO'].split('/')
             if all_parts[1] == '' or all_parts[1] == 'mt': 
                 self.logic_tier = MT_Domain_Logic(self.environ)
             elif all_parts[1] == 'account': 
