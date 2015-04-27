@@ -1,7 +1,7 @@
 from ac_logic_tier import Domain_Logic as AC_Domain_Logic
 from account_logic_tier import Domain_Logic as account_Domain_Logic
 from mt_logic_tier import Domain_Logic as MT_Domain_Logic
-import aggregating_logic_tier as base 
+import ld4apps.aggregating_logic_tier as base 
 
 class Domain_Logic(base.Domain_Logic):
 

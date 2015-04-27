@@ -1,15 +1,15 @@
-from storage import operation_primitives
-import example_logic_tier as base
+from ld4apps.storage import operation_primitives
+import ld4apps.example_logic_tier as base
 import Cookie
 import urlparse, urllib
 import logging
-import cryptography
+import ld4apps.cryptography as cryptography
 import os, binascii
-import rdf_json
+import ld4apps.rdf_json as rdf_json
 import time
-import utils
-from rdf_json import URI
-from base_constants import CE, RDF, VCARD, FOAF, ADMIN_USER
+import ld4apps.utils as utils
+from ld4apps.rdf_json import URI
+from ld4apps.base_constants import CE, RDF, VCARD, FOAF, ADMIN_USER
     
 logging.basicConfig(level=logging.DEBUG)
 MEMBER_IS_OBJECT                =   True

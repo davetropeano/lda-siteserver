@@ -1,12 +1,12 @@
-from storage import operation_primitives
-import example_logic_tier as base
-import rdf_json 
-from rdf_json import URI
+from ld4apps.storage import operation_primitives
+import ld4apps.example_logic_tier as base
+import ld4apps.rdf_json as rdf_json
+from ld4apps.rdf_json import URI
 import logging    
-import utils
-import os, urlparse
-from base_constants import CE, AC, RDF, AC_ALL, LDP, ADMIN_USER
-from base_constants import URL_POLICY as url_policy
+import ld4apps.utils as utils
+import urlparse
+from ld4apps.base_constants import CE, AC, RDF, AC_ALL, LDP, ADMIN_USER
+from ld4apps.base_constants import URL_POLICY as url_policy
 logging.basicConfig(level=logging.DEBUG)
 
 MEMBER_IS_OBJECT                =   True

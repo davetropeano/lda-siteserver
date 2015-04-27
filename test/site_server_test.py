@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append('../../lda-serverlib')
 sys.path.append('../../lda-serverlib/logiclibrary')
 sys.path.append('../../lda-serverlib/mongodbstorage')
@@ -7,7 +8,7 @@ sys.path.append('../../lda-clientlib/python/test')
 sys.path.append('../src')
 sys.path.append('../test')
 
-import os, sys, logging
+import os, logging
 from wsgiref.simple_server import make_server
 from wsgiref.simple_server import WSGIServer
 from SocketServer import ThreadingMixIn
@@ -22,7 +23,7 @@ os.environ['MONGODB_DB_PORT'] = '27017'
 os.environ['HOSTINGSITE_HOST'] = 'hostingsite.localhost:3001'
 os.environ['SYSTEM_HOST'] = '127.0.0.1:3001'
 
-from logic_server import application
+from ld4apps.logic_server import application
 from werkzeug.wsgi import SharedDataMiddleware
 
 application = SharedDataMiddleware(application, {

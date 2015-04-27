@@ -7,10 +7,10 @@ sys.path.append('../../lda-clientlib/python')
 sys.path.append('../../lda-clientlib/python/test')
 sys.path.append('../src')
 
-from rdf_json import URI, BNode, RDF_JSON_Encoder
-from base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
-from test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
-import test_utils
+from ld4apps.rdf_json import URI, BNode, RDF_JSON_Encoder
+from ld4apps.base_constants import RDF, CE, VCARD, FOAF, AC, AC_R, AC_C, ANY_USER, ADMIN_USER
+from ld4apps.test.test_utils import POST_HEADERS as CONTENT_RDF_JSON_HEADER
+import ld4apps.test.test_utils as test_utils
 
 #DATASERVER_HOSTNAME = 'cloudapps4.me'
 DATASERVER_HOSTNAME = 'localhost:3001'
